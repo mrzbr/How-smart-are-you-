@@ -289,11 +289,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 .rar.rm-m{background:linear-gradient(90deg,#be185d,#7c3aed,#be185d);background-size:200% 100%;animation:rarflow 3s linear infinite}
 .rar.rm-i{background:linear-gradient(90deg,#f43f5e,#f59e0b,#22c55e,#06b6d4,#8b5cf6,#f43f5e);background-size:200% 100%;animation:rarflow 2s linear infinite;color:#000;text-shadow:0 0 4px #fff}
 .rar.rm-m::before,.rar.rm-i::before{content:"✦";color:#fff}
-.rpill{display:inline-block;font-size:.66rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;padding:2px 7px;border-radius:999px;background:#0006;color:#fff;vertical-align:middle}
-.rpill::before{content:"●";margin-right:3px;color:var(--rc)}
-.rpill.rm-m,.rpill.rm-i{background-size:200% 100%;animation:rarflow 2.5s linear infinite}
-.rpill.rm-m{background-image:linear-gradient(90deg,#be185d,#7c3aed,#be185d)}.rpill.rm-i{background-image:linear-gradient(90deg,#f43f5e,#f59e0b,#22c55e,#06b6d4,#8b5cf6,#f43f5e);color:#000}
-:root.rm .item.r-i,:root.rm .rar,:root.rm .rpill{animation:none!important}
+:root.rm .item.r-i,:root.rm .rar{animation:none!important}
 
 /* ===== Animated avatars (Mythic/Insane). Calm mode freezes them. ===== */
 .ava svg .spin{transform-box:view-box;transform-origin:32px 32px;animation:avspin 8s linear infinite}
@@ -321,7 +317,6 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 .sclock.danger{border-color:#ef4444;box-shadow:0 0 28px -6px #ef4444;animation:sdanger .5s ease-in-out infinite alternate}
 .sclock.danger .sclk-t{color:#ef4444}
 @keyframes sdanger{from{transform:scale(1)}to{transform:scale(1.02)}}
-.sadd{position:absolute;right:12px;top:6px;font-weight:900;color:#22c55e;animation:ptsf 1s ease-out forwards;pointer-events:none}
 .pbb{display:inline-block;margin:4px 0 8px;padding:6px 14px;border-radius:999px;background:linear-gradient(100deg,var(--a),var(--b));color:var(--onA);font-weight:900}
 .mplay{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.mplay .mut{margin:0;flex:1;min-width:150px}
 #mbtn{min-width:2.4em}
@@ -336,6 +331,10 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 :root.rm .ava::after{animation:none!important}
 
 .lbme{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin:6px 0}
+.qbtns .sub{font-weight:900}
+.qbtns{flex-wrap:wrap}
+.sfilt select{flex:1 1 120px;min-width:0}
+@media (max-width:420px){.mgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.mgrid .m{padding:8px 6px}}
 </style>
 </head>
 <body>
@@ -377,6 +376,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 <div class="scrim" id="updates" aria-hidden="true"><div class="panel" role="dialog" aria-label="Updates">
   <h2>Updates</h2>
   <ul class="log">
+    <li><b>v0.10 · Quality pass</b> Fixes and polish across the game: corrected and replaced questions, fairer Survival rewards, a Submit button for touch screens, stricter checking of short answers, smoother settings sliders and many smaller fixes.</li>
     <li><b>v0.9 · Survival, 43 categories and Mythic items</b> A new Survival Mode (one life, one shared clock), 43 categories with 1738 written questions, smarter answer checking (small typos, “the”, accents, number words and alternative answers), 19 new themes, 10 new backgrounds, 20 new avatars, Mythic and Insane rarities, optional original music, username checks and separate best results for each mode.</li>
     <li><b>v0.8 · Shop &amp; customisation</b> A shop with 11 themes, 11 backgrounds, avatars (including original drawn designs), titles, profile frames, effects and sound packs. Preview before you buy, an inventory to equip and unequip, rarity labels and daily featured items. Every level up now pays 🪙 30 and 💎 1.</li>
     <li><b>v0.7</b> 34 categories, 800 questions, achievements and daily and weekly missions.</li>
@@ -405,7 +405,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 
 <div class="scrim" id="game" aria-hidden="true"><div class="panel" role="dialog" aria-label="Game"><div id="gb"></div></div></div>
 
-<!-- Content data. Categories: edit #catdef. Questions: add lines under a #category heading as level|question|answer/alternative answer -->
+<!-- Content data. Categories: edit #catdef. Questions: add lines under a #category heading as tier|question|answer/alternative/...|flags (flags: strict) -->
 <script type="application/json" id="catdef">[{"k": "general", "i": "🧠", "n": "General Knowledge", "g": "Knowledge & Education", "d": "A bit of everything, for all-rounders."}, {"k": "math", "i": "➗", "n": "Mathematics", "g": "Knowledge & Education", "d": "Mental maths, freshly generated every question."}, {"k": "english", "i": "✍️", "n": "English Language", "g": "Knowledge & Education", "d": "Grammar, spelling and words about words."}, {"k": "literature", "i": "📚", "n": "Literature", "g": "Knowledge & Education", "d": "Authors, novels, poems and famous characters."}, {"k": "languages", "i": "🗣️", "n": "Languages", "g": "Knowledge & Education", "d": "Words and phrases from around the world."}, {"k": "philosophy", "i": "🤔", "n": "Philosophy", "g": "Knowledge & Education", "d": "Big thinkers and the big questions."}, {"k": "psychology", "i": "🧩", "n": "Psychology", "g": "Knowledge & Education", "d": "How the mind works, and why we do what we do."}, {"k": "science", "i": "🔬", "n": "General Science", "g": "Science & Nature", "d": "Everyday science from atoms to stars."}, {"k": "biology", "i": "🧬", "n": "Biology", "g": "Science & Nature", "d": "Cells, genes and living things."}, {"k": "chemistry", "i": "⚗️", "n": "Chemistry", "g": "Science & Nature", "d": "Elements, reactions and the periodic table."}, {"k": "physics", "i": "⚛️", "n": "Physics", "g": "Science & Nature", "d": "Forces, energy, light and the laws of nature."}, {"k": "body", "i": "🫀", "n": "The Human Body", "g": "Science & Nature", "d": "Bones, organs and how your body works."}, {"k": "space", "i": "🚀", "n": "Space & Astronomy", "g": "Science & Nature", "d": "Planets, stars, missions and astronauts."}, {"k": "animals", "i": "🐾", "n": "Animals & Wildlife", "g": "Science & Nature", "d": "Creatures great and small."}, {"k": "nature", "i": "🌿", "n": "Nature & Environment", "g": "Science & Nature", "d": "Weather, plants, ecosystems and climate."}, {"k": "countries", "i": "🌍", "n": "Countries & Capitals", "g": "World & Society", "d": "Countries and their capital cities."}, {"k": "flags", "i": "🏳️", "n": "Flags", "g": "World & Society", "d": "Spot the country from its flag."}, {"k": "geography", "i": "🗺️", "n": "Geography", "g": "World & Society", "d": "Oceans, rivers, mountains and maps."}, {"k": "landmarks", "i": "🗽", "n": "Famous Landmarks", "g": "World & Society", "d": "Wonders, monuments and famous buildings."}, {"k": "history", "i": "🏛️", "n": "World History", "g": "World & Society", "d": "Empires, wars, leaders and turning points."}, {"k": "mythology", "i": "⚡", "n": "Mythology", "g": "World & Society", "d": "Gods, heroes and monsters from old stories."}, {"k": "politics", "i": "🗳️", "n": "Politics & Government", "g": "World & Society", "d": "How countries are run and who runs them."}, {"k": "economics", "i": "📈", "n": "Economics", "g": "World & Society", "d": "Money, markets and how economies work."}, {"k": "business", "i": "💼", "n": "Business & Brands", "g": "World & Society", "d": "Companies, founders, brands and logos."}, {"k": "art", "i": "🎨", "n": "Art & Artists", "g": "World & Society", "d": "Painters, sculptors and art movements."}, {"k": "movies", "i": "🎬", "n": "Movies & Cinema", "g": "Entertainment", "d": "Films, directors and famous lines."}, {"k": "tv", "i": "📺", "n": "TV Shows", "g": "Entertainment", "d": "Sitcoms, dramas, cartoons and classics."}, {"k": "anime", "i": "🍥", "n": "Anime & Manga", "g": "Entertainment", "d": "Shows, studios, characters and creators."}, {"k": "music", "i": "🎵", "n": "Music", "g": "Entertainment", "d": "Bands, composers, singers and music theory."}, {"k": "celebrities", "i": "⭐", "n": "Celebrities", "g": "Entertainment", "d": "Famous faces and their real names."}, {"k": "games", "i": "🎮", "n": "Gaming", "g": "Entertainment", "d": "Consoles, characters and classic games."}, {"k": "memes", "i": "😂", "n": "Internet Culture & Memes", "g": "Entertainment", "d": "Memes, slang and internet history."}, {"k": "comics", "i": "🦸", "n": "Comics & Superheroes", "g": "Entertainment", "d": "Heroes, villains and secret identities."}, {"k": "football", "i": "⚽", "n": "Football", "g": "Sport", "d": "Clubs, players, tournaments and legends."}, {"k": "basketball", "i": "🏀", "n": "Basketball", "g": "Sport", "d": "The NBA, its stars and its records."}, {"k": "boxing", "i": "🥊", "n": "Boxing", "g": "Sport", "d": "Champions, famous fights and the rules."}, {"k": "sports", "i": "🏅", "n": "Other Sports", "g": "Sport", "d": "Tennis, golf, the Olympics and more."}, {"k": "tech", "i": "💻", "n": "Technology", "g": "Tech & Lifestyle", "d": "Computers, the internet and programming."}, {"k": "cybersecurity", "i": "🔐", "n": "Cybersecurity", "g": "Tech & Lifestyle", "d": "Hackers, malware and staying safe online."}, {"k": "inventions", "i": "💡", "n": "Inventions & Discoveries", "g": "Tech & Lifestyle", "d": "Who made what, and when."}, {"k": "records", "i": "🥇", "n": "World Records", "g": "Tech & Lifestyle", "d": "The biggest, fastest and furthest."}, {"k": "cars", "i": "🚗", "n": "Cars & Motoring", "g": "Tech & Lifestyle", "d": "Brands, logos, models and motor racing."}, {"k": "food", "i": "🍳", "n": "Food & Cooking", "g": "Tech & Lifestyle", "d": "Dishes, ingredients and kitchen know-how."}]</script>
 <script type="text/plain" id="qdata">
 #general
@@ -421,7 +421,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 2|What is the freezing point of water in degrees Celsius?|0/zero
 2|How many weeks are there in a year?|52/fifty two
 2|How many pieces does each player start with in chess?|16/sixteen
-2|What is the largest mammal in the world?|blue whale
+2|How many sides does a hexagon have?|6/six
 2|Which shape has eight sides?|octagon
 2|In which country is the Eiffel Tower?|france
 2|How many years are in a century?|100/one hundred
@@ -441,20 +441,20 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 4|Which organ in the body produces bile?|liver
 4|What is a group of geese on the ground called?|gaggle
 5|What is the only letter that does not appear in any US state name?|q
-5|What is the name for a word that reads the same backwards, like level?|palindrome
+5|What do we call a word made by rearranging the letters of another, like listen and silent?|anagram
 5|Which country has the most time zones, counting overseas territories?|france
 5|What is the fear of spiders called?|arachnophobia
-5|How many legs does a lobster have?|10/ten
+5|How many legs does a lobster have, counting its two claws?|10/ten
 5|What is the national animal of Scotland?|unicorn
 5|What is the smallest prime number?|2/two
 6|What is the collective noun for a group of owls?|parliament
 6|What is the dot over a lowercase i or j called?|tittle
-6|What is the name of the symbol # in typography, also called a hash?|octothorpe
-6|What was the name of the dog that flew aboard Sputnik 2 in 1957?|laika
+6|Which unusual name, coined at Bell Labs in the 1960s, is also used for the # symbol?|octothorpe/octothorp
+6|What is the name of the groove between the nose and the upper lip?|philtrum
 6|Which country sends London a Christmas tree for Trafalgar Square every year?|norway
 6|How many official time zones does China use?|1/one
 6|What is the name of the plastic or metal tip on the end of a shoelace?|aglet
-4|Which metal is liquid at room temperature?|mercury
+4|Which blood vessels carry blood back to the heart?|veins/vein
 #english
 1|What is the plural of mouse?|mice
 1|What do we call a word that describes a noun?|adjective
@@ -525,7 +525,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 4|Which Russian author wrote War and Peace?|leo tolstoy/tolstoy
 4|Who wrote The Great Gatsby?|f scott fitzgerald/scott fitzgerald/fitzgerald
 4|Who wrote Frankenstein?|mary shelley/shelley
-4|What is the name of the whale in Moby-Dick?|moby dick
+4|What is the name of the obsessed captain in Moby-Dick?|ahab/captain ahab
 4|Who wrote The Lord of the Rings?|j r r tolkien/tolkien
 5|Who wrote The Brothers Karamazov?|fyodor dostoevsky/dostoevsky/dostoyevsky
 5|Which Greek poet is credited with the Iliad and the Odyssey?|homer
@@ -570,7 +570,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 4|Which language has the most native speakers in India?|hindi
 4|What does the Italian word grazie mean?|thank you/thanks
 4|Apart from English, which language is official across Canada?|french
-5|Which language is spoken by the most people in Pakistan as a national language?|urdu
+5|What is the national language of Pakistan?|urdu
 5|Which language is written with the Hangul alphabet?|korean
 5|Which language does the word kindergarten come from?|german
 5|The word safari was borrowed into English from which African language?|swahili
@@ -581,7 +581,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 6|What do we call a language with no living native speakers?|dead language/extinct language
 6|Which language family do English and German belong to, at the branch level?|germanic
 6|Which constructed language did L. L. Zamenhof create in 1887?|esperanto
-6|In which country is Basque mainly spoken, along with France?|spain
+6|Apart from France, in which country is the Basque language spoken?|spain
 6|What is the name of the Chinese romanisation system used for Mandarin?|pinyin
 6|Which language has the most native speakers in Europe?|russian
 #philosophy
@@ -627,7 +627,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 6|Which German philosopher wrote Being and Time?|martin heidegger/heidegger
 #psychology
 1|What do we call an intense fear of a specific thing?|phobia
-1|Which organ does psychology mostly study the workings of?|brain
+1|What do we call the usual pattern of thinking, feeling and behaving that makes someone who they are?|personality
 1|What do we call a feeling such as happiness or anger?|emotion/emotions/feeling
 1|What do we call the images and stories we experience while asleep?|dreams/dream
 1|What do we call the study of the mind and behaviour?|psychology
@@ -645,10 +645,10 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 3|What do we call a habit of seeing faces in clouds or objects?|pareidolia
 3|Which hormone is often called the stress hormone?|cortisol
 3|Which brain chemical is linked to reward and motivation?|dopamine
-3|What is the term for a repeated, unwanted thought, as in OCD?|obsession
+3|What is the term for a repeated, unwanted thought, as in OCD?|obsession/intrusive thought/intrusive thoughts/obsessions
 4|Who created the hierarchy of needs?|abraham maslow/maslow
 4|What do we call learning by watching others?|observational learning/social learning/modelling/modeling
-4|Which personality model is known as the Big Five or OCEAN?|five factor model/big five/ocean
+4|Which personality model measures openness, conscientiousness, extraversion, agreeableness and neuroticism?|big five/five factor model/ocean
 4|What is at the base of Maslow's hierarchy of needs?|physiological needs/physiological/basic needs
 4|What do we call a fake treatment that still produces an effect because people expect it to?|placebo/placebo effect
 4|Which psychologist trained pigeons and rats with reward boxes?|b f skinner/skinner
@@ -663,7 +663,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 6|What do we call the tendency to help less when others are present?|bystander effect/diffusion of responsibility
 6|Who developed the stages of cognitive development in children?|jean piaget/piaget
 6|Which part of the brain is most associated with processing fear?|amygdala
-6|What do we call the inability to recognise faces?|prosopagnosia|strict
+6|What do we call the inability to recognise faces?|prosopagnosia/face blindness
 6|Which psychologist studied attachment using rhesus monkeys and cloth mothers?|harry harlow/harlow
 6|What is the name for remembering uncompleted tasks better than completed ones?|zeigarnik effect/zeigarnik
 6|Which psychologist's experiment with a Bobo doll studied learned aggression?|albert bandura/bandura
@@ -673,7 +673,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 1|What do we call frozen water?|ice
 1|What is H2O better known as?|water
 1|Which sense do you use to detect sound?|hearing
-1|What do we call the force that keeps us on the ground?|gravity
+1|Which force makes a compass needle point north?|magnetism/magnetic force/earth's magnetism
 1|What do we call scientists who study rocks?|geologists/geologist
 2|What is the hardest natural substance?|diamond
 2|What do we call the path a planet takes around the Sun?|orbit
@@ -685,10 +685,10 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 3|What is the chemical symbol for gold?|au
 3|What is the powerhouse of the cell?|mitochondria/mitochondrion
 3|What is the closest star to Earth?|sun
-3|Which simple machine is a ramp an example of?|inclined plane/ramp
+3|Which simple machine is a ramp an example of?|inclined plane/slope
 3|What do we call the change of a gas into a liquid?|condensation
 3|What is the name for animals that are cold-blooded and have scales, like snakes?|reptiles/reptile
-3|What unit is used to measure electrical energy use in homes, in kWh?|kilowatt hour/kilowatt hours
+3|What is the rigid outer layer of a plant cell, made of cellulose, called?|cell wall
 4|What is the most abundant gas in Earth's atmosphere?|nitrogen
 4|What is the SI unit of force?|newton/newtons
 4|Which particle in an atom has a negative charge?|electron/electrons
@@ -701,7 +701,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|Which blood type can donate red cells to anyone?|o negative/o neg/o rh negative
 5|Which planet has a day that is longer than its year?|venus
 5|What is the scientific study of fungi called?|mycology
-5|What is the name of the supercontinent that broke up around 200 million years ago?|pangaea/pangea
+5|What do we call the breaking down of rocks in place by rain, frost and heat?|weathering
 5|What term describes a solution with a pH below 7?|acidic/acid
 6|What is the boundary around a black hole called, past which nothing escapes?|event horizon
 6|Which scientist formulated the three laws of planetary motion?|johannes kepler/kepler
@@ -711,7 +711,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 6|What is the name of the effect where light shifts towards red as a galaxy moves away?|redshift/doppler effect
 6|Which scale measures the hardness of minerals from 1 to 10?|mohs scale/mohs/mohs hardness scale
 #biology
-1|Which organ pumps blood around the body?|heart
+1|Which part of a plant does most of its photosynthesis?|leaves/leaf
 1|What do we call animals that eat only meat?|carnivore/carnivores
 1|Which part of a plant takes in water from the soil?|roots/root
 1|What do bees collect from flowers to make honey?|nectar
@@ -733,7 +733,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 3|What do we call an animal without a backbone?|invertebrate/invertebrates
 4|What are the building blocks of proteins?|amino acids/amino acid
 4|Which process do body cells use to divide for growth?|mitosis
-4|Which organelle releases energy from glucose?|mitochondria/mitochondrion
+4|What do we call the movement of water through a partially permeable membrane?|osmosis
 4|What do we call organisms that make their own food?|autotrophs/autotroph/producers/producer
 4|What does DNA stand for?|deoxyribonucleic acid
 4|Which scientist proposed natural selection in On the Origin of Species?|charles darwin/darwin
@@ -745,7 +745,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|Which monk is called the father of genetics for his pea plant experiments?|gregor mendel/mendel
 5|What is the scientific name for the human species?|homo sapiens
 5|Which tiny pores on leaves let gases in and out?|stomata/stoma
-6|Which two scientists are credited with describing the double helix structure of DNA in 1953?|watson and crick/crick and watson
+6|Which two scientists are credited with describing the double helix structure of DNA in 1953?|watson and crick/crick and watson/james watson and francis crick/francis crick and james watson/watson crick
 6|Which scientist's X-ray image, Photo 51, helped reveal DNA's structure?|rosalind franklin/franklin
 6|What do we call the process where cells engulf large particles?|phagocytosis
 6|In DNA, which base pairs with adenine?|thymine
@@ -758,7 +758,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 1|Which state of matter is ice?|solid
 1|Which state of matter is steam?|gas
 1|What do we call a substance made of only one type of atom?|element
-1|What gas do we need to breathe to stay alive?|oxygen
+1|What do we call it when a solid turns into a liquid?|melting
 2|What is the chemical symbol for sodium?|na
 2|What is the chemical symbol for oxygen?|o|strict
 2|What is the lightest element?|hydrogen
@@ -778,7 +778,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 4|What do we call a liquid that dissolves a solute?|solvent
 4|What is the chemical symbol for lead?|pb
 4|What do we call the table that arranges all the chemical elements?|periodic table
-4|What gas do we call laughing gas?|nitrous oxide|strict
+4|What gas do we call laughing gas?|nitrous oxide
 4|What is the chemical formula for table salt?|nacl
 5|What is the atomic number of carbon?|6/six
 5|What is the chemical symbol for potassium?|k|strict
@@ -786,11 +786,11 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|What do we call a reaction that releases heat?|exothermic/exothermic reaction
 5|Which group of elements includes helium, neon and argon?|noble gases/noble gas/inert gases
 5|What is the chemical symbol for tin?|sn
-5|What is the most common isotope of hydrogen with one neutron called?|deuterium
+5|What is the isotope of hydrogen with one neutron in its nucleus called?|deuterium
 6|Which element has the symbol W?|tungsten
 6|Who created the first widely used periodic table?|dmitri mendeleev/mendeleev/mendeleyev
 6|What do we call atoms of the same element with different numbers of neutrons?|isotopes/isotope
-6|Which element has the highest melting point of all metals?|tungsten
+6|Which element is named after the Greek word for violet, the colour of its vapour?|iodine
 6|What is Avogadro's number to three significant figures, written as 6.02 times ten to the what?|23/twenty three
 6|Which scientist discovered radium and polonium?|marie curie/curie/marie skłodowska-curie/marie sklodowska curie
 6|Which metal melts in your hand at about 30 degrees Celsius?|gallium
@@ -821,20 +821,20 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 4|What is the speed of light, to the nearest thousand kilometres per second?|300000
 4|Which scientist explained the photoelectric effect and won the 1921 Nobel Prize for it?|albert einstein/einstein
 4|What do we call a material that does not let electricity flow easily?|insulator
-4|What is the unit of electrical voltage?|volt/volts
+4|What is the SI unit of electric potential difference?|volt/volts
 5|Which particle was discovered at CERN in 2012?|higgs boson/higgs
 5|What is the SI unit of magnetic flux density?|tesla/teslas
-5|What is the lowest possible temperature called?|absolute zero
+5|What is the SI base unit of temperature?|kelvin/kelvins
 5|What does a Geiger counter detect?|radiation/ionising radiation/radioactivity
 5|What is the name for a particle of light?|photon/photons
 5|Which law says current equals voltage divided by resistance?|ohm's law
-5|What is the acceleration due to gravity at Earth's surface, to the nearest whole number in m/s²?|10/9.8|strict
+5|What is the acceleration due to gravity at Earth's surface, to the nearest whole number in m/s²?|10/9.8/9.81|strict
 6|Which uncertainty principle is named after a German physicist?|heisenberg/heisenberg uncertainty principle/heisenberg's
-6|What is absolute zero in degrees Celsius, to the nearest whole number?|-273|strict
+6|What is absolute zero in degrees Celsius, to the nearest whole number?|-273/minus 273|strict
 6|Which physicist's thought experiment involves a cat that is both alive and dead?|erwin schrodinger/schrodinger
-6|What do we call the smallest possible amount of energy, as in quantum physics?|quantum/quanta
+6|What is the name for a single discrete packet of energy, such as a photon?|quantum/quanta
 6|Which force holds protons and neutrons together in the nucleus?|strong force/strong nuclear force/strong interaction
-6|Which physicist proposed that light behaves as both a wave and a particle with his double-slit experiment in 1801?|thomas young/young
+6|Which English scientist's double-slit experiment, around 1801, showed that light behaves as a wave?|thomas young/young
 6|What is the name of the particle accelerator near Geneva?|large hadron collider/lhc
 #body
 1|Which organs do we use to breathe?|lungs/lung
@@ -896,7 +896,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 3|What do we call a rock that burns up in Earth's atmosphere?|meteor/shooting star
 3|What do we call a ball of ice and dust with a glowing tail?|comet
 3|Which planet has two small moons called Phobos and Deimos?|mars
-3|Who was the first human in space?|yuri gagarin/gagarin
+3|Which space agency ran the Apollo Moon missions?|nasa
 3|What was the name of the mission that first landed people on the Moon?|apollo 11
 4|What was the name of the first dog in orbit?|laika
 4|What is the largest moon of Saturn?|titan
@@ -911,7 +911,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|What do we call a star that explodes at the end of its life?|supernova
 5|How long does sunlight take to reach Earth, to the nearest minute?|8/eight
 5|What is the name of the closest star to the Sun?|proxima centauri/proxima
-5|What is the boundary of a black hole called?|event horizon
+5|What is the name of the ring of icy bodies beyond Neptune that includes Pluto?|kuiper belt
 6|Which dwarf planet lies in the asteroid belt?|ceres
 6|Which infrared telescope launched in December 2021?|james webb space telescope/james webb/jwst/webb
 6|Which moon of Jupiter is the most volcanic place in the solar system?|io
@@ -1050,7 +1050,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 6|Which country has Tbilisi as its capital?|georgia
 6|What is the capital of Kyrgyzstan?|bishkek
 6|Which country's capital is Windhoek?|namibia
-6|What is the capital of Bolivia's government, the seat of its executive?|la paz
+6|Which city is the seat of Bolivia's government?|la paz
 #flags
 1|Which country's flag has a red maple leaf?|canada
 1|Which country's flag is a red circle on a white background?|japan
@@ -1087,7 +1087,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|Which country's flag shows a copper-coloured map of the island on white?|cyprus
 5|Which country's flag has a white crescent and star on green, with a white vertical stripe?|pakistan
 6|What is the study of flags called?|vexillology
-6|Which country's flag is said to be the oldest still in use?|denmark
+6|Which European country's flag shows a gold map of its territory under six white stars?|kosovo
 6|Which country's flag has a different design on each side?|paraguay
 6|Which country's flag features a sisserou parrot?|dominica
 6|Which US state's flag is the only one that is not rectangular?|ohio
@@ -1104,7 +1104,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 2|Which imaginary line divides Earth into northern and southern halves?|equator
 2|Which is the largest continent by area?|asia
 2|Which river flows through London?|thames/river thames
-2|What do we call molten rock once it reaches the surface?|lava
+2|What do we call molten rock while it is still underground?|magma
 2|What is the tallest mountain in the world above sea level?|mount everest/everest
 2|Which ocean lies between Europe and North America?|atlantic/atlantic ocean
 2|What do we call a narrow strip of land joining two larger areas?|isthmus
@@ -1144,7 +1144,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 1|In which city is the Statue of Liberty?|new york/new york city/nyc
 1|In which city is the Colosseum?|rome
 2|In which country is the Taj Mahal?|india
-2|In which city is the Sydney Opera House?|sydney
+2|In which city is the famous opera house with sail-shaped roofs, opened in 1973?|sydney
 2|In which country is Machu Picchu?|peru
 2|In which city is the Leaning Tower?|pisa
 2|What is the name of the large statue of Christ above Rio de Janeiro?|christ the redeemer/cristo redentor
@@ -1213,7 +1213,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|Which Carthaginian general crossed the Alps with elephants?|hannibal/hannibal barca
 5|In which year was the US Declaration of Independence adopted?|1776
 5|Which is the only one of the Seven Wonders of the Ancient World still standing?|great pyramid of giza/great pyramid/pyramid of giza/pyramids of giza
-5|Which English king broke with the Roman Catholic Church to divorce Catherine of Aragon?|henry viii/henry the eighth/henry 8
+5|Which English king broke with the Roman Catholic Church to divorce Catherine of Aragon?|henry viii/henry the eighth/henry 8/henry the 8th/henry 8th/king henry viii
 6|Which Aztec emperor met Hernán Cortés in 1519?|moctezuma/montezuma/moctezuma ii
 6|What was the name of the Soviet policy of openness introduced by Gorbachev?|glasnost
 6|Which treaty in 1494 divided newly found lands between Spain and Portugal?|treaty of tordesillas/tordesillas
@@ -1233,7 +1233,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 2|Which Greek hero fought in the Trojan War and had a weak heel?|achilles
 2|Which bird is said to be reborn from its own ashes?|phoenix
 2|Who is the Greek goddess of love?|aphrodite
-2|Which trickster god appears in Norse myths and is Thor's adoptive brother?|loki
+2|Which Norse trickster god is the father of the wolf Fenrir and the serpent Jörmungandr?|loki
 2|Who is the Greek god of the underworld?|hades
 3|Who is the Greek goddess of wisdom?|athena/athene
 3|Which wooden animal did the Greeks use to get into Troy?|horse/trojan horse/wooden horse
@@ -1328,7 +1328,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 3|What do we call a part-ownership in a company?|share/shares/stock
 3|What do we call the place where shares are bought and sold?|stock exchange/stock market
 4|What do we call a market with only one seller?|monopoly
-4|According to the law of demand, what happens to demand when price rises?|demand falls/it falls/falls/decreases/demand decreases
+4|According to the law of demand, what happens to demand when price rises?|demand falls/it falls/falls/decreases/demand decreases/it decreases/goes down/it goes down/demand goes down/drops
 4|Which institution sets interest rates in the UK?|bank of england
 4|What do we call goods a country sells abroad?|exports/export
 4|What is the currency of Switzerland?|swiss franc/franc
@@ -1349,12 +1349,12 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 6|What does the Gini coefficient measure?|inequality/income inequality
 6|Which law states that bad money drives out good?|gresham's law
 #business
-1|Which company's logo is a bitten apple?|apple
+1|Which company's logo is a piece of fruit with a bite taken out of it?|apple
 1|Which fast-food chain has golden arches?|mcdonald's/mcdonald
 1|Which company is famous for its swoosh logo?|nike
 1|What do we call a person who starts a business?|entrepreneur
 1|Which online shop was founded by Jeff Bezos?|amazon
-1|Which company makes Coca-Cola?|coca-cola/the coca-cola company/coke
+1|Which drinks company also owns Sprite and Fanta?|coca-cola/the coca-cola company/coke
 2|What does CEO stand for?|chief executive officer
 2|Which company owns Instagram and WhatsApp?|meta/facebook/meta platforms
 2|Which coffee chain has a green mermaid logo?|starbucks
@@ -1367,7 +1367,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 3|Which German car company's name means people's car?|volkswagen/vw
 3|What does IPO stand for?|initial public offering
 3|Which Danish company makes plastic building bricks?|lego
-3|Which company makes the Windows operating system?|microsoft
+3|Which streaming company started out by renting DVDs by post?|netflix
 3|Which company founded by Elon Musk makes rockets?|spacex
 4|Which South Korean company makes Galaxy phones?|samsung
 4|What do we call a company's total income from sales before costs?|revenue/turnover
@@ -1385,7 +1385,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|What does LLC stand for?|limited liability company
 6|Which Dutch company is the world's only maker of extreme ultraviolet chip lithography machines?|asml
 6|Which company was originally called Blue Ribbon Sports?|nike
-6|Which social network, founded in 2004, was originally called TheFacebook?|facebook
+6|Which social network, launched by Mark Zuckerberg in 2004, began as a Harvard student directory?|facebook
 6|Which company introduced the moving assembly line for cars in 1913?|ford/ford motor company
 6|What is the name of the stock index of 30 large US companies?|dow jones/dow jones industrial average/the dow/djia
 6|Which company bought YouTube in 2006?|google
@@ -1448,8 +1448,8 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 2|Which Pixar film is about a rat who wants to be a chef?|ratatouille
 2|Which film features a time-travelling DeLorean car?|back to the future
 3|Which South Korean film won Best Picture at the 2020 Oscars?|parasite
-3|In which film series does a hobbit carry a ring to Mordor?|the lord of the rings
-3|Which film features the line May the Force be with you?|star wars
+3|In which film series does a hobbit carry a ring to Mordor?|the lord of the rings/lotr
+3|Which 1942 film features the line Here's looking at you, kid?|casablanca
 3|Who directed Inception?|christopher nolan/nolan
 3|Which 1994 film features Forrest and a box of chocolates?|forrest gump
 3|Which actor played Iron Man in the Marvel films?|robert downey jr/robert downey/downey
@@ -1460,7 +1460,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 4|Which 1960 Hitchcock film has a famous shower scene?|psycho
 4|Which film won the first Academy Award for Best Animated Feature in 2002?|shrek
 4|Which actor plays Jack Sparrow in Pirates of the Caribbean?|johnny depp/depp
-4|Which 2009 film set on Pandora became the highest-grossing film of all time?|avatar
+4|Which 2009 film set on Pandora was the highest-grossing film of all time, as of 2024?|avatar
 5|Who directed Seven Samurai?|akira kurosawa/kurosawa
 5|Which 1941 film is often called the greatest ever made?|citizen kane
 5|Who directed Spirited Away?|hayao miyazaki/miyazaki
@@ -1483,7 +1483,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 1|What is the name of the Simpsons' son who says Eat my shorts?|bart/bart simpson
 1|Which cartoon features a cat and mouse chasing each other?|tom and jerry/tom & jerry
 2|Which series features the Iron Throne and dragons?|game of thrones
-2|Which sitcom follows six friends in New York?|friends
+2|Which sitcom follows Rachel, Ross, Monica, Chandler, Joey and Phoebe?|friends
 2|What do we call the very first episode of a series?|pilot
 2|Which series is set in Hawkins and features the Upside Down?|stranger things
 2|Which British series features a time-travelling Doctor?|doctor who
@@ -1531,7 +1531,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 2|What is the name of the main character in One Piece?|luffy/monkey d luffy/monkey d. luffy
 2|Which studio made My Neighbour Totoro?|studio ghibli/ghibli
 3|What is the name of Naruto's home village?|konoha/hidden leaf village/leaf village/the hidden leaf
-3|Which anime follows Tanjiro as a demon slayer?|demon slayer/kimetsu no yaiba
+3|Which anime follows Tanjiro Kamado, who hunts demons after his family is attacked?|demon slayer/kimetsu no yaiba
 3|Which anime features students with powers called quirks?|my hero academia/boku no hero academia
 3|What is the name of the Shinigami who drops the Death Note?|ryuk
 3|Which Pokémon is number 1 in the National Pokédex?|bulbasaur
@@ -1544,7 +1544,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 4|Which anime features cursed energy and Yuji Itadori?|jujutsu kaisen
 4|What is the name of Light Yagami's rival detective in Death Note?|l/l lawliet/ryuzaki|strict
 4|What is the name of the Survey Corps captain known as humanity's strongest soldier?|levi/levi ackerman
-5|Which Studio Ghibli film won the Oscar for Best Animated Feature?|spirited away
+5|Which Studio Ghibli film won the Oscar for Best Animated Feature in 2003?|spirited away
 5|What is the term for anime aimed mainly at teenage boys?|shonen/shounen
 5|What is the term for anime aimed mainly at young girls?|shojo/shoujo
 5|Who created Dragon Ball?|akira toriyama/toriyama
@@ -1617,7 +1617,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 3|Which actor played Sherlock Holmes in the BBC series Sherlock?|benedict cumberbatch/cumberbatch
 3|Which singer had a hit with Rolling in the Deep?|adele
 3|Which actress starred in Breakfast at Tiffany's?|audrey hepburn/hepburn
-3|Which basketball player is nicknamed King James?|lebron james/lebron
+3|Which pop star's fans call themselves Swifties?|taylor swift/swift
 3|Which actress played Wonder Woman in the 2017 film?|gal gadot/gadot
 3|Which singer is known as the Material Girl?|madonna
 3|Which actor played the Joker in The Dark Knight (2008)?|heath ledger/ledger
@@ -1655,12 +1655,12 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 2|Which company makes the PlayStation?|sony
 2|Which battle royale game has a Battle Bus?|fortnite
 2|What is the name of the princess Mario often rescues?|peach/princess peach
-2|Which company makes the Nintendo Switch?|nintendo
+2|Which Japanese company makes the Switch console?|nintendo
 3|Which series stars Master Chief?|halo
 3|Which falling-blocks puzzle game was created by Alexey Pajitnov?|tetris
 3|What is the name of Mario's dinosaur friend?|yoshi
 3|Which game series is set in a fictional Los Santos and Liberty City?|grand theft auto/gta
-3|Which series features Kratos, the god of war?|god of war
+3|Which game series follows Kratos, a Spartan warrior who battles the Greek and Norse gods?|god of war
 3|What is the main villain of the Super Mario series?|bowser/king koopa
 3|Which game sees you raise a farm in Pelican Town?|stardew valley
 4|Which series features a Vault Dweller and a Pip-Boy?|fallout
@@ -1719,12 +1719,12 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|What was the first video ever uploaded to YouTube, in 2005, titled?|me at the zoo
 5|What is the name for an image macro with a cat that says I Can Has Cheezburger?|lolcat/lolcats
 5|Which satirical news publication was founded in 1988 in Wisconsin?|the onion
-6|Which 1990s dancing baby animation became one of the first viral videos?|dancing baby/oogachaka baby/baby cha-cha
+6|Which 1996 3D animation, also called Baby Cha-Cha, became one of the first viral videos?|dancing baby/oogachaka baby
 6|Which meme face, drawn in MS Paint in 2008, has a mischievous grin?|trollface
 6|Which website, founded in 2003, is an anonymous imageboard where many memes began?|4chan
 6|In which year was the word meme first coined by Richard Dawkins?|1976
 6|Which webcomic artist drew the This is fine dog?|kc green
-6|Which 2009 meme involved posing face-down in unusual places?|planking
+6|Which craze, huge in 2011, involved lying stiff and face-down in unusual places for photos?|planking
 6|What is the term for a comment that ruins a story by revealing its ending?|spoiler
 #comics
 1|Who is Spider-Man's alter ego?|peter parker
@@ -1737,7 +1737,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 2|Which company publishes Wonder Woman?|dc/dc comics
 2|What is Batman's secret identity?|bruce wayne
 2|What is Superman's weakness?|kryptonite
-2|Which hero wields a hammer called Mjolnir?|thor
+2|What is the name of Thor's home realm in Marvel comics?|asgard
 2|What is Iron Man's real name?|tony stark/anthony stark
 2|What is the name of Batman's butler?|alfred/alfred pennyworth
 3|Which Amazonian hero is Diana Prince?|wonder woman
@@ -1866,7 +1866,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 2|What number does a referee count to for a knockout?|10/ten
 2|What do we call a fight that ends level on the judges' scorecards?|draw
 2|What is a straight punch thrown with the lead hand called?|jab
-3|Which boxer was nicknamed Iron Mike?|mike tyson/tyson
+3|Which boxer was nicknamed The Golden Boy?|oscar de la hoya/de la hoya
 3|Which Filipino boxer won world titles in eight weight divisions?|manny pacquiao/pacquiao
 3|What does WBC stand for?|world boxing council
 3|What do we call a boxer who leads with the right hand?|southpaw
@@ -1887,7 +1887,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|Which rules, published in 1867, form the basis of modern boxing?|queensberry rules/marquess of queensberry rules
 5|Which boxer won the heavyweight title at 45, in 1994?|george foreman/foreman
 5|Which Ukrainian brothers dominated heavyweight boxing in the 2000s?|klitschko/klitschkos/the klitschko brothers
-6|Which boxer was the only heavyweight champion to retire undefeated, with a 49-0 record?|rocky marciano/marciano
+6|Which heavyweight champion retired in 1956 with a perfect 49-0 record?|rocky marciano/marciano
 6|Who beat Mike Tyson in a huge 1990 upset in Tokyo?|buster douglas/james buster douglas/douglas
 6|Which boxer was nicknamed The Hitman, from Detroit?|thomas hearns/hearns
 6|Which American boxer was nicknamed Marvelous and lost to Sugar Ray Leonard in 1987?|marvin hagler/marvelous marvin hagler/hagler
@@ -1969,7 +1969,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|Which Dutch programmer created Python?|guido van rossum/van rossum
 5|What does API stand for?|application programming interface
 5|Which programming language was created by James Gosling at Sun Microsystems?|java
-5|Who is credited with inventing the World Wide Web?|tim berners-lee/berners-lee
+5|What does URL stand for?|uniform resource locator
 5|What does the acronym LAN stand for?|local area network
 6|What was the name of the first general-purpose electronic computer, completed in 1945?|eniac
 6|Which language did Brendan Eich create in 10 days in 1995?|javascript
@@ -2063,22 +2063,22 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 6|Who invented the stethoscope in 1816?|rene laennec/laennec
 6|Who invented the first practical seismograph, in 1880, while working in Japan?|john milne/milne
 #records
-1|What is the fastest land animal?|cheetah
-1|What is the largest animal ever known to have lived?|blue whale
-1|Which is the biggest planet in our solar system?|jupiter
+1|Which is the smallest planet in our solar system?|mercury
+1|Which sport has the most fans worldwide?|football/soccer/association football
+1|Which language has the most speakers in the world when second-language speakers are counted?|english
 1|As of 2025, what is the tallest building in the world?|burj khalifa
-1|What is the highest mountain above sea level?|mount everest/everest
-1|Which is the largest ocean?|pacific/pacific ocean
-2|What is the longest river in Africa?|nile/river nile
+1|Which is the smallest of the five oceans?|arctic/arctic ocean
+1|Which is the longest river in the world, according to most sources?|nile/river nile
+2|Which is the largest country in Africa by area?|algeria
 2|What is the smallest country in the world?|vatican city/vatican
 2|Which is the tallest animal in the world?|giraffe
 2|Which is the largest island country by area, made up of thousands of islands?|indonesia
-2|Which is the largest hot desert?|sahara/sahara desert
+2|Which country produces the most coffee in the world?|brazil
 2|Which bird is the largest in the world?|ostrich
 3|Which bird is the fastest in a dive?|peregrine falcon/peregrine
 3|Which is the largest land mammal?|african elephant/elephant/african bush elephant
 3|Which is the longest river in Asia?|yangtze/yangtze river/chang jiang
-3|Which is the hottest planet in the solar system?|venus
+3|Which is the largest country lying entirely within Europe?|ukraine
 3|Which book is often cited as the best-selling of all time?|the bible
 3|Which is the longest-running American animated sitcom?|the simpsons
 3|What is the world's most populous country, as of 2024?|india
@@ -2088,7 +2088,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 4|Which element is the most abundant in the Earth's crust?|oxygen
 4|Which country has the most lakes in the world?|canada
 4|What is the longest wall ever built?|great wall of china/the great wall
-4|Which is the largest lake in Africa?|lake victoria/victoria
+4|Which is the longest river in the United States?|missouri/missouri river
 5|Who is the oldest verified person ever, who lived to 122?|jeanne calment/calment
 5|Which animal produces the loudest sound?|sperm whale/blue whale
 5|Which is the tallest tree species in the world?|coast redwood/redwood
@@ -2098,7 +2098,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 5|Which athlete has won the most Olympic medals ever?|michael phelps/phelps
 6|What is the longest-running Broadway show, as of 2024?|the phantom of the opera
 6|Which is the most visited museum in the world, as of 2024?|louvre
-6|What is the coldest temperature ever recorded on Earth's surface, at Vostok station in 1983, to the nearest degree Celsius?|-89|strict
+6|What is the coldest temperature ever recorded on Earth's surface, at Vostok station in 1983, to the nearest degree Celsius?|-89/minus 89|strict
 6|Which city has the world's oldest underground railway, opened in 1863?|london
 6|Who holds the women's 100 metres world record, set in 1988?|florence griffith joyner/flojo/griffith joyner
 6|Which plant has the largest single flower in the world?|rafflesia/rafflesia arnoldii
@@ -2116,7 +2116,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 2|Which country is BMW from?|germany
 2|What do we call the part of a car that stores luggage, in UK English?|boot
 2|What do we call the US word for a car's bonnet?|hood
-2|Which British car brand makes the Mini today, owned by BMW?|mini
+2|Which small British car, first launched in 1959, is now a brand owned by BMW?|mini
 3|Which brand has four linked rings as its logo?|audi
 3|Which company makes the Model S?|tesla
 3|Which Italian brand makes the Aventador?|lamborghini
@@ -2143,7 +2143,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 6|What does the GT stand for in car names?|grand tourer/gran turismo/grand touring
 6|Which engine type uses a triangular rotor, famously used by Mazda?|wankel/rotary/wankel engine/rotary engine
 6|What is the name of the Italian town where Ferrari is based?|maranello
-6|Which British car maker built the McLaren F1 road car in the 1990s?|mclaren
+6|Which British company built the F1, the fastest production car of the 1990s?|mclaren
 6|What was the first mass-produced hybrid car, launched in 1997?|toyota prius/prius
 #food
 1|What colour is a ripe banana?|yellow
@@ -2151,7 +2151,7 @@ table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{paddin
 1|What orange vegetable do rabbits famously love?|carrot/carrots
 1|Which hot drink is made from roasted beans?|coffee
 1|Which Italian dish is a flat round base with toppings?|pizza
-1|What do bees make that we spread on toast?|honey
+1|Which dairy spread is made by churning cream?|butter
 2|Which fruit is dried to make raisins?|grape/grapes
 2|What vegetable makes you cry when you cut it?|onion/onions
 2|Which red fruit is often mistaken for a vegetable?|tomato
@@ -2228,7 +2228,7 @@ let NAME_RESET='';
 /*SYS-START*/
 /* ===== SHOP CATALOGUE =====================================================
    Every cosmetic item. Fields:
-     id, slot, v (what it applies), name, desc, r (rarity: c u r e l),
+     id, slot, v (what it applies), name, desc, r (rarity: c u r e l m i),
      c = price in Brain Coins, g = price in Gems,
      req = unlock requirement: {lvl:n} | {ach:'id'} | {missions:n}
    No price + no requirement  = free, owned by everyone.
@@ -2457,7 +2457,7 @@ const ACH=[
 {id:'owl',i:'🦉',n:'Night Owl',d:'Play a run between midnight and 5am',k:'night',t:1,r:[100,100,1],h:1},
 {id:'runs25',i:'🧗',n:'Persistent',d:'Play 25 runs',k:'runs',t:25,r:[200,250,1]},
 {id:'lvl15',i:'🍀',n:'Seasoned',d:'Reach level 15',k:'lvl',t:15,r:[300,450,2]},
-{id:'lvl40',i:'🧙',n:'Mastermind',d:'Reach level 40',k:'lvl',t:40,r:[900,1500,10]},
+{id:'lvl40',i:'🧙',n:'Sage',d:'Reach level 40',k:'lvl',t:40,r:[900,1500,10]},
 {id:'c1000',i:'🧾',n:'Thousand Club',d:'Answer 1,000 questions correctly',k:'correct',t:1000,r:[700,1000,6]},
 {id:'st15',i:'🌋',n:'Untouchable',d:'Get a 15-answer streak',k:'maxSt',t:15,r:[400,500,4]},
 {id:'allcats',i:'🗺️',n:'Completionist',d:'Answer questions in every category',k:'cats',t:JSON.parse(document.getElementById('catdef').textContent).length,r:[800,1200,10]},
@@ -2466,7 +2466,7 @@ const ACH=[
 {id:'comeback',i:'🔁',n:'Comeback Kid',d:'Answer 10 correctly in a run where you lost 2 lives',k:'comeback',t:1,r:[250,300,2],h:1},
 {id:'marathon',i:'🏃',n:'Marathon Mind',d:'Answer 25 correctly in a single run',k:'bestRun',t:25,r:[500,700,6],h:1},
 {id:'dawn',i:'🌅',n:'Early Bird',d:'Play a run between 5am and 7am',k:'dawn',t:1,r:[100,100,1],h:1},
-{id:'surv30',i:'⏳',n:'Still Standing',d:'Survive 30 seconds in Survival Mode',k:'survT',t:30,r:[80,100,0]},
+{id:'surv30',i:'⏳',n:'Still Standing',d:'Survive 45 seconds in Survival Mode',k:'survT',t:45,r:[80,100,0]},
 {id:'surv60',i:'⌛',n:'Survivor',d:'Survive 60 seconds in Survival Mode',k:'survT',t:60,r:[200,250,3]},
 {id:'surv120',i:'🕰️',n:'Time Bender',d:'Survive 2 minutes in Survival Mode',k:'survT',t:120,r:[500,600,8]},
 {id:'surv20',i:'🔥',n:'Eternal Flame',d:'Answer 20 correctly in one Survival run',k:'survK',t:20,r:[400,500,5]}];
@@ -2493,7 +2493,6 @@ function sanitize(o){const d=defSave(),r=o&&typeof o==='object'?o:{};d.created=n
  if(r.inv&&typeof r.inv==='object'){d.inv.owned=Array.isArray(r.inv.owned)?[...new Set(r.inv.owned.map(String).filter(id=>ITEM[id]&&(ITEM[id].c||ITEM[id].g)))]:[];
   const eq=r.inv.equipped&&typeof r.inv.equipped==='object'?r.inv.equipped:{};for(const s in DEFAULT_EQUIP)if(ITEM[eq[s]]&&ITEM[eq[s]].slot===s)d.inv.equipped[s]=eq[s]}
  if(r.counters&&typeof r.counters==='object')for(const k in d.counters)d.counters[k]=num(r.counters[k]);
- if(r.login&&typeof r.login==='object')d.login=r.login;
  if(r.ach&&typeof r.ach==='object')for(const a of ACH)if(r.ach[a.id]&&typeof r.ach[a.id]==='object')d.ach[a.id]={t:num(r.ach[a.id].t,Date.now())};
  for(const sc of['daily','weekly']){const m=r.missions&&r.missions[sc];if(m&&typeof m.key==='string'&&Array.isArray(m.list)&&m.list.length&&m.list.every(x=>x&&Number.isInteger(x.i)&&x.i>=0&&x.i<MPOOL[sc].length))d.missions[sc]={key:m.key.slice(0,12),list:m.list.slice(0,6).map(x=>({i:x.i,p:num(x.p),s:Array.isArray(x.s)?x.s.filter(c=>CATKEYS.includes(c)):[],c:x.c?1:0}))}}
  if(Array.isArray(r.history))d.history=r.history.filter(h=>h&&typeof h==='object'&&Number.isFinite(+h.t)).slice(-1000).map(cleanH);
@@ -2532,11 +2531,10 @@ function playerTitle(){const it=ITEM[S.inv.equipped.title];return it&&it.v?it.v:
 const RANKS=[[1,'Beginner'],[5,'Learner'],[10,'Thinker'],[20,'Intelligent'],[30,'Genius'],[40,'Mastermind'],[50,'Brain Legend']];
 const rankOf=l=>RANKS.filter(r=>l>=r[0]).pop()[1];
 const MILE={5:[200,2],10:[500,5],15:[800,5],20:[1200,10],25:[1500,10],30:[2000,15],40:[3000,20],50:[5000,50]};
-/* a finished run pays out exactly once (G.res is the receipt) */
 /* a finished run pays out exactly once (G.res is the receipt). Personal bests compare runs of the same mode. */
 function finishRun(cleared){if(G.res)return G.res;if(cleared)G.score+=500;const L=G.log,before=lvlInfo(S.prog.xp),w0=[S.wallet.coins,S.wallet.gems],mode=G.mode||'classic';
  if(!L.length)return G.res={xp:0,co:0,before,after:before,ms:[],pb:false,empty:true,bonus:[0,0],lv:[0,0,0],w0};
- let sv=0,svPts=0;if(mode==='survival'){sv=Math.max(0,Math.round((G.endAt||performance.now())-G.survStart));svPts=Math.floor(sv/1000)*10;G.score+=svPts}
+ let sv=0,svPts=0;if(mode==='survival'){sv=Math.max(0,Math.round((G.endAt||performance.now())-G.survStart));svPts=G.correct?Math.floor(sv/1000)*10:0;G.score+=svPts}
  const cats={},tr={};let rt=0,f=0;
  for(const e of L){const c=cats[e.cat]=cats[e.cat]||[0,0],t=tr[e.tier]=tr[e.tier]||[0,0];c[0]++;t[0]++;rt+=e.ms;if(e.ok){c[1]++;t[1]++;if(!f||e.ms<f)f=e.ms}}
  let xp=G.correct?Math.min(800,G.xp+25):0,co=G.correct?Math.min(200,G.correct*3+Math.floor(G.score/200)):0;
@@ -2659,7 +2657,8 @@ const SVGAV2={
 Object.assign(SVGAV,SVGAV2);
 
 
-function avatarHTML(v,frame){const inner=String(v).startsWith('svg:')&&SVGAV[v.slice(4)]?`<svg viewBox="0 0 64 64" aria-hidden="true">${SVGAV[v.slice(4)]}</svg>`:esc2(v);
+let AVN=0;
+function avatarHTML(v,frame){const k=String(v).startsWith('svg:')&&SVGAV[v.slice(4)],n=++AVN,inner=k?`<svg viewBox="0 0 64 64" aria-hidden="true">${SVGAV[v.slice(4)].replace(/id="([\w-]+)"/g,`id="$1-${n}"`).replace(/url\(#([\w-]+)\)/g,`url(#$1-${n})`)}</svg>`:esc2(v);
  const f=frame===undefined?equippedV('frame'):frame;return`<span class="ava${f&&f!=='none'?' fr-'+f:''}">${inner}</span>`}
 
 /* ===== APPLYING THE LOOK ===== */
@@ -2672,7 +2671,7 @@ function applyLook(){const sk=look('theme');
  const hv=look('fxHover');if(hv==='none')delete root.dataset.hover;else root.dataset.hover=hv;
  root.classList.toggle('rm',!!cfg.calm);
  const hc=$('#huerow');if(hc)hc.hidden=sk!=='classic';const tg=$('#tg');if(tg)tg.hidden=sk!=='classic';
- setTimeout(()=>{colors();bgReset()},30)}
+ clearTimeout(applyLook.t);applyLook.t=setTimeout(()=>{colors();bgReset()},60)}
 
 /* ===== EFFECTS ===== */
 function fxSpawn(cls,x,y,vars,txt,life=1300){const e=document.createElement('span');e.className='fxp '+cls;let st=`--x0:${x}px;--y0:${y}px;`;for(const k in vars)st+=`--${k}:${vars[k]};`;e.style.cssText=st+(vars.bg?`background:${vars.bg}`:'');if(txt)e.textContent=txt;document.body.appendChild(e);setTimeout(()=>e.remove(),life);return e}
@@ -2795,7 +2794,7 @@ document.addEventListener('visibilitychange',musSync);
 function sync(){$('#hue').value=cfg.h;$('#vol').value=Math.round(cfg.vol*100);$('#vol').setAttribute('aria-valuetext',Math.round(cfg.vol*100)+'%');$$('.chip[data-k]').forEach(c=>c.setAttribute('aria-pressed',String(cfg[c.dataset.k])===c.dataset.v));
  const sk=look('theme');$('#looknote').textContent=sk==='classic'?'':`You’re using the ${ITEMS.find(i=>i.slot==='theme'&&i.v===sk).name} theme. Accent colour and light/dark apply to the Classic theme.`;applyLook()}
 $$('.chip[data-k]').forEach(c=>c.onclick=()=>{const v=c.dataset.v;cfg[c.dataset.k]=v==='true'?true:v==='false'?false:v;save();sync();beep(700)});
-$('#vol').oninput=e=>{cfg.vol=(+e.target.value)/100;save();sync()};$('#vol').onchange=()=>beep(880,.15);
+$('#vol').oninput=e=>{cfg.vol=(+e.target.value)/100;save();e.target.setAttribute('aria-valuetext',Math.round(cfg.vol*100)+'%')};$('#vol').onchange=()=>beep(880,.15);
 $('#hue').oninput=e=>{cfg.h=+e.target.value;save();sync()};
 $$('.chip[data-mon]').forEach(c=>c.onclick=()=>{cfg.music.on=c.dataset.mon==='true';MUS.unlocked=true;MUS.held=false;save();musSync();musUI();beep(700)});
 $$('.chip[data-mt]').forEach(c=>c.onclick=()=>{cfg.music.track=c.dataset.mt;save();if(MUS.playing)musStart();musUI();beep(700)});
@@ -2807,7 +2806,7 @@ let last;function open(id){last=document.activeElement;const m=$('#'+id);m.class
 function closeAll(force){if(typeof G!=='undefined'&&G&&G.active&&force!==true)return;if(typeof G!=='undefined'&&G){G.active=false;cancelAnimationFrame(G.raf)}$$('.scrim.open').forEach(m=>{m.classList.remove('open');m.setAttribute('aria-hidden','true')});last&&last.focus()}
 $$('.scrim').forEach(m=>m.addEventListener('pointerdown',e=>{if(e.target===m)closeAll()}));
 addEventListener('keydown',e=>{if(e.key!=='Tab')return;const m=$('.scrim.open');if(!m)return;const f=[...m.querySelectorAll('button:not([disabled]),input,select,summary,[tabindex]:not([tabindex="-1"])')].filter(x=>x.offsetParent!==null);if(!f.length)return;const a=f[0],z=f[f.length-1];if(!m.contains(document.activeElement)){e.preventDefault();a.focus()}else if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}});
-addEventListener('keydown',e=>{if(e.key==='Escape'&&PV){endPreview(true);return}if(e.key==='Escape')closeAll();if(e.key==='Enter'&&e.target===document.body&&!$('.scrim.open'))play()});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&PV){endPreview(true);return}if(e.key==='Escape')closeAll();if(e.key==='Enter'&&e.target===document.body&&!$('.scrim.open')&&!PV)play()});
 /* ===== Play: categories, typed answers, shrinking timer, best results ===== */
 const CATDEF=JSON.parse($('#catdef').textContent),CATS={random:['🎲','Random']};CATDEF.forEach(c=>CATS[c.k]=[c.i,c.n,c.g]);
 const TN=['Warm-up','Easy','Tricky','Hard','Niche','Ultra niche'];
@@ -2823,7 +2822,7 @@ const BANK={};{let cur;$('#qdata').textContent.trim().split('\n').forEach(l=>{l=
       "s" (Popeye = Popeyes, McDonald = McDonald's), "saint" = "st", and the surname alone for
       "Who…" questions whose answer is a full name (Shakespeare = William Shakespeare).
    4. Small typos (not for strict questions, numbers or answers under 5 letters): the first
-      letter must match; 1 slip for 5–9 letters, 2 for 10+. A typo is NOT accepted if what you
+      letter must match; for 5 letters only two swapped letters; 1 slip for 6–9 letters, 2 for 10+. A typo is NOT accepted if what you
       typed is itself a different answer from the question bank (Austria is never Australia),
       or if it is at least as close to another answer in the same category.
    Question format in the database: tier|question|answer/alternative/...|flags (flags: strict)
@@ -2862,7 +2861,7 @@ function judge(q,input,cat){const v=norm(input);if(!v)return{ok:false,empty:true
  if(/\d/.test(v)||v.length<4)return{ok:false};
  answerIndex();if(KNOWN.has(v))return{ok:false};               // a real, different answer
  let best=null,bd=9;
- for(const a of alts){if(/\d/.test(a)||a.length<5||a[0]!==v[0])continue;const allow=a.length>=10?2:1,d=editDist(v,a,allow);if(d<=allow&&d<bd){bd=d;best=a}}
+ for(const a of alts){if(/\d/.test(a)||a.length<5||a[0]!==v[0])continue;const allow=a.length>=10?2:1,d=editDist(v,a,allow);if(a.length<6&&(v.length!==a.length||[...v].sort().join('')!==[...a].sort().join('')))continue;if(d<=allow&&d<bd){bd=d;best=a}}
  if(!best)return{ok:false};
  const others=[...(CATANS[cat]||[])].filter(x=>!alts.includes(x));
  if(others.some(o=>editDist(v,o,bd)<=bd))return{ok:false};    // too close to a different answer
@@ -2905,11 +2904,11 @@ VIEW.stats=()=>{const st=statsFor(range,smode),cat={},tier={};
  const chips=[['today','Today'],['week','7 days'],['month','30 days'],['all','Lifetime']].map(([k,v])=>`<button class="chip" data-range="${k}" aria-pressed="${k===range}">${v}</button>`).join(''),last=st.R.slice(-12);
  const mchips=[['all','All modes']].concat(Object.keys(MODES).map(k=>[k,MODES[k].icon+' '+MODES[k].name])).map(([k,v])=>`<button class="chip" data-smode="${k}" aria-pressed="${k===smode}">${v}</button>`).join('');
  const SV=statsFor(range,'survival'),svb=SV.H.length?`<h3>⏳ Survival</h3><div class="mgrid">${M(SV.games,'Runs')}${M(fmtT(Math.max(...SV.H.map(h=>h.sv))),'Longest survival')}${M(fmt(SV.best),'Highest score')}${M(SV.q,'Questions answered')}${M(SV.c,'Correct')}${M(SV.streak,'Longest streak')}${M(fmtT(SV.H.reduce((t,h)=>t+h.sv,0)/SV.H.length),'Average survival')}</div>`:'';
- const hist=st.H.slice(-25).reverse().map(h=>`<details><summary>${new Date(h.t).toLocaleDateString(undefined,{day:'numeric',month:'short'})} · ${MODES[h.mode].icon} ${CATS[h.cat][0]} ${CATS[h.cat][1]} · ${fmt(h.s)} pts</summary><p class="mut">${h.legacy?'Imported from an earlier version: only score, correct answers and level were recorded.':`${h.k} correct, ${h.w} wrong · accuracy ${Math.round(h.k/((h.k+h.w)||1)*100)}% · level ${h.tier} (${TN[h.tier-1]}) · best streak ${h.st} · +${h.xp} XP · +${h.co} coins · avg response ${h.n?(h.rt/h.n/1000).toFixed(1):0}s · ${dur(h.d)}${h.mode==='survival'?' · survived '+fmtT(h.sv):''}`}</p></details>`).join('')||'<p class="mut">No games yet.</p>';
- return `<h2>Statistics</h2><div class="ptabs">${chips}</div><div class="mfil">${mchips}</div><div class="mgrid">${M(st.games,'Games')}${M(st.q,'Questions')}${M(st.c,'Correct')}${M(st.w,'Wrong')}${M(st.acc.toFixed(0)+'%','Accuracy')}${M(fmt(st.best),'Best score')}${M(st.streak,'Best streak')}${M(fmt(range==='all'?S.prog.xp:st.xp),'XP earned')}${M(fmt(st.coins),'Coins from games')}${M(st.tier?TN[st.tier-1]:'–','Highest level')}${M(dur(st.time),'Time played')}${M(st.avg?(st.avg/1000).toFixed(1)+'s':'–','Avg response')}${M(st.fast?(st.fast/1000).toFixed(2)+'s':'–','Fastest correct')}</div>
- <p class="mut">Quiz response time is how fast you answer a question, not typing speed (WPM). A real typing test is planned.</p>
+ const hist=st.H.slice(-25).reverse().map(h=>`<details><summary>${new Date(h.t).toLocaleDateString(undefined,{day:'numeric',month:'short'})} · ${MODES[h.mode].icon} ${CATS[h.cat][0]} ${CATS[h.cat][1]} · ${fmt(h.s)} pts</summary><p class="mut">${h.legacy?'Imported from an earlier version: only score, correct answers and tier were recorded.':`${h.k} correct, ${h.w} wrong · accuracy ${Math.round(h.k/((h.k+h.w)||1)*100)}% · tier ${h.tier} (${TN[h.tier-1]}) · best streak ${h.st} · +${h.xp} XP · +${h.co} coins · avg response ${h.n?(h.rt/h.n/1000).toFixed(1):0}s · ${dur(h.d)}${h.mode==='survival'?' · survived '+fmtT(h.sv):''}`}</p></details>`).join('')||'<p class="mut">No games yet.</p>';
+ return `<h2>Statistics</h2><div class="ptabs">${chips}</div><div class="mfil">${mchips}</div><div class="mgrid">${M(st.games,'Games')}${M(st.q,'Questions')}${M(st.c,'Correct')}${M(st.w,'Wrong')}${M(st.acc.toFixed(0)+'%','Accuracy')}${M(fmt(st.best),'Best score')}${M(st.streak,'Best streak')}${M(fmt(range==='all'&&smode==='all'?S.prog.xp:st.xp),'XP earned')}${M(fmt(st.coins),'Coins from games')}${M(st.tier?TN[st.tier-1]:'–','Highest tier')}${M(dur(st.time),'Time played')}${M(st.avg?(st.avg/1000).toFixed(1)+'s':'–','Avg response')}${M(st.fast?(st.fast/1000).toFixed(2)+'s':'–','Fastest correct')}</div>
+ <p class="mut">Response time is how long you take to answer a question, from when it appears to when you submit.</p>
  ${smode!=='classic'?svb:''}<h3>Recent scores</h3>${spark(last.map(h=>h.s),fmt)}<h3>Accuracy over time</h3>${spark(last.map(h=>h.k/((h.k+h.w)||1)*100),v=>Math.round(v)+'%')}<h3>XP per game</h3>${spark(last.map(h=>h.xp),fmt)}<h3>Average response time</h3>${spark(last.map(h=>h.n?h.rt/h.n/1000:0),v=>v.toFixed(1)+'s')}
- <h3>By category</h3><table class="t"><tr><th>Category</th><th>Answered</th><th>Accuracy</th></tr>${rows(cat,k=>CATS[k][0]+' '+CATS[k][1])}</table><h3>By level</h3><table class="t"><tr><th>Level</th><th>Answered</th><th>Accuracy</th></tr>${rows(tier,k=>k+': '+TN[k-1])}</table><h3>Game history</h3>${hist}`};
+ <h3>By category</h3><table class="t"><tr><th>Category</th><th>Answered</th><th>Accuracy</th></tr>${rows(cat,k=>CATS[k][0]+' '+CATS[k][1])}</table><h3>By tier</h3><table class="t"><tr><th>Tier</th><th>Answered</th><th>Accuracy</th></tr>${rows(tier,k=>k+': '+TN[k-1])}</table><h3>Game history</h3>${hist}`};
 const rw=r=>`${r[0]} XP${r[1]?` · 🪙 ${r[1]}`:''}${r[2]?` · 💎 ${r[2]}`:''}`;
 VIEW.achievements=()=>{const v=achVals(),un=ACH.filter(a=>S.ach[a.id]).length;
  return `<h2>Achievements</h2><p class="mut">${un} / ${ACH.length} unlocked. Rewards are paid once, when you unlock them.</p><div class="agrid">`+ACH.map(a=>{const got=S.ach[a.id],p=Math.min(a.t,v[a.k]);
@@ -2938,7 +2937,7 @@ async function exportSave(){const json=JSON.stringify(S,null,1),name='how-smart-
  try{const b=new Blob([json],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('Save file downloaded.');return}catch(e){}
  try{await navigator.clipboard.writeText(json);toast('Save copied to the clipboard. Paste it into a text file to keep it.')}
  catch(e){const w=$('#pg');if(w){const ta=document.createElement('textarea');ta.className='nm';ta.rows=6;ta.value=json;ta.readOnly=true;w.appendChild(ta);ta.select();toast('Copy the text below to back up your save.')}}}
-function applySave(ns){Object.assign(cfg,ns.settings);ns.settings=cfg;S=ns;persist();sync();renderHome()}
+function applySave(ns){Object.assign(cfg,ns.settings);ns.settings=cfg;S=ns;persist();sync();renderHome();musSync();musUI()}
 function importText(txt){const r=parseImport(txt);if(r.error){toast(r.error);beep(220,.25);return false}applySave(r.save);checkAch();showPage('profile');toast(r.newer?'Save imported. It came from a newer version, so anything this version doesn’t know was left out.':'Save imported.');return true}
 function saveName(){const i=$('#pname'),er=$('#nerr');if(!i)return;const r=nameCheck(i.value);if(!r.ok){er.textContent=r.error;i.setAttribute('aria-invalid','true');beep(220,.2);return}
  i.removeAttribute('aria-invalid');er.textContent='';if(r.name===S.profile.name){toast('That’s already your name.');return}S.profile.name=r.name;persist();renderHome();beep(880,.12);toast('Username saved.');showPage('profile')}
@@ -3020,9 +3019,9 @@ function hud(gain=0){const from=G.shown||0;G.shown=G.score;fxScore(from,G.score,
 function renderQ(){const q=G.q,sv=G.mode==='survival';
  $('#gb').innerHTML=`<div class="hud"><span id="scw">🏆 <b id="sc">${G.shown||0}</b></span><span id="lv"></span><span id="stw" class="stw">🔥 <b id="st"></b></span></div>`+
  (sv?`<div class="sclock" id="sclock"><span class="sclk-t" id="sct" aria-live="off"></span><div class="tbar"><i id="tb"></i></div></div>`:`<div class="tbar"><i id="tb"></i></div>`)+
- `<p class="mut">${sv?'⏳ Survival · ':''}${CATS[G.qcat][0]} ${CATS[G.qcat][1]} · Tier ${G.tier}: ${TN[G.tier-1]}</p><h3>${esc2(q[1])}</h3><input class="ans" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Your answer" placeholder="Type your answer, press Enter"><p class="fb" id="fb" role="status"></p><div class="qbtns"><button class="chip" data-quit>End run</button></div>`;
- hud();const inp=$('#ans');inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')submit()});if(sv)survDraw()}
-function next(){if(!G.active)return;const tok=G.tok,pt=G.tier;G.tier=Math.min(6,1+Math.floor(G.correct/2));if(G.tier>pt)setTimeout(()=>{if(live(tok))fxTier(G.tier)},250);G.best=Math.max(G.best,G.tier);
+ `<p class="mut">${sv?'⏳ Survival · ':''}${CATS[G.qcat][0]} ${CATS[G.qcat][1]} · Tier ${G.tier}: ${TN[G.tier-1]}</p><h3>${esc2(q[1])}</h3><input class="ans" id="ans" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Your answer" placeholder="Type your answer"><p class="fb" id="fb" role="status"></p><div class="qbtns"><button class="chip sub" data-submit>✓ Submit</button><button class="chip" data-quit>End run</button></div>`;
+ hud();const inp=$('#ans');inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')submit()});const sb=$('[data-submit]');sb.addEventListener('pointerdown',e=>e.preventDefault());sb.addEventListener('click',()=>{submit();if(!G.locked)inp.focus()});if(sv)survDraw()}
+function next(){if(!G.active||!G.lives)return;const tok=G.tok,pt=G.tier;G.tier=Math.min(6,1+Math.floor(G.correct/2));if(G.tier>pt)setTimeout(()=>{if(live(tok))fxTier(G.tier)},250);G.best=Math.max(G.best,G.tier);
  const q=pick();if(!q)return results(true);G.q=q;G.locked=false;renderQ();G.start=performance.now();
  if(G.mode==='survival')return;
  const len=nz(q[2][0]).length,base=20*Math.pow(.92,G.correct);G.limit=Math.max(base,3+len*.55+q[1].length*.04);
