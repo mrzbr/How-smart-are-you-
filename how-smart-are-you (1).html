@@ -1,0 +1,1851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>How Smart Are You?</title>
+<style>
+:root{--h:265;--L:46%;--bg1:#fdf6ff;--bg2:#dfe6ff;--fg:#1d1240;--mut:#5d5580;--card:#fff;--bd:#d9cdf5;--mx:0;--my:0;
+--a:hsl(var(--h) 90% 55%);--b:hsl(calc(var(--h) + 70) 95% 58%);--c:hsl(calc(var(--h) + 160) 90% 45%);
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--L:66%;--bg1:#0a0620;--bg2:#1c1158;--fg:#f6f1ff;--mut:#b9aedf;--card:#170f38;--bd:#33256b;--a:hsl(var(--h) 95% 68%);--b:hsl(calc(var(--h) + 70) 95% 66%);--c:hsl(calc(var(--h) + 160) 90% 60%);color-scheme:dark}}
+:root[data-theme="dark"]{--L:66%;--bg1:#0a0620;--bg2:#1c1158;--fg:#f6f1ff;--mut:#b9aedf;--card:#170f38;--bd:#33256b;--a:hsl(var(--h) 95% 68%);--b:hsl(calc(var(--h) + 70) 95% 66%);--c:hsl(calc(var(--h) + 160) 90% 60%);color-scheme:dark}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:radial-gradient(1200px 800px at 50% 15%,var(--bg2),var(--bg1));color:var(--fg);font:17px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;overflow:hidden}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:3px solid var(--c);outline-offset:3px}
+#bg{position:fixed;inset:0;width:100%;height:100%;z-index:0}
+.orb{position:fixed;border-radius:50%;filter:blur(80px);opacity:.35;z-index:0;transform:translate(calc(var(--mx)*-45px),calc(var(--my)*-35px))}
+.o1{width:360px;height:360px;background:var(--a);top:-80px;left:-60px}
+.o2{width:300px;height:300px;background:var(--b);bottom:-60px;right:-40px}
+.stage{position:relative;z-index:1;min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:24px 18px;perspective:900px}
+.badge{font-weight:700;font-size:.8rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mut);border:1px solid var(--bd);background:var(--card);padding:6px 14px;border-radius:999px;margin-bottom:18px;animation:fade .8s .1s backwards}
+h1{margin:0;font-size:clamp(2.7rem,9.5vw,6.8rem);line-height:.98;letter-spacing:-.035em;font-weight:900;transform-style:preserve-3d;transform:rotateY(calc(var(--mx)*9deg)) rotateX(calc(var(--my)*-7deg));animation:bob 5s ease-in-out infinite}
+.w{display:inline-block;margin:0 .12em;transform:translate3d(calc(var(--mx)*var(--d)*1px),calc(var(--my)*var(--d)*1px),0)}
+.ch{display:inline-block;color:hsl(calc(var(--h) + var(--i)*17) 90% var(--L));text-shadow:0 6px 30px hsl(calc(var(--h) + var(--i)*17) 90% 60%/.45);transition:transform .25s cubic-bezier(.3,1.8,.5,1);animation:pop .9s cubic-bezier(.2,1.7,.4,1) backwards;animation-delay:calc(var(--i)*65ms + 250ms)}
+.ch:hover{transform:translateY(-14px) rotate(-8deg) scale(1.15)}
+@keyframes pop{0%{transform:translateY(70px) scale(.2) rotate(-18deg);opacity:0}100%{opacity:1}}
+@keyframes bob{50%{translate:0 -8px}}
+@keyframes fade{from{opacity:0;transform:translateY(10px)}}
+.tag{min-height:2em;margin:18px 0 30px;font-size:1.15rem;color:var(--mut)}
+.tag::after{content:"";display:inline-block;width:2px;height:1.1em;background:var(--a);margin-left:3px;vertical-align:-.2em;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.menu{display:grid;gap:14px;width:min(340px,86vw)}
+.btn{--s:1;position:relative;overflow:hidden;padding:16px 26px;border-radius:18px;border:2px solid var(--bd);background:var(--card);font-weight:800;font-size:1.25rem;letter-spacing:.01em;transform:translate(var(--tx,0px),var(--ty,0px)) scale(var(--s));transition:transform .18s,box-shadow .2s,border-color .2s;animation:fade .7s backwards}
+.btn:nth-child(1){animation-delay:1.2s}.btn:nth-child(2){animation-delay:1.35s}.btn:nth-child(3){animation-delay:1.5s}
+.btn:hover{--s:1.05;border-color:var(--a);box-shadow:0 14px 34px -14px var(--a)}
+.btn:active{--s:.97}
+.btn::before{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 30%,hsl(0 0% 100%/.45) 50%,transparent 70%);transform:translateX(-120%);transition:transform .6s}
+.btn:hover::before{transform:translateX(120%)}
+.btn.main{color:#fff;border-color:transparent;background:linear-gradient(100deg,var(--a),var(--b));font-size:1.45rem;padding:19px 26px;animation:fade .7s 1.2s backwards,pulse 2.6s 2.2s infinite}
+@keyframes pulse{50%{box-shadow:0 0 0 12px hsl(var(--h) 90% 60%/0)}0%{box-shadow:0 0 0 0 hsl(var(--h) 90% 60%/.5)}}
+.tg{position:fixed;top:max(12px,env(safe-area-inset-top,0px));right:12px;z-index:5;border:1px solid var(--bd);background:var(--card);border-radius:999px;width:42px;height:42px;font-size:1.1rem}
+.scrim{position:fixed;inset:0;z-index:10;display:grid;place-items:center;padding:18px;background:hsl(255 60% 8%/.6);backdrop-filter:blur(6px);visibility:hidden;opacity:0;transition:opacity .25s,visibility 0s .25s}
+.scrim.open{visibility:visible;opacity:1;transition-delay:0s}
+.panel{width:min(480px,100%);max-height:88dvh;overflow:auto;background:var(--card);border:1px solid var(--bd);border-radius:26px;padding:26px;text-align:left;transform:translateY(24px) scale(.95);transition:transform .35s cubic-bezier(.2,1.5,.4,1)}
+.scrim.open .panel{transform:none}
+.panel h2{margin:0 0 14px;font-size:1.7rem;letter-spacing:-.02em}
+.row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--bd)}
+.chips{display:flex;gap:6px;flex-wrap:wrap}
+.chip{border:1px solid var(--bd);background:transparent;border-radius:999px;padding:6px 14px;font-weight:700;transition:.15s}
+.chip[aria-pressed="true"]{background:linear-gradient(100deg,var(--a),var(--b));color:#fff;border-color:transparent}
+input[type=range]{accent-color:var(--a);width:150px}
+.x{margin-top:16px;width:100%;padding:12px;border-radius:14px;border:0;font-weight:800;color:#fff;background:linear-gradient(100deg,var(--a),var(--b))}
+.log{margin:0;padding:0;list-style:none}.log li{padding:10px 0;border-top:1px solid var(--bd)}.log b{color:var(--a)}
+.mut{color:var(--mut);margin:0 0 8px;font-size:.9rem}
+.cd{font-size:7rem;font-weight:900;text-align:center;line-height:1;color:var(--a);animation:pop .6s cubic-bezier(.2,1.7,.4,1)}
+#gb h3{font-size:1.4rem;margin:4px 0 16px;line-height:1.25}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.opt{padding:14px;border-radius:14px;border:2px solid var(--bd);background:transparent;font-weight:700;font-size:1.05rem;transition:.15s}
+.opt:hover:not(:disabled){border-color:var(--a);transform:translateY(-2px)}
+.opt.ok{background:hsl(145 70% 45%);border-color:transparent;color:#fff;animation:jump .4s}
+.opt.bad{background:hsl(0 75% 55%);border-color:transparent;color:#fff;animation:shake .4s}
+@keyframes jump{50%{transform:scale(1.08)}}@keyframes shake{25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
+.spark{position:fixed;width:10px;height:10px;border-radius:3px;pointer-events:none;z-index:50;animation:out .8s ease-out forwards}
+@keyframes out{to{transform:translate(var(--dx),var(--dy)) rotate(260deg) scale(0);opacity:0}}
+.menu{gap:10px}.btn{padding:13px 24px}.btn.main{padding:16px 24px}.btn:nth-child(4){animation-delay:1.65s}
+.cats{display:grid;grid-template-columns:repeat(auto-fill,minmax(112px,1fr));gap:10px;margin:14px 0}
+.cat{padding:12px 6px;border-radius:16px;border:2px solid var(--bd);background:transparent;font-weight:800;font-size:1rem;display:flex;flex-direction:column;align-items:center;gap:6px;transition:.18s}
+.cat span{font-size:1.7rem;transition:transform .25s}.cat:hover{border-color:var(--a);transform:translateY(-3px) rotate(-1deg)}.cat:hover span{transform:scale(1.25) rotate(8deg)}
+.hud{display:flex;justify-content:space-between;font-weight:800;margin-bottom:10px}#lv{color:hsl(0 80% 60%);letter-spacing:.1em}
+.tbar{height:12px;border-radius:99px;background:var(--bd);overflow:hidden;margin-bottom:12px}.tbar i{display:block;height:100%;width:100%;transform-origin:left;background:hsl(120 80% 50%)}
+.ans{width:100%;padding:14px 16px;border-radius:14px;border:2px solid var(--bd);background:var(--bg1);color:var(--fg);font:700 1.3rem system-ui,sans-serif}
+.ans:focus{border-color:var(--a);outline:none}.ans.bad{animation:shake .4s;border-color:hsl(0 75% 55%)}.ans.ok{border-color:hsl(145 70% 45%)}
+.fb{min-height:1.6em;margin:10px 0 8px;font-weight:700}.big{font-size:3rem;font-weight:900;margin:0;color:var(--a)}
+.lb{list-style:none;margin:0;padding:0}.lb li{display:grid;grid-template-columns:2rem 1fr auto auto;gap:8px;padding:9px 6px;border-top:1px solid var(--bd);align-items:center}.lb li.me{background:hsl(var(--h) 90% 60%/.18);border-radius:10px}.lb em{font-style:normal;color:var(--mut);font-size:.85rem}.lb small{display:block;color:var(--mut)}
+.nm{width:100%;padding:12px 14px;border-radius:12px;border:2px solid var(--bd);background:var(--bg1);color:var(--fg);font:700 1.1rem system-ui,sans-serif;margin-top:10px}
+.pcard{display:flex;align-items:center;gap:12px;padding:8px 16px;margin-bottom:14px;border-radius:18px;border:1px solid var(--bd);background:var(--card);text-align:left;animation:fade .8s backwards}
+.pcard:hover{border-color:var(--a)}.pcard .av{font-size:2rem}.pcard .pi{display:grid;gap:3px;min-width:150px}.pcard small{color:var(--mut)}.pcard .cur{font-weight:800;font-size:.9rem;line-height:1.3}
+.bar{display:block;height:9px;background:var(--bd);border-radius:9px;overflow:hidden}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--a),var(--b));border-radius:9px;transition:width .9s cubic-bezier(.2,.8,.2,1)}
+.bar.thick{height:16px}
+.topnav{position:fixed;top:max(12px,env(safe-area-inset-top,0px));left:12px;z-index:5;display:flex;gap:6px;flex-wrap:wrap;max-width:calc(100vw - 72px)}.topnav .chip{background:var(--card)}
+.panel.wide{width:min(800px,100%)}.ptabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px}
+.mgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(125px,1fr));gap:10px;margin:12px 0}.m{border:1px solid var(--bd);border-radius:14px;padding:10px;text-align:center}.m b{display:block;font-size:1.35rem}.m small{color:var(--mut)}
+table.t{width:100%;border-collapse:collapse;margin-bottom:8px}.t th,.t td{padding:6px;border-top:1px solid var(--bd);text-align:left}
+.toast{position:fixed;left:50%;bottom:max(18px,env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--card);border:1px solid var(--bd);padding:10px 18px;border-radius:14px;opacity:0;pointer-events:none;z-index:60;transition:.3s}.toast.show{opacity:1;transform:translate(-50%,0)}
+.lvl{position:fixed;inset:0;z-index:70;display:grid;place-items:center;pointer-events:none;background:hsl(255 60% 8%/.6);animation:fade .4s}.lvl div{font-size:clamp(2.6rem,12vw,7rem);font-weight:900;color:#fff;text-align:center;line-height:1.05;animation:pop .8s cubic-bezier(.2,1.7,.4,1)}
+.av-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px}.avb{font-size:1.6rem;border:2px solid var(--bd);border-radius:14px;background:transparent;width:52px;height:52px}.avb[aria-pressed="true"]{border-color:var(--a);background:hsl(var(--h) 90% 60%/.2)}
+.spark2{width:100%;height:70px}summary{cursor:pointer;padding:6px 0}.qbtns{display:flex;gap:8px}.how{margin:6px 0 10px;color:var(--mut)}
+.agrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:10px}.ac{border:1px solid var(--bd);border-radius:14px;padding:12px;display:grid;gap:5px;align-content:start}.ac.got{border-color:var(--a)}.ai{font-size:1.6rem}.ac small{color:var(--mut)}
+.ms{display:flex;gap:12px;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--bd)}.ms>div{flex:1;display:grid;gap:5px}.chip:disabled{opacity:.5;cursor:not-allowed}#gb h4{margin:14px 0 6px;color:var(--mut);font-size:.8rem;letter-spacing:.12em;text-transform:uppercase}
+.chip:disabled{opacity:.42;cursor:not-allowed;transform:none}
+.chip.ready{background:linear-gradient(100deg,var(--a),var(--b));color:#fff;border-color:transparent;animation:pulse 2.4s infinite}
+.ms.done b::before{content:"✅ "}
+.btn:nth-child(5){animation-delay:1.8s}
+/* ===== Themes (data-skin). Each sets the full palette: page, panels, borders, text,
+   accents, text-on-accent, overlays, orbs and title letters. Classic keeps the
+   original light/dark rules above. ===== */
+:root{--onA:#fff;--scrim:hsl(255 60% 8%/.6);--orbA:var(--a);--orbB:var(--b);--orbOp:.35;--ts:90%;--hs:17;--glow:0 14px 34px -14px var(--a)}
+:root[data-skin="midnight"]{--hs:6;--h:225;--L:72%;--ts:70%;--bg1:#070b18;--bg2:#16224a;--fg:#eef2ff;--mut:#aab5d8;--card:#0f1730;--bd:#2a3a66;--a:#7aa2ff;--b:#b48cff;--c:#5eead4;--onA:#0a0f24;--scrim:hsl(225 60% 4%/.72);--orbA:#3b5bdb;--orbB:#7c3aed;--orbOp:.3;color-scheme:dark}
+:root[data-skin="neon"]{--h:310;--L:66%;--ts:100%;--hs:25;--bg1:#05010a;--bg2:#1c0329;--fg:#fdf4ff;--mut:#d3bde3;--card:#12041c;--bd:#4a1a63;--a:#ff2bd6;--b:#39ff88;--c:#00e5ff;--onA:#140018;--scrim:hsl(300 80% 3%/.75);--orbOp:.5;--glow:0 0 22px 2px var(--a);color-scheme:dark}
+:root[data-skin="cyber"]{--h:55;--L:62%;--ts:95%;--hs:30;--bg1:#0d0221;--bg2:#2e0b45;--fg:#f6f1ff;--mut:#c2b3e3;--card:#170634;--bd:#4a2575;--a:#fcee0a;--b:#00e0ff;--c:#ff2a6d;--onA:#120a00;--scrim:hsl(270 70% 4%/.75);--orbA:#ff2a6d;--orbB:#00e0ff;--orbOp:.4;--glow:0 0 20px 0 var(--b);color-scheme:dark}
+:root[data-skin="arctic"]{--hs:4;--h:205;--L:42%;--ts:70%;--bg1:#f4fbff;--bg2:#d4ebfa;--fg:#0b2a3f;--mut:#365a72;--card:#fff;--bd:#bcd9ec;--a:#0b6fb4;--b:#0f7f8f;--c:#4f46e5;--onA:#fff;--scrim:hsl(205 50% 15%/.45);--orbA:#7dd3fc;--orbB:#e0f2fe;--orbOp:.6;color-scheme:light}
+:root[data-skin="sunset"]{--h:20;--L:68%;--ts:95%;--hs:-14;--bg1:#1f0c1f;--bg2:#5c2443;--fg:#fff4ec;--mut:#f3c9b8;--card:#2a1128;--bd:#5e2a4a;--a:#ff8a3d;--b:#ff4f8b;--c:#ffd166;--onA:#2a0b10;--scrim:hsl(320 50% 6%/.7);--orbA:#ff8a3d;--orbB:#c026d3;--orbOp:.4;color-scheme:dark}
+:root[data-skin="forest"]{--hs:8;--h:110;--L:62%;--ts:45%;--bg1:#0b1a12;--bg2:#1f3d2a;--fg:#eef7ea;--mut:#b1cdae;--card:#11261a;--bd:#2d4f38;--a:#7ccf6b;--b:#d4b36a;--c:#4fb3a1;--onA:#0b1a10;--scrim:hsl(140 40% 4%/.72);--orbA:#3f7d4a;--orbB:#8a6a2f;--orbOp:.35;color-scheme:dark}
+:root[data-skin="ocean"]{--hs:9;--h:185;--L:62%;--ts:75%;--bg1:#021a26;--bg2:#063a50;--fg:#e8fbff;--mut:#a3cfdb;--card:#052633;--bd:#145066;--a:#2dd4bf;--b:#38bdf8;--c:#a78bfa;--onA:#02161e;--scrim:hsl(200 70% 4%/.72);--orbA:#0891b2;--orbB:#2dd4bf;--orbOp:.35;color-scheme:dark}
+:root[data-skin="crimson"]{--hs:6;--h:355;--L:64%;--ts:85%;--bg1:#120406;--bg2:#3d0b14;--fg:#fff1f2;--mut:#e9b3ba;--card:#1c070b;--bd:#521824;--a:#ef4444;--b:#f97316;--c:#fb7185;--onA:#1a0306;--scrim:hsl(350 70% 4%/.74);--orbA:#b91c1c;--orbB:#f97316;--orbOp:.35;color-scheme:dark}
+:root[data-skin="minimal"]{--h:0;--L:22%;--ts:0%;--bg1:#f6f6f3;--bg2:#ecece6;--fg:#1b1b1b;--mut:#525252;--card:#fff;--bd:#d6d6cf;--a:#1f1f1f;--b:#3f3f46;--c:#2563eb;--onA:#fff;--scrim:hsl(0 0% 10%/.45);--orbOp:0;--glow:0 10px 24px -14px #0006;color-scheme:light}
+:root[data-skin="golden"]{--hs:1;--h:45;--L:66%;--ts:85%;--bg1:#0c0a05;--bg2:#2b2209;--fg:#fff8e1;--mut:#dcc994;--card:#17120a;--bd:#56441a;--a:#e9b949;--b:#fde68a;--c:#f59e0b;--onA:#1a1203;--scrim:hsl(45 50% 3%/.76);--orbA:#b8860b;--orbB:#fde68a;--orbOp:.3;--glow:0 0 24px -2px #e9b94999;color-scheme:dark}
+.btn.main,.x,.chip[aria-pressed="true"],.chip.ready{color:var(--onA)}
+.scrim,.lvl{background:var(--scrim)}
+.o1{background:var(--orbA)}.o2{background:var(--orbB)}.orb{opacity:var(--orbOp)}
+.ch{color:hsl(calc(var(--h) + var(--i)*var(--hs)) var(--ts) var(--L));text-shadow:0 6px 30px hsl(calc(var(--h) + var(--i)*var(--hs)) var(--ts) 60%/.45)}
+.btn:hover{box-shadow:var(--glow)}
+:root[data-skin="neon"] .panel,:root[data-skin="cyber"] .panel{box-shadow:0 0 0 1px var(--bd),0 0 40px -12px var(--a)}
+:root[data-skin="arctic"] .panel{box-shadow:0 20px 50px -30px #0b6fb488;border-color:#cfe6f5}
+:root[data-skin="golden"] .panel{border-color:#7a5f1e;box-shadow:0 0 0 1px #00000080,0 24px 60px -30px #e9b94966}
+:root[data-skin="minimal"] .btn::before{display:none}
+/* ===== Button hover cosmetics (added on top of the original magnetic hover and shine) ===== */
+:root[data-hover="glow"] .btn:hover{box-shadow:0 0 0 3px color-mix(in srgb,var(--a) 45%,transparent),0 0 28px 2px color-mix(in srgb,var(--a) 55%,transparent)}
+:root[data-hover="lift"] .btn:hover{--s:1.07;box-shadow:0 22px 34px -16px #000a;translate:0 -4px}
+:root[data-hover="rainbow"] .btn:hover{border-color:transparent;background:linear-gradient(var(--card),var(--card)) padding-box,linear-gradient(90deg,#f43f5e,#f59e0b,#22c55e,#06b6d4,#8b5cf6,#f43f5e) border-box;background-size:100% 100%,200% 100%;animation:rbw 1.4s linear infinite}
+:root[data-hover="rainbow"] .btn.main:hover{background:linear-gradient(100deg,var(--a),var(--b)) padding-box,linear-gradient(90deg,#f43f5e,#f59e0b,#22c55e,#06b6d4,#8b5cf6,#f43f5e) border-box;background-size:100% 100%,200% 100%}
+@keyframes rbw{to{background-position:0 0,200% 0}}
+/* ===== Avatars and frames ===== */
+.ava{display:inline-grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;position:relative;line-height:1;flex:none}
+.ava svg{width:100%;height:100%;display:block}
+.ava.fr-ring{box-shadow:0 0 0 .09em var(--card),0 0 0 .16em var(--a)}
+.ava.fr-frost{box-shadow:0 0 0 .07em #e0f2fe,0 0 0 .12em #7dd3fc,0 0 0 .17em #e0f2fe}
+.ava.fr-neon{box-shadow:0 0 0 .08em #39ff88,0 0 .3em .05em #39ff88;animation:npulse 1.8s ease-in-out infinite}
+.ava.fr-gold{box-shadow:0 0 0 .08em #7a5a0c,0 0 0 .15em #f5c542,0 0 .25em .05em #f5c54288}
+.ava.fr-rainbow::before{content:"";position:absolute;inset:-.14em;border-radius:50%;background:conic-gradient(#f43f5e,#f59e0b,#22c55e,#06b6d4,#8b5cf6,#f43f5e);z-index:-1;animation:spin 4s linear infinite;-webkit-mask:radial-gradient(circle,transparent 62%,#000 64%);mask:radial-gradient(circle,transparent 62%,#000 64%)}
+@keyframes npulse{50%{box-shadow:0 0 0 .08em #39ff88,0 0 .6em .12em #39ff88}}@keyframes spin{to{transform:rotate(1turn)}}
+.pcard .av{font-size:2rem;display:inline-flex}
+/* ===== Effects ===== */
+.fxp{position:fixed;pointer-events:none;z-index:55;left:0;top:0}
+.cf{width:8px;height:12px;border-radius:2px;animation:cf 1.1s cubic-bezier(.2,.6,.4,1) forwards}
+@keyframes cf{0%{transform:translate(var(--x0),var(--y0)) rotate(0)}100%{transform:translate(var(--x1),var(--y1)) rotate(var(--rot));opacity:0}}
+.rg{width:20px;height:20px;margin:-10px 0 0 -10px;border-radius:50%;border:3px solid var(--a);animation:rg .8s ease-out forwards}
+@keyframes rg{to{transform:translate(var(--x0),var(--y0)) scale(var(--sc));opacity:0}}
+.fl{font-size:22px;animation:fl 1.2s ease-out forwards}
+@keyframes fl{0%{transform:translate(var(--x0),var(--y0)) scale(.6)}20%{transform:translate(var(--x0),calc(var(--y0) - 14px)) scale(1)}100%{transform:translate(var(--x1),var(--y1)) scale(.9);opacity:0}}
+.str{width:3px;height:16px;border-radius:3px;background:linear-gradient(var(--c),transparent);animation:str .7s ease-out forwards}
+@keyframes str{0%{transform:translate(var(--x0),var(--y0)) rotate(var(--rot)) translateY(0)}100%{transform:translate(var(--x0),var(--y0)) rotate(var(--rot)) translateY(-90px);opacity:0}}
+.ptsf{position:absolute;right:0;top:-6px;font-weight:900;color:var(--a);animation:ptsf 1s ease-out forwards;pointer-events:none;white-space:nowrap}
+@keyframes ptsf{to{transform:translateY(-34px);opacity:0}}
+#scw{position:relative}
+.stw.fx-flame.hot b{color:#ff8a1f;text-shadow:0 0 6px #ff5a00,0 -2px 10px #ffb800;animation:flick .25s infinite alternate}
+@keyframes flick{to{text-shadow:0 0 9px #ff5a00,0 -4px 14px #ffd000}}
+.stw.fx-electric.hot b{color:#7dd3fc;text-shadow:0 0 calc(4px + var(--n)*1px) #38bdf8,0 0 calc(8px + var(--n)*2px) #0ea5e9}
+.stw.fx-rainbow.hot b{background:linear-gradient(90deg,#f43f5e,#f59e0b,#22c55e,#06b6d4,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200%;animation:rbw2 1s linear infinite}
+@keyframes rbw2{to{background-position:200% 0}}
+.tierb{position:fixed;left:50%;top:18%;transform:translateX(-50%);z-index:58;pointer-events:none;padding:10px 22px;border-radius:999px;font-weight:900;font-size:1.2rem;background:linear-gradient(100deg,var(--a),var(--b));color:var(--onA);box-shadow:0 10px 30px -10px #000a;animation:tierb 1.6s ease forwards}
+@keyframes tierb{0%{opacity:0;transform:translate(-50%,-14px) scale(.8)}15%{opacity:1;transform:translate(-50%,0) scale(1)}80%{opacity:1}100%{opacity:0;transform:translate(-50%,-8px)}}
+.shock{position:fixed;inset:0;z-index:57;pointer-events:none;box-shadow:inset 0 0 0 0 var(--a);animation:shock .9s ease-out forwards}
+@keyframes shock{30%{box-shadow:inset 0 0 70px 12px var(--a)}100%{box-shadow:inset 0 0 0 0 transparent}}
+.lvl.galaxy{background:radial-gradient(circle,color-mix(in srgb,var(--a) 50%,transparent),var(--scrim) 60%)}
+.lvl.gold div{color:#fde68a;text-shadow:0 4px 30px #b8860b}
+.gift{position:fixed;z-index:59;pointer-events:none;font-size:64px;left:50%;top:45%;transform:translate(-50%,-50%);animation:gift 1.3s ease forwards}
+@keyframes gift{0%{transform:translate(-50%,-50%) scale(.3) rotate(-10deg)}25%{transform:translate(-50%,-50%) scale(1.15) rotate(6deg)}45%{transform:translate(-50%,-50%) scale(1) rotate(-4deg)}60%{transform:translate(-50%,-50%) scale(1.25);opacity:1}100%{transform:translate(-50%,-50%) scale(1.6);opacity:0}}
+.ripk{width:16px;height:16px;margin:-8px 0 0 -8px;border-radius:50%;border:2px solid var(--a);animation:rg .7s ease-out forwards}
+/* ===== Shop ===== */
+.panel.shop{width:min(980px,100%);padding:0;display:flex;flex-direction:column;max-height:92dvh;overflow:hidden}
+.shophd{padding:20px 22px 10px;border-bottom:1px solid var(--bd);display:grid;gap:10px;background:var(--card);position:relative;z-index:1}
+.shophd .top{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.shophd h2{margin:0;flex:1}
+.bal{display:flex;gap:8px}.bal span{padding:7px 14px;border-radius:999px;border:1px solid var(--bd);font-weight:900;font-variant-numeric:tabular-nums;transition:transform .2s}
+.bal span.bump{transform:scale(1.18)}.bal span.down{color:var(--c)}
+.stabs{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}.stabs .chip{white-space:nowrap}
+.sfilt[hidden]{display:none}.sfilt{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.sfilt input{flex:1;min-width:160px;margin:0;padding:9px 12px;font-size:1rem}
+.sfilt select{padding:9px 10px;border-radius:12px;border:2px solid var(--bd);background:var(--bg1);color:var(--fg);font:700 .95rem system-ui,sans-serif}
+.shopbody{overflow:auto;padding:16px 22px 22px;flex:1}
+.sgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;animation:sgin .3s ease}
+@keyframes sgin{from{opacity:0;transform:translateY(8px)}}
+.item{position:relative;border:1px solid var(--bd);border-radius:18px;padding:0;overflow:hidden;display:flex;flex-direction:column;background:var(--card);transition:transform .18s,border-color .18s,box-shadow .18s}
+.item:hover{transform:translateY(-3px);border-color:var(--a);box-shadow:0 14px 30px -18px var(--a)}
+.item.r-e{box-shadow:0 0 0 1px #a855f744}.item.r-l{box-shadow:0 0 0 1px #f59e0b66,0 0 26px -12px #f59e0b}
+.item.eq{border-color:var(--a);box-shadow:0 0 0 2px var(--a)}
+.item.just{animation:justb .7s ease}@keyframes justb{30%{transform:scale(1.05)}}
+.prev{height:104px;display:grid;place-items:center;position:relative;font-size:2.6rem;border-bottom:1px solid var(--bd);overflow:hidden}
+.prev .ava{font-size:2.6rem}.prev .ttl{font-size:1rem;font-weight:900;padding:6px 14px;border-radius:999px;background:linear-gradient(100deg,var(--a),var(--b));color:var(--onA);max-width:90%;text-align:center}
+.prev canvas{position:absolute;inset:0;width:100%;height:100%}
+.mock{position:absolute;inset:10px;border-radius:12px;padding:10px;display:grid;gap:6px;align-content:center;justify-items:center}
+.mock i{display:block;border-radius:6px}.mock .m1{width:70%;height:12px}.mock .m2{width:50%;height:16px;border-radius:999px}.mock .m3{width:60%;height:6px;opacity:.7}
+.rar{position:absolute;top:8px;left:8px;font-size:.68rem;font-weight:900;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:#000a;color:#fff}
+.rar::before{content:"●";margin-right:4px;color:var(--rc)}
+.flag{position:absolute;top:8px;right:8px;font-size:.72rem;font-weight:900;padding:3px 8px;border-radius:999px;background:var(--a);color:var(--onA)}
+.ib{padding:12px 14px 14px;display:grid;gap:6px;flex:1;align-content:start}
+.ib b{font-size:1.02rem}.ib small{color:var(--mut);font-size:.84rem;line-height:1.35}.ib .slot{font-size:.72rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)}
+.ia{display:flex;gap:6px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
+.ia button{flex:1;min-height:40px;padding:8px 10px;border-radius:12px;font-weight:800;border:2px solid var(--bd);background:transparent;transition:transform .12s,background .15s}
+.ia button:hover:not(:disabled){border-color:var(--a)}.ia button:active:not(:disabled){transform:scale(.96)}
+.ia .buy{background:linear-gradient(100deg,var(--a),var(--b));color:var(--onA);border-color:transparent}
+.ia .buy.arm{background:var(--c);color:#111;animation:jump .4s}
+.ia button:disabled{opacity:.55;cursor:not-allowed}
+.need{font-size:.82rem;font-weight:700;color:var(--mut)}.lockt{font-size:.82rem;font-weight:800;color:var(--mut)}
+.ownt{font-weight:900;color:var(--a)}
+.feat{display:grid;grid-template-columns:1.3fr 1fr;gap:14px;margin-bottom:14px}
+.spot{border-radius:20px;padding:18px;display:grid;gap:8px;background:linear-gradient(135deg,color-mix(in srgb,var(--a) 22%,var(--card)),var(--card));border:1px solid var(--bd)}
+.spot h3{margin:0}.spot .pv{font-size:3rem}
+.empty{padding:30px;text-align:center;color:var(--mut)}
+.pvbar{position:fixed;left:50%;bottom:max(16px,env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:80;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:center;padding:10px 12px 10px 18px;border-radius:999px;background:var(--card);border:1px solid var(--a);box-shadow:0 18px 40px -16px #000c;max-width:calc(100vw - 24px)}
+.pvbar[hidden]{display:none}.pvbar b{margin-right:4px}.pvbar button{min-height:40px}
+.invrow{display:flex;gap:10px;align-items:center;padding:10px 0;border-top:1px solid var(--bd);flex-wrap:wrap}
+.invrow>span{min-width:140px;font-weight:800}.invopts{display:flex;gap:6px;flex-wrap:wrap;flex:1}
+.invopts .chip{display:inline-flex;gap:6px;align-items:center;min-height:38px}
+.cust{display:grid;gap:12px}.avp{display:flex;gap:16px;align-items:center;padding:14px;border-radius:18px;border:1px solid var(--bd)}
+.avp .ava{font-size:3.4rem}.avp small{display:block;color:var(--mut)}
+.avgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(56px,1fr));gap:8px}
+.avgrid button{height:56px;border-radius:14px;border:2px solid var(--bd);background:transparent;font-size:1.7rem;display:grid;place-items:center;position:relative}
+.avgrid button .ava{font-size:1.7rem}.avgrid button[aria-pressed="true"]{border-color:var(--a);background:hsl(var(--h) 80% 60%/.18)}
+.avgrid button.lk{opacity:.4}.avgrid button.lk::after{content:"🔒";position:absolute;right:2px;bottom:0;font-size:.8rem}
+.pct{font-size:.75rem}
+@media(max-width:640px){.panel.shop{max-height:100dvh;height:100dvh;border-radius:0}#shop{padding:0}.sgrid{grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}.prev{height:86px}.feat{grid-template-columns:1fr}.shophd{padding:14px 14px 8px}.shopbody{padding:12px 14px 90px}.ia button{min-height:44px}}
+@media(max-width:700px){.topnav .chip{padding:6px 10px}.topnav .chip .tx{display:none}}
+:root.rm *,:root.rm *::before,:root.rm *::after{animation-duration:.001s!important;animation-iteration-count:1!important;transition-duration:.001s!important}
+.stage{height:100dvh;min-height:0;overflow-y:auto;justify-content:flex-start;padding:max(70px,calc(env(safe-area-inset-top,0px) + 62px)) 18px 28px;scrollbar-width:none}
+.stage::-webkit-scrollbar{display:none}.stage>:first-child{margin-top:auto}.stage>:last-child{margin-bottom:auto}
+@media(max-height:800px){h1{font-size:clamp(2.4rem,8.2vw,5.4rem)}.tag{margin:12px 0 18px}.menu .btn{padding:11px 22px}.menu .btn.main{padding:14px 22px}.badge{margin-bottom:12px}.pcard{margin-bottom:10px}}
+@media(max-height:560px){h1{font-size:2.3rem}.badge{display:none}.tag{margin:6px 0 12px;min-height:1.4em}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<button class="tg" id="tg" aria-label="Toggle light and dark theme">◐</button>
+<nav class="topnav" aria-label="Player areas"><button class="chip" data-shop aria-label="Shop">🛒<span class="tx"> Shop</span></button><button class="chip" data-p="progress" aria-label="Progress">📈<span class="tx"> Progress</span></button><button class="chip" data-p="stats" aria-label="Stats">📊<span class="tx"> Stats</span></button><button class="chip" data-p="achievements" aria-label="Achievements">🏅<span class="tx"> Achievements</span></button><button class="chip" data-p="missions" aria-label="Missions">🎯<span class="tx"> Missions</span></button><button class="chip" data-p="profile" aria-label="Profile">👤<span class="tx"> Profile</span></button></nav>
+<div class="orb o1"></div><div class="orb o2"></div>
+<canvas id="bg" aria-hidden="true"></canvas>
+
+<main class="stage">
+  <button class="pcard" id="pcard" data-p="profile" aria-label="Open your profile"></button>
+  <div class="badge">The brain-teasing game</div>
+  <h1 id="title" aria-label="How Smart Are You?"></h1>
+  <p class="tag" id="tag" aria-live="off"></p>
+  <nav class="menu">
+    <button class="btn main" data-a="play">▶ Play</button>
+    <button class="btn" data-a="shop">🛒 Shop</button>
+    <button class="btn" data-a="settings">⚙ Settings</button>
+    <button class="btn" data-a="updates">✦ Updates</button>
+    <button class="btn" data-a="leaderboard">🏆 Best results</button>
+  </nav>
+</main>
+
+<div class="scrim" id="settings" aria-hidden="true"><div class="panel" role="dialog" aria-label="Settings">
+  <h2>Settings</h2>
+  <div class="row"><span>Sound</span><div class="chips"><button class="chip" data-k="sound" data-v="true">On</button><button class="chip" data-k="sound" data-v="false">Off</button></div></div>
+  <div class="row"><span>Motion</span><div class="chips"><button class="chip" data-k="calm" data-v="false">Full</button><button class="chip" data-k="calm" data-v="true">Calm</button></div></div>
+  <div class="row"><label for="vol">Volume</label><input type="range" id="vol" min="0" max="100" aria-valuetext=""></div>
+  <div class="row" id="huerow"><label for="hue">Accent colour</label><input type="range" id="hue" min="0" max="360"></div>
+  <div class="row" id="lookrow"><span>Look</span><span class="chips"><button class="chip" data-shop="themes">🎨 Themes</button><button class="chip" data-inv>🎒 Inventory</button></span></div>
+  <p class="mut" id="looknote"></p>
+  <button class="x" data-a="close">Done</button>
+</div></div>
+
+<div class="scrim" id="updates" aria-hidden="true"><div class="panel" role="dialog" aria-label="Updates">
+  <h2>Updates</h2>
+  <ul class="log">
+    <li><b>v0.8 · Shop &amp; customisation</b> A shop with 11 themes, 11 backgrounds, avatars (including original drawn designs), titles, profile frames, effects and sound packs. Preview before you buy, an inventory to equip and unequip, rarity labels and daily featured items. Every level up now pays 🪙 30 and 💎 1.</li>
+    <li><b>v0.7</b> 34 categories, 800 questions, achievements and daily and weekly missions.</li>
+    <li><b>v0.6</b> Levels, ranks, Brain Coins and Gems, statistics and save backups.</li>
+    <li><b>Next</b> More game modes.</li>
+  </ul>
+  <button class="x" data-a="close">Close</button>
+</div></div>
+
+<div class="scrim" id="leaderboard" aria-hidden="true"><div class="panel" role="dialog" aria-label="Best results">
+  <h2>Your best results</h2><p class="mut">Your top 10 runs, saved on this device.</p><ol class="lb" id="lbl"></ol>
+  <button class="x" data-a="close">Close</button>
+</div></div>
+
+<div class="scrim" id="page" aria-hidden="true"><div class="panel wide" role="dialog" aria-label="Player area"><div class="ptabs" id="ptabs"></div><div id="pg"></div><button class="x" data-a="close">Close</button></div></div>
+
+<div class="scrim" id="shop" aria-hidden="true"><div class="panel shop" role="dialog" aria-labelledby="shopT">
+  <div class="shophd">
+    <div class="top"><h2 id="shopT">Shop</h2><div class="bal" aria-live="polite"><span id="balC">🪙 0</span><span id="balG">💎 0</span></div><button class="chip" id="invBtn" aria-pressed="false">🎒 Inventory</button><button class="chip" data-a="close" aria-label="Close the shop">✕</button></div>
+    <div class="stabs" role="tablist" aria-label="Shop sections" id="stabs"></div>
+    <div class="sfilt" id="sfilt"><input class="nm" id="ssearch" type="search" placeholder="Search every item" aria-label="Search the shop" autocomplete="off"><select id="sshow" aria-label="Show"><option value="all">All items</option><option value="avail">Not owned</option><option value="afford">Can afford now</option><option value="owned">Owned</option></select><select id="ssort" aria-label="Sort"><option value="price">Price: low to high</option><option value="rar">Rarity</option><option value="name">Name</option></select></div>
+  </div>
+  <div class="shopbody" id="sbody"></div>
+</div></div>
+<div class="pvbar" id="pvbar" hidden role="status"><span>Previewing <b id="pvname"></b></span><button class="chip" id="pvbuy"></button><button class="chip" id="pvend">Back to shop</button></div>
+
+<div class="scrim" id="game" aria-hidden="true"><div class="panel" role="dialog" aria-label="Game"><div id="gb"></div></div></div>
+
+<!-- Content data. Categories: edit #catdef. Questions: add lines under a #category heading as level|question|answer/alternative answer -->
+<script type="application/json" id="catdef">[{"k": "math", "i": "➗", "n": "Math", "g": "Academics"}, {"k": "science", "i": "🔬", "n": "Science", "g": "Academics"}, {"k": "biology", "i": "🧬", "n": "Biology", "g": "Academics"}, {"k": "chemistry", "i": "⚗️", "n": "Chemistry", "g": "Academics"}, {"k": "physics", "i": "⚛️", "n": "Physics", "g": "Academics"}, {"k": "body", "i": "🫀", "n": "The Human Body", "g": "Academics"}, {"k": "space", "i": "🚀", "n": "Space", "g": "Academics"}, {"k": "english", "i": "✍️", "n": "English Language", "g": "Academics"}, {"k": "languages", "i": "🗣️", "n": "Languages", "g": "Academics"}, {"k": "literature", "i": "📚", "n": "Literature", "g": "Academics"}, {"k": "countries", "i": "🌍", "n": "Countries", "g": "World & Society"}, {"k": "geography", "i": "🗺️", "n": "Geography", "g": "World & Society"}, {"k": "history", "i": "🏛️", "n": "History", "g": "World & Society"}, {"k": "politics", "i": "🗳️", "n": "Politics & Government", "g": "World & Society"}, {"k": "economics", "i": "📈", "n": "Economics", "g": "World & Society"}, {"k": "psychology", "i": "🧠", "n": "Psychology", "g": "World & Society"}, {"k": "movies", "i": "🎬", "n": "Movies", "g": "Pop Culture"}, {"k": "tv", "i": "📺", "n": "Television", "g": "Pop Culture"}, {"k": "anime", "i": "🍥", "n": "Anime", "g": "Pop Culture"}, {"k": "music", "i": "🎵", "n": "Music", "g": "Pop Culture"}, {"k": "games", "i": "🎮", "n": "Video Games", "g": "Pop Culture"}, {"k": "comics", "i": "🦸", "n": "Comics & Superheroes", "g": "Pop Culture"}, {"k": "memes", "i": "😂", "n": "Memes & Internet", "g": "Pop Culture"}, {"k": "sports", "i": "🏅", "n": "General Sports", "g": "Sports"}, {"k": "football", "i": "⚽", "n": "Football", "g": "Sports"}, {"k": "boxing", "i": "🥊", "n": "Boxing", "g": "Sports"}, {"k": "tech", "i": "💻", "n": "Technology", "g": "Tech & Everyday"}, {"k": "cybersecurity", "i": "🔐", "n": "Cybersecurity", "g": "Tech & Everyday"}, {"k": "inventions", "i": "💡", "n": "Inventions", "g": "Tech & Everyday"}, {"k": "cars", "i": "🚗", "n": "Cars", "g": "Tech & Everyday"}, {"k": "food", "i": "🍎", "n": "Food", "g": "Tech & Everyday"}, {"k": "animals", "i": "🐾", "n": "Animals", "g": "Tech & Everyday"}, {"k": "nature", "i": "🌿", "n": "Nature", "g": "Tech & Everyday"}, {"k": "records", "i": "🥇", "n": "World Records", "g": "Tech & Everyday"}]</script>
+<script type="text/plain" id="qdata">
+#science
+1|What gas do plants absorb from the air?|carbon dioxide/co2
+1|Which planet is known as the Red Planet?|mars
+1|What do we call frozen water?|ice
+1|What is H2O better known as?|water
+1|Which sense do you use to detect sound?|hearing
+2|What is the hardest natural substance?|diamond
+2|What force pulls objects towards Earth?|gravity
+2|How many bones are in an adult human body?|206
+2|What do we call the path a planet takes around the Sun?|orbit
+3|What is the chemical symbol for gold?|au
+3|What is the powerhouse of the cell?|mitochondria/mitochondrion
+3|What is the closest star to Earth?|sun
+3|Which simple machine is a ramp an example of?|inclined plane/ramp
+4|What is the most abundant gas in Earth’s atmosphere?|nitrogen
+4|What is the SI unit of force?|newton/newtons
+4|Which particle in an atom has a negative charge?|electron/electrons
+4|What do we call a push or a pull on an object?|force
+5|Which organelle carries out photosynthesis?|chloroplast/chloroplasts
+5|What do we call a substance that speeds up a reaction without being used up?|catalyst
+5|What is the lightest noble gas?|helium
+5|Which blood type is the universal donor for red cells?|o negative/o-
+6|What is the boundary around a black hole called, past which nothing escapes?|event horizon
+6|Which scientist formulated the three laws of planetary motion?|kepler/johannes kepler
+6|Which enzyme unzips DNA during replication?|helicase
+6|What do we call the smallest unit of an element?|atom
+#countries
+1|What is the capital of France?|paris
+1|Which country is home to kangaroos?|australia
+1|What is the capital of Japan?|tokyo
+1|Which country is famous for pizza and pasta?|italy
+2|What is the capital of Canada?|ottawa
+2|What is the capital of Spain?|madrid
+2|What is the capital of Germany?|berlin
+3|What is the capital of Australia?|canberra
+3|What is the capital of Brazil?|brasilia
+3|Which is the largest country by area?|russia
+3|What is the capital of Egypt?|cairo
+4|What is the capital of Turkey?|ankara
+4|Which country has Nairobi as its capital?|kenya
+4|What is the capital of New Zealand?|wellington
+4|Which country has Lima as its capital?|peru
+5|What is the capital of Kazakhstan?|astana/nur-sultan
+5|Which country has Ulaanbaatar as its capital?|mongolia
+5|What is the capital of Bhutan?|thimphu
+5|What is the capital of Vietnam?|hanoi
+6|What is the capital of Burkina Faso?|ouagadougou
+6|Which country has Paramaribo as its capital?|suriname
+6|What is the capital of Tuvalu?|funafuti
+6|Which country has Ljubljana as its capital?|slovenia
+#animals
+1|What is a baby dog called?|puppy
+1|Which animal is known as the King of the Jungle?|lion
+1|What animal says moo?|cow
+1|What is a baby cat called?|kitten
+2|What is the largest animal on Earth?|blue whale/whale
+2|Which flightless bird lives in Antarctica?|penguin/penguins
+2|How many legs does a spider have?|8/eight
+2|Which bird is known for copying human speech?|parrot
+3|What is a group of lions called?|pride
+3|Which animal has the longest neck?|giraffe
+3|Which bird is a symbol of peace?|dove
+4|What is a baby kangaroo called?|joey
+4|Which mammal can fly?|bat/bats
+4|Which egg-laying mammal has a duck-like bill?|platypus
+4|Which sea creature has eight arms?|octopus
+5|What is a group of crows called?|murder
+5|What is the largest species of penguin?|emperor penguin/emperor
+5|What do you call an animal that eats only plants?|herbivore/herbivores
+5|What do we call a group of wolves?|pack
+6|Which is the only bird that can fly backwards?|hummingbird/hummingbirds
+6|What is a baby echidna called?|puggle
+6|What is the smallest species of bear?|sun bear
+6|Which animal has the longest migration of any mammal?|grey whale/gray whale/humpback whale
+#cars
+1|How many wheels does a typical car have?|4/four
+1|What do you call the fuel most cars use in the UK, called gas in the US?|petrol
+1|Which part do you turn to steer a car?|steering wheel/wheel
+1|Which colour traffic light means go?|green
+2|Which brand has a prancing horse logo?|ferrari
+2|Which company makes the Mustang?|ford
+2|In which country is Toyota from?|japan
+2|Which country is BMW from?|germany
+3|Which brand has four linked rings as its logo?|audi
+3|Which company makes the Model S?|tesla
+3|Which Italian brand makes the Aventador?|lamborghini
+3|What do we call the part of a car that stores luggage, in UK English?|boot
+4|Which German brand makes the 911?|porsche
+4|What does SUV stand for?|sport utility vehicle
+4|Which Swedish brand is famous for safety?|volvo
+4|What does EV stand for?|electric vehicle
+5|Which company builds the Veyron and the Chiron?|bugatti
+5|What does ABS stand for in car brakes?|anti-lock braking system
+5|Which Japanese brand makes the MX-5 Miata?|mazda
+5|Which brand makes the Civic?|honda
+6|Which brand uses the Spirit of Ecstasy bonnet ornament?|rolls royce/rolls-royce
+6|Which Italian brand has a snake swallowing a person in its logo?|alfa romeo
+6|Which French brand made the 2CV?|citroen
+6|Which company owns Lamborghini today?|volkswagen/audi/volkswagen group
+#food
+1|What colour is a ripe banana?|yellow
+1|Which fruit keeps the doctor away, says the proverb?|apple
+1|What orange vegetable do rabbits famously love?|carrot
+1|Which hot drink is made from roasted beans?|coffee
+2|Which fruit is dried to make raisins?|grape/grapes
+2|What vegetable makes you cry when you cut it?|onion
+2|Which red fruit is often mistaken for a vegetable?|tomato
+2|Which fruit is yellow and sour and often used in drinks?|lemon
+3|Which fruit has its seeds on the outside?|strawberry
+3|What is the main ingredient in guacamole?|avocado
+3|Which leafy green is Popeye famous for eating?|spinach
+3|Which grain is used to make sushi?|rice
+4|Which expensive red spice comes from crocus flowers?|saffron
+4|What is the main vegetable in sauerkraut?|cabbage
+4|What is the US name for an aubergine?|eggplant
+4|Which country does feta cheese come from?|greece
+5|What is the main ingredient of hummus?|chickpeas/chickpea
+5|Which fruit is called the king of fruits in Southeast Asia?|durian
+5|What is the name of the spicy fermented Korean cabbage dish?|kimchi
+5|Which nut is used to make marzipan?|almond/almonds
+6|Which variety of banana is the most commonly exported?|cavendish
+6|What is the French vegetable stew from Provence called?|ratatouille
+6|What is tofu made from?|soybeans/soya beans/soy
+6|Which spice is made from the dried bark of a tree?|cinnamon
+#games
+1|What is the name of Nintendo’s famous plumber?|mario
+1|Which green creature explodes in Minecraft?|creeper
+1|Which yellow character eats dots in a maze?|pac-man/pacman
+1|What do we call a game played on a phone?|mobile game
+2|What is Mario’s brother called?|luigi
+2|Which blocky building game did Microsoft buy in 2014?|minecraft
+2|Which blue hedgehog runs very fast?|sonic/sonic the hedgehog
+2|Which company makes the Xbox?|microsoft
+3|Which series stars a hero named Link?|zelda/the legend of zelda/legend of zelda
+3|In Among Us, what are the traitors called?|impostors/imposters/impostor/imposter
+3|Which company makes the PlayStation?|sony
+3|Which game features a character called Steve mining blocks?|minecraft
+4|Which series stars Master Chief?|halo
+4|Which falling-blocks puzzle game was created by Alexey Pajitnov?|tetris
+4|Which battle royale game has a Battle Bus?|fortnite
+4|Which company makes the Nintendo Switch?|nintendo
+5|Which series features a Vault Dweller and a Pip-Boy?|fallout
+5|Who is the bounty hunter hero of the Metroid series?|samus/samus aran
+5|Which studio created The Witcher 3?|cd projekt red/cd projekt
+5|Which game series features the city of Rapture?|bioshock
+6|Which 1972 Atari game was the first big arcade hit?|pong
+6|What is the name of the city in Grand Theft Auto V?|los santos
+6|Which Valve game has the line The cake is a lie?|portal
+6|Which game holds the record as the best-selling of all time?|minecraft
+#sports
+1|How many players does a football (soccer) team have on the pitch?|11/eleven
+1|In which sport do you score a slam dunk?|basketball
+1|Which sport is played at Wimbledon?|tennis
+1|How many holes are on a full golf course?|18/eighteen
+2|How many rings are on the Olympic flag?|5/five
+2|Which sport uses a shuttlecock?|badminton
+2|How many points is a touchdown worth in American football?|6/six
+2|How many players are on a basketball team on court?|5/five
+3|Which country hosted the 2016 Summer Olympics?|brazil
+3|In golf, what is one stroke under par called?|birdie
+3|Roughly how many miles is a marathon? (whole number)|26
+3|Which sport is played at the Tour de France?|cycling
+4|Which country has won the most men’s FIFA World Cups?|brazil
+4|What is three strikes in a row called in bowling?|turkey
+4|In which sport is the Ryder Cup contested?|golf
+4|How many players are on a volleyball team on court?|6/six
+5|Which sport uses the terms scrum and lineout?|rugby
+5|What is the maximum break in snooker?|147
+5|Which city hosted the first modern Olympics in 1896?|athens
+5|In which sport would you perform a Fosbury flop?|high jump
+6|Which country has won the most Olympic gold medals in total?|united states/usa/us/america
+6|What is the trophy of the NHL called?|stanley cup
+6|In cricket, what is a score of zero by a batter called?|duck
+6|How many players are in a water polo team in the water?|7/seven
+#history
+1|Which ancient civilisation built the pyramids of Giza?|egyptians/egypt/ancient egyptians/egyptian
+1|Who was the first President of the United States?|george washington/washington
+1|In which year did World War II end?|1945
+1|Which large stone tombs did Egyptian pharaohs build?|pyramids/pyramid
+2|Which ship sank in 1912 after hitting an iceberg?|titanic/rms titanic
+2|Which wall fell in 1989?|berlin wall/berlin
+2|Who painted the Mona Lisa?|leonardo da vinci/da vinci/leonardo
+2|In which year did World War I begin?|1914
+3|Which empire did Julius Caesar help build?|roman empire/rome/roman
+3|Who was British prime minister for most of World War II?|winston churchill/churchill
+3|In which year did Columbus first reach the Americas?|1492
+3|Which country gave the Statue of Liberty to the United States?|france
+4|Which queen ruled Britain from 1837 to 1901?|victoria/queen victoria
+4|What was the first artificial satellite, launched in 1957?|sputnik/sputnik 1
+4|Which wall did the Romans build across northern England?|hadrian’s wall/hadrians wall
+4|Who was the first man in space?|yuri gagarin/gagarin
+5|Which treaty ended World War I with Germany?|treaty of versailles/versailles
+5|Who was the first emperor of a unified China?|qin shi huang/shi huangdi/qin shihuang
+5|Which battle in 1066 changed English history?|battle of hastings/hastings
+5|Which ancient city was destroyed by Vesuvius in AD 79?|pompeii
+6|Which Mongol leader founded the largest contiguous land empire?|genghis khan/chinggis khan
+6|In which year did the French Revolution begin?|1789
+6|Which dynasty built most of the Great Wall seen today?|ming/ming dynasty
+6|Which document did King John seal in 1215?|magna carta
+#space
+1|What is the name of our galaxy?|milky way
+1|Which planet is closest to the Sun?|mercury
+1|What is Earth’s natural satellite called?|moon
+1|What do Americans call a person who travels into space?|astronaut
+2|Which planet is famous for its rings?|saturn
+2|What is the largest planet in our solar system?|jupiter
+2|Who was the first person on the Moon?|neil armstrong/armstrong
+2|Which force keeps planets orbiting the Sun?|gravity
+3|How many planets are in our solar system?|8/eight
+3|Which planet is the hottest?|venus
+3|What is the name of NASA’s rover that landed on Mars in 2021?|perseverance
+3|What do we call a rock that burns up in Earth's atmosphere?|meteor/shooting star
+4|What was the name of the first dog in orbit?|laika
+4|What is the largest moon of Saturn?|titan
+4|Which space telescope launched in 1990?|hubble/hubble space telescope
+4|Which planet has the Great Red Spot?|jupiter
+5|Which planet spins on its side, tilted about 98 degrees?|uranus
+5|Which large spiral galaxy is our nearest big neighbour?|andromeda
+5|What is the largest moon of Jupiter?|ganymede
+5|What do we call a star that explodes at the end of its life?|supernova
+6|Which dwarf planet lives in the asteroid belt?|ceres
+6|Which infrared telescope launched in December 2021?|james webb space telescope/james webb/jwst/webb
+6|Which moon of Jupiter is the most volcanic place in the solar system?|io
+6|How long does sunlight take to reach Earth, in minutes, roughly?|8/eight
+#tech
+1|What does WWW stand for?|world wide web
+1|Which company makes the iPhone?|apple
+1|What do we call a small picture that stands for a program?|icon/icons
+1|Which device do you use to click on a computer screen?|mouse
+2|What does CPU stand for?|central processing unit
+2|Which company created Windows?|microsoft
+2|What does USB stand for?|universal serial bus
+2|What does AI stand for?|artificial intelligence
+3|What does HTML stand for?|hypertext markup language
+3|Which programming language is named after a snake?|python
+3|What is the main circuit board in a computer called?|motherboard
+3|What do we call a program that browses the web?|browser/web browser
+4|What does RAM stand for?|random access memory
+4|Who co-founded Microsoft with Bill Gates?|paul allen
+4|Which language is used to style web pages?|css/cascading style sheets
+4|What does GPU stand for?|graphics processing unit
+5|What does SQL stand for?|structured query language
+5|What is the Linux mascot, a penguin, called?|tux
+5|What does HTTP stand for?|hypertext transfer protocol
+5|What does IP stand for in IP address?|internet protocol
+6|Who created the Linux kernel in 1991?|linus torvalds/torvalds
+6|What is the binary number 1010 in decimal?|10/ten
+6|Which Dutch programmer created Python?|guido van rossum/van rossum
+6|What does open source mean about a program's code?|it is publicly available/publicly available/anyone can view it/free to view and modify
+#geography
+1|What is the largest ocean on Earth?|pacific/pacific ocean
+1|On which continent is the Sahara Desert?|africa
+1|How many continents are there?|7/seven
+1|What do we call a very dry region with little rain?|desert
+2|Which imaginary line divides Earth into northern and southern halves?|equator
+2|Which is the largest continent by area?|asia
+2|Which river flows through London?|thames/river thames
+2|What do we call molten rock once it reaches the surface?|lava
+3|Which mountain range contains Mount Everest?|himalayas/himalaya
+3|Which mountain range separates Europe from Asia?|urals/ural mountains/ural
+3|Which sea lies between Europe and Africa?|mediterranean/mediterranean sea
+3|What is the largest island in the world?|greenland
+4|Which is the largest hot desert in the world?|sahara
+4|Which strait separates Spain from Morocco?|strait of gibraltar/gibraltar
+4|What is the largest lake by surface area?|caspian sea/caspian
+4|Which country has the longest coastline?|canada
+4|What is the capital city closest to the equator in South America?|quito
+5|Which is the deepest lake in the world?|baikal/lake baikal
+5|What is the deepest ocean trench called?|mariana trench/marianas trench
+5|Which is the highest waterfall in the world?|angel falls
+5|Which African lake is the largest by surface area?|victoria/lake victoria
+6|What is the longest continental mountain range in the world?|andes/the andes
+6|What was the supercontinent of about 300 million years ago called?|pangaea/pangea
+6|Which line of longitude is defined as zero degrees?|prime meridian/greenwich meridian
+#politics
+1|What is the title of the head of government in the UK?|prime minister
+1|What do we call a vote to choose a leader?|election
+1|Which building is the home of the US president?|white house/the white house
+1|What do you put a vote into on election day?|ballot box/ballot
+2|How many stars are on the flag of the United States?|50/fifty
+2|What does UN stand for?|united nations
+2|What is a system where citizens vote for their leaders called?|democracy
+2|What do we call the set of laws a country is founded on?|constitution
+3|How many members are in the US Senate?|100/one hundred
+3|What does NATO stand for?|north atlantic treaty organization/north atlantic treaty organisation
+3|What is the lower house of the UK Parliament called?|house of commons/commons
+3|In which city is the European Commission based?|brussels
+4|Which body makes laws in the United States?|congress/us congress
+4|How many justices sit on the US Supreme Court?|9/nine
+4|How many years is a US presidential term?|4/four
+4|What is the upper house of the UK Parliament called?|house of lords/lords
+4|What do we call rule by a single person with absolute power?|dictatorship/autocracy
+5|Which international organisation, based in New York, has 193 member states?|united nations/un
+5|What is the minimum age to become US president?|35/thirty five
+5|What is the official residence of the UK prime minister?|10 downing street/downing street
+6|How many permanent members does the UN Security Council have?|5/five
+6|What is the national legislature of Japan called?|diet/national diet
+6|What is the lower house of the German parliament called?|bundestag
+6|What do we call government by a small elite group?|oligarchy
+#biology
+1|Which organ pumps blood around the body?|heart
+1|What do we call animals that eat only meat?|carnivore/carnivores
+1|Which part of a plant takes in water from the soil?|roots/root
+1|What do bees collect from flowers to make honey?|nectar
+2|What is the green pigment in plants called?|chlorophyll
+2|Which gas do humans need to breathe in to survive?|oxygen
+2|What do caterpillars turn into?|butterflies/butterfly
+2|What do we call an animal that eats only plants?|herbivore/herbivores
+3|Which molecule carries genetic information?|dna
+3|What is the process by which plants make their own food?|photosynthesis
+3|What do we call an animal with a backbone?|vertebrate/vertebrates
+3|Which blood cells fight infection?|white blood cells/white blood cell
+4|What is the basic unit of life?|cell/the cell
+4|What is the control centre of a cell called?|nucleus
+4|What are the building blocks of proteins?|amino acids/amino acid
+4|Which process do body cells use to divide for growth?|mitosis
+4|Which organelle releases energy from glucose?|mitochondria/mitochondrion
+5|Which type of blood cell fights infection?|white blood cell/white blood cells/leukocyte/leukocytes
+5|Which type of cell division produces sex cells?|meiosis
+5|What is the study of heredity called?|genetics
+5|What do we call organisms that make their own food?|autotrophs/autotroph/producers
+6|Which organelle is the site of protein synthesis?|ribosome/ribosomes
+6|What is the jelly-like fluid inside a cell outside the nucleus called?|cytoplasm
+6|Which scientist proposed natural selection in 1859?|darwin/charles darwin
+6|What do we call a sequence of three DNA bases coding for one amino acid?|codon
+#chemistry
+1|What is the chemical formula for water?|h2o
+1|What is the common name for sodium chloride?|salt/table salt
+1|Which state of matter is ice?|solid
+1|What do we call a substance made of only one type of atom?|element
+2|What is the chemical symbol for sodium?|na
+2|What is the chemical symbol for oxygen?|o
+2|What is the lightest element?|hydrogen
+2|What do we call the change from liquid to gas?|evaporation/boiling/vaporisation
+2|What is the chemical symbol for carbon?|c
+3|What is the pH of pure water?|7/seven
+3|What is the chemical symbol for iron?|fe
+3|What does pH measure?|acidity/how acidic something is/acidity and alkalinity
+3|What is the common name for H2SO4?|sulfuric acid/sulphuric acid
+4|Which type of bond involves sharing electrons between atoms?|covalent/covalent bond
+4|Which element is the most abundant in the universe?|hydrogen
+4|What do we call a liquid that dissolves a solute?|solvent
+5|What is the atomic number of carbon?|6/six
+5|What is the chemical symbol for potassium?|k
+5|What is the process of a solid turning straight into a gas called?|sublimation
+5|What do we call a reaction that releases heat?|exothermic/exothermic reaction
+6|Which element has the symbol W?|tungsten
+6|Who created the first widely used periodic table?|mendeleev/dmitri mendeleev
+6|What is the chemical symbol for tungsten?|w
+6|What do we call atoms of the same element with different numbers of neutrons?|isotopes/isotope
+#physics
+1|What force pulls things towards the ground?|gravity
+1|Does light travel faster than sound?|yes
+1|Which simple machine is a see-saw an example of?|lever
+1|What do we call energy that comes from the Sun?|solar energy/solar power/sunlight
+2|What is the SI unit of electric current?|ampere/amp/amps/amperes
+2|What is the SI unit of power?|watt/watts
+2|What is the SI unit of energy?|joule/joules
+2|How many poles does a magnet have?|2/two
+2|What instrument measures temperature?|thermometer
+3|Which travels faster, light or sound?|light
+3|What is the SI unit of electrical resistance?|ohm/ohms
+3|What do we call the bouncing of light off a surface?|reflection
+4|In E = mc², what does c stand for?|speed of light/the speed of light
+4|Who proposed the three laws of motion?|newton/isaac newton
+4|Which equation links energy and mass in relativity?|e=mc2/e=mc^2/emc2
+4|Which particle in the nucleus has no electric charge?|neutron/neutrons
+4|What do we call the force that opposes motion between surfaces?|friction
+5|What is the SI unit of frequency?|hertz/hz
+5|What is the SI unit of pressure?|pascal/pascals
+5|What is the bending of light as it enters a new material called?|refraction
+5|Which law states that energy cannot be created or destroyed?|conservation of energy/law of conservation of energy
+6|Which particle was discovered at CERN in 2012?|higgs boson/higgs
+6|Which uncertainty principle is named after a German physicist?|heisenberg/heisenberg uncertainty principle
+6|What is the SI unit of magnetic flux density?|tesla/teslas
+6|What is the lowest possible temperature called?|absolute zero
+#literature
+1|Who wrote Romeo and Juliet?|shakespeare/william shakespeare
+1|What do we call writing that is invented rather than factual?|fiction
+1|What do we call a person who writes books?|author/writer
+2|Who wrote the Harry Potter books?|jk rowling/rowling
+2|Who wrote the Sherlock Holmes stories?|arthur conan doyle/conan doyle/doyle
+2|What do we call a short story with a moral, often featuring animals?|fable
+2|Who wrote Oliver Twist?|charles dickens/dickens
+2|What do we call the person telling a story?|narrator
+3|Who wrote the novel 1984?|george orwell/orwell
+3|What is the name of the hobbit in The Hobbit?|bilbo/bilbo baggins
+3|Who wrote Nineteen Eighty-Four?|george orwell/orwell
+3|How many lines does a sonnet have?|14/fourteen
+4|Who wrote Pride and Prejudice?|jane austen/austen
+4|Who wrote To Kill a Mockingbird?|harper lee/lee
+4|Which Russian author wrote War and Peace?|tolstoy/leo tolstoy
+4|Who wrote The Great Gatsby?|f scott fitzgerald/fitzgerald/scott fitzgerald
+4|Who wrote Frankenstein?|mary shelley/shelley
+5|Who wrote The Brothers Karamazov?|dostoevsky/fyodor dostoevsky/dostoyevsky
+5|Which Greek poet is credited with the Iliad and the Odyssey?|homer
+5|Who wrote Things Fall Apart?|chinua achebe/achebe
+6|Who wrote One Hundred Years of Solitude?|gabriel garcia marquez/garcia marquez/marquez
+6|Who wrote the Divine Comedy?|dante/dante alighieri
+6|Which author created the detective Hercule Poirot?|agatha christie/christie
+6|Who wrote Beloved and won the Nobel Prize in Literature in 1993?|toni morrison/morrison
+#english
+1|What is the plural of mouse?|mice
+1|What do we call a word that describes a noun?|adjective
+1|How many letters are in the English alphabet?|26/twenty six
+1|Which punctuation mark ends a question?|question mark
+1|What do we call a word that names a person, place or thing?|noun
+2|What do we call a word with the opposite meaning of another?|antonym
+2|What do we call a word that describes an action?|verb
+2|What is the plural of child?|children
+2|What do we call words that sound the same but are spelled differently?|homophones/homophone
+2|How many vowels are in the English alphabet?|5/five
+3|What do we call a word with the same meaning as another?|synonym
+3|What is the past tense of go?|went
+3|What do we call a comparison using like or as?|simile
+4|What do we call words that sound the same but are spelled differently, like their and there?|homophone/homophones
+4|What do we call giving human qualities to objects?|personification
+4|What do we call repeated initial sounds, as in big brown bear?|alliteration
+4|What do we call a word that describes a verb?|adverb
+5|What is a word formed from initials and pronounced as a word?|acronym
+5|Which punctuation mark joins two independent clauses without a conjunction?|semicolon/semi-colon
+5|What do we call a direct comparison that says one thing is another?|metaphor
+6|What is the term for a word that imitates a sound, like buzz?|onomatopoeia
+6|What do we call a phrase whose meaning is not literal?|idiom
+6|What do we call a deliberately exaggerated statement?|hyperbole
+6|What do we call the study of word origins?|etymology
+#languages
+1|How do you say hello in Spanish?|hola
+1|Which language is spoken in France?|french
+1|Which language is spoken in Japan?|japanese
+1|How do you say yes in French?|oui
+2|What does bonjour mean in English?|hello/good day/good morning
+2|Which language has the most native speakers?|mandarin/chinese/mandarin chinese
+2|How do you say thank you in French?|merci
+2|Which language is spoken in Brazil?|portuguese
+2|How do you say goodbye in Spanish?|adios/adiós/hasta luego
+3|Which alphabet is used to write Russian?|cyrillic
+3|Which language is spoken in Egypt?|arabic
+3|How do you say water in Spanish?|agua
+3|How do you say goodbye in Italian?|arrivederci/ciao
+4|Which language uses kanji, hiragana and katakana?|japanese
+4|What is the official language of Austria?|german
+4|How do you say good morning in German?|guten morgen
+4|Which language is spoken in Greece?|greek
+5|Which language is spoken in Iran?|persian/farsi
+5|Which language has the most native speakers in India?|hindi
+5|Which European language is most closely related to English?|frisian/dutch/german
+6|Which language family does Hungarian belong to?|uralic/finno-ugric
+6|What do we call a language with no living native speakers?|dead language/extinct language
+6|Which language family do English and German belong to?|germanic/indo-european
+6|Which language is the official language of Argentina?|spanish
+#economics
+1|What do we call the money you earn from a job?|income/wages/salary/pay
+1|What do we call the money used in a country?|currency
+1|What is the currency of the United States?|dollar/us dollar
+1|What is the currency of Japan?|yen
+1|What do we call money kept rather than spent?|savings/saving
+2|What does GDP stand for?|gross domestic product
+2|What is the currency of the United Kingdom?|pound/pound sterling/sterling
+2|What do we call a general rise in prices over time?|inflation
+2|Which currency is used by most European Union countries?|euro
+2|What do we call the people who buy goods and services?|consumers/consumer
+3|What do we call a period of economic decline?|recession
+3|What do we call a tax on imported goods?|tariff/tariffs
+3|What do we call it when demand is higher than supply?|shortage/excess demand
+4|What do we call a market with only one seller?|monopoly
+4|According to the law of demand, what happens to demand when price rises?|demand falls/it falls/demand decreases
+4|Which institution sets interest rates in the UK?|bank of england
+4|What do we call goods a country sells abroad?|exports/export
+5|Who wrote The Wealth of Nations?|adam smith/smith
+5|What is the central bank of the United States called?|federal reserve/the fed/fed
+5|What do we call the value of exports minus imports?|trade balance/balance of trade/net exports
+5|What do we call the percentage of people without work who are seeking it?|unemployment rate/unemployment
+6|What is the central bank of the United Kingdom called?|bank of england/the bank of england
+6|What is the economic term for the next best alternative given up?|opportunity cost
+6|What do we call a sustained fall in prices?|deflation
+#psychology
+1|What do we call an intense fear of a specific thing?|phobia
+1|Which organ does psychology mostly study the workings of?|brain
+1|What do we call a feeling such as happiness or anger?|emotion/emotions/feeling
+1|What do we call the images and stories we experience while asleep?|dreams/dream
+1|What do we call the study of the mind and behaviour?|psychology
+2|Who is known as the founder of psychoanalysis?|sigmund freud/freud
+2|What do we call the ability to store and recall information?|memory
+2|Which of the five senses detects smells?|smell
+2|What do we call the period of life between childhood and adulthood?|adolescence
+3|Which scientist is famous for conditioning experiments with dogs?|pavlov/ivan pavlov
+3|Who is famous for theories about the unconscious mind?|freud/sigmund freud
+3|Which animals did Pavlov use to demonstrate conditioning?|dogs/pavlovs dogs
+3|What do we call the body's response to a threat, fight or what?|flight
+3|What do we call memory used for information held briefly in mind?|short term memory/working memory
+4|What does IQ stand for?|intelligence quotient
+4|Who created the hierarchy of needs?|maslow/abraham maslow
+4|What do we call learning by watching others?|observational learning/social learning/modelling
+4|Which personality model is known as the Big Five?|big five/five factor model/ocean
+4|What do we call the first stage of Maslow's hierarchy?|physiological needs/physiological
+5|What is the tendency to favour information that confirms what you already believe called?|confirmation bias
+5|What do we call the discomfort of holding clashing beliefs?|cognitive dissonance
+5|Which experiment studied obedience using fake electric shocks?|milgram/milgram experiment
+6|Which psychologist proposed the hierarchy of needs?|abraham maslow/maslow
+6|What do we call the tendency to help less when others are present?|bystander effect/diffusion of responsibility
+6|Who developed the stages of cognitive development in children?|piaget/jean piaget
+6|Which part of the brain is most associated with processing fear?|amygdala
+#movies
+1|Which Disney film features a snowman called Olaf?|frozen
+1|What do we call the person in charge of making a film?|director
+1|Which studio is famous for Mickey Mouse?|disney/walt disney
+1|Which award is the top prize at the Academy Awards?|oscar/academy award/best picture
+2|Who directed Jurassic Park?|steven spielberg/spielberg
+2|Which film features a great white shark terrorising a beach town?|jaws
+2|Which film series features Jedi and lightsabers?|star wars
+2|Which animated film follows a clownfish searching for his son?|finding nemo
+2|Which superhero team film series is made by Marvel Studios?|avengers/the avengers
+3|Which South Korean film won Best Picture at the 2020 Oscars?|parasite
+3|Which 1997 film features the character Jack Dawson?|titanic
+3|In which film series does a hobbit carry a ring to Mordor?|lord of the rings/the lord of the rings
+3|Which film features the line May the Force be with you?|star wars
+4|Who directed Inception?|christopher nolan/nolan
+4|Which 1994 film features Forrest and a box of chocolates?|forrest gump
+4|Which 1972 crime film features the Corleone family?|the godfather/godfather
+4|Which 1999 film features a red pill and a blue pill?|the matrix/matrix
+5|Who directed Pulp Fiction?|quentin tarantino/tarantino
+5|Which 1960 Hitchcock film has a famous shower scene?|psycho
+6|Who directed Seven Samurai?|akira kurosawa/kurosawa
+6|Which 1941 film is often called the greatest ever made?|citizen kane
+6|Who directed Spirited Away?|hayao miyazaki/miyazaki
+6|Which 1927 film was the first major feature with synchronised speech?|the jazz singer/jazz singer
+#tv
+1|Which yellow sponge lives in a pineapple under the sea?|spongebob/spongebob squarepants
+1|What do we call one part of a TV series?|episode
+1|Which cartoon features a yellow family living in Springfield?|the simpsons/simpsons
+1|Which device do you use to change channels?|remote/remote control
+1|What do we call a group of episodes released together?|season/series
+2|Which series features the Iron Throne and dragons?|game of thrones
+2|Which sitcom follows six friends in New York and a coffee shop?|friends
+2|Which cartoon features a sponge who lives in a pineapple?|spongebob squarepants/spongebob
+2|What do we call the very first episode of a series?|pilot
+3|In Friends, what is the name of the coffee shop?|central perk
+3|Which series is set in Hawkins and features the Upside Down?|stranger things
+3|Which series follows a chemistry teacher who turns to crime?|breaking bad
+3|Which British series features a time-travelling Doctor?|doctor who
+3|Which sitcom is set at a paper company in Scranton?|the office
+4|Which streaming service produced House of Cards?|netflix
+4|Which period drama follows the Crawley family at a grand estate?|downton abbey
+4|Which animated sitcom features Peter, Lois and Stewie?|family guy
+4|Which series follows the British royal family across decades?|the crown
+5|Which sitcom follows the employees of Dunder Mifflin?|the office/office
+5|Which 1990s sitcom was famously about nothing?|seinfeld
+5|Which series follows the Roy family and their media empire?|succession
+5|Which Korean survival drama became a global Netflix hit in 2021?|squid game
+6|Who created the TV series The Wire?|david simon
+6|Which 1950s sitcom starred Lucille Ball?|i love lucy
+6|Which HBO series examined Baltimore's drug trade and police?|the wire
+6|Which anthology series opens in the Twilight Zone?|the twilight zone/twilight zone
+#anime
+1|Which yellow Pokémon is famous for saying Pika?|pikachu
+1|Which anime follows a ninja who wants to become Hokage?|naruto
+1|Which country did anime originate in?|japan
+1|What do we call Japanese comic books?|manga
+1|Which anime features a yellow electric mouse called Pikachu?|pokemon/pokémon
+2|Who is the main character of Dragon Ball?|goku/son goku
+2|Which anime features titans and giant walls protecting humanity?|attack on titan/shingeki no kyojin
+2|Which anime follows a boy who wants to be King of the Pirates?|one piece
+2|Which blue robotic cat comes from the future?|doraemon
+2|Which anime features a notebook that kills whoever is named in it?|death note
+3|What is the name of Naruto’s home village?|konoha/hidden leaf village/leaf village
+3|Which anime features Son Goku and seven magical orbs?|dragon ball/dragon ball z
+3|Which anime follows Tanjiro as a demon slayer?|demon slayer/kimetsu no yaiba
+3|Which studio made My Neighbour Totoro?|studio ghibli/ghibli
+3|Which anime features students with powers called quirks?|my hero academia/boku no hero academia
+4|Which anime follows two brothers seeking the philosopher's stone?|fullmetal alchemist/fullmetal alchemist brotherhood
+4|Which anime features giant mechs called Evangelions?|neon genesis evangelion/evangelion
+4|Which anime features Luffy's rubber powers?|one piece
+4|Which anime features alchemy, the Elric brothers and a homunculus?|fullmetal alchemist/fullmetal alchemist brotherhood
+5|Who wrote the manga One Piece?|eiichiro oda/oda
+5|Which anime follows Spike Spiegel, a bounty hunter in space?|cowboy bebop
+5|Which 1988 film is set in Neo-Tokyo and features Kaneda?|akira
+5|Which anime features cursed energy and Yuji Itadori?|jujutsu kaisen
+6|Which anime features the Survey Corps fighting giants?|attack on titan/shingeki no kyojin
+6|Which Studio Ghibli film won the Oscar for Best Animated Feature in 2003?|spirited away
+6|What is the term for anime aimed mainly at young boys?|shonen/shounen
+6|What is the term for anime aimed mainly at young girls?|shojo/shoujo
+#music
+1|How many strings does a standard guitar have?|6/six
+1|What do we call the words of a song?|lyrics
+1|Which instrument do you hit with sticks in a band?|drums/drum
+2|Which instrument has black and white keys?|piano
+2|Which band released Hey Jude?|the beatles/beatles
+2|What do we call a group of singers performing together?|choir/chorus
+2|How many notes are in an octave, counting the repeated note?|8/eight
+2|What do we call the speed of a piece of music?|tempo
+3|Which band sang Bohemian Rhapsody?|queen
+3|Which singer is known as the King of Pop?|michael jackson/jackson
+3|How many lines are in a musical stave?|5/five
+3|What does DJ stand for?|disc jockey
+4|Who composed The Four Seasons?|vivaldi/antonio vivaldi
+4|Which composer wrote the Ninth Symphony while deaf?|beethoven/ludwig van beethoven
+4|Which Italian word means gradually getting louder?|crescendo
+4|What do we call a song performed by one singer alone?|solo
+5|How many keys does a standard piano have?|88/eighty-eight
+5|What is the lowest male singing voice called?|bass
+5|Which Austrian child prodigy composed more than 600 works?|mozart/wolfgang amadeus mozart
+6|What is the Italian musical term for playing loudly?|forte
+6|Which Italian term means very quiet in music?|pianissimo
+6|Which major key has no sharps or flats?|c major/c
+6|What do we call a piece for a solo instrument with orchestra?|concerto
+#memes
+1|What do we call a funny image or video that spreads online?|meme
+1|Which app is known for short vertical videos?|tiktok
+1|What do we call a video that spreads very quickly online?|viral/viral video
+2|What does LOL stand for?|laughing out loud/laugh out loud
+2|Which looping image format is often used for reactions?|gif
+2|What does DM stand for on social media?|direct message
+2|What do we call the small pictures used to show feelings in messages?|emoji/emojis
+2|What does BRB mean?|be right back
+3|Which dog breed is the face of the Doge meme?|shiba inu/shiba
+3|Which song is used in the prank known as rickrolling?|never gonna give you up
+3|Which site calls itself the front page of the internet?|reddit
+3|What does GOAT mean in internet slang?|greatest of all time
+4|What does FOMO stand for?|fear of missing out
+4|Which game made the word sus a popular meme?|among us
+4|What do we call posting deliberately provocative comments online?|trolling
+4|What does IRL stand for?|in real life
+4|What do we call a wave of online criticism aimed at one person?|pile-on/cancel culture/backlash
+5|Which meme involves freezing in place during a video?|mannequin challenge
+5|What does NPC mean when used as an online insult?|non player character/non-player character
+5|Which early social network let you rank your Top 8 friends?|myspace
+6|Which meme features a cat with a pop-tart body flying through space?|nyan cat
+6|What does SEO stand for?|search engine optimization/search engine optimisation
+6|Which 2012 Korean music video was the first to reach a billion YouTube views?|gangnam style
+6|What do we call the practice of sharing someone's private details online?|doxxing/doxing
+#comics
+1|Who is Spider-Man’s alter ego?|peter parker
+1|Which superhero is known as the Man of Steel?|superman
+1|Which superhero protects Gotham City?|batman
+1|Which hero shoots webs from his wrists?|spider-man/spiderman
+1|What colour is the Hulk?|green
+2|Which city does Batman protect?|gotham/gotham city
+2|Which company publishes the X-Men?|marvel
+2|Which company publishes Wonder Woman?|dc/dc comics
+2|What is Batman's secret identity?|bruce wayne
+2|Which hero carries a shield with a star on it?|captain america
+3|Which Amazonian hero is Diana Prince?|wonder woman
+3|What is Superman's weakness?|kryptonite
+3|Which metal coats Wolverine's skeleton?|adamantium
+3|Which hero wields a hammer called Mjolnir?|thor
+4|Who is Thor's adoptive brother?|loki
+4|What is the name of Black Panther's nation?|wakanda
+4|Which villain is Batman's arch-enemy with green hair?|joker/the joker
+4|What is Iron Man's real name?|tony stark/anthony stark
+5|What is the name of Thor’s hammer?|mjolnir
+5|What is the Flash's alter ego in most comics?|barry allen
+5|Which cosmic villain collects the Infinity Stones?|thanos
+5|What is Professor X's real name?|charles xavier/xavier
+6|Who co-created Spider-Man with Steve Ditko?|stan lee
+6|Which 1986 Alan Moore comic features Rorschach?|watchmen
+6|What is Daredevil's real name?|matt murdock/matthew murdock
+6|Which character is known as the Merc with a Mouth?|deadpool
+#cybersecurity
+1|What secret word do you use to log in to an account?|password
+1|What should you keep secret to protect an online account?|password
+1|What do we call harmful software?|malware/virus
+1|What do we call a program that detects and removes viruses?|antivirus
+1|What do we call a fake email that tries to steal your details?|phishing/phishing email
+2|What does VPN stand for?|virtual private network
+2|What do we call a barrier that filters network traffic?|firewall
+2|What do we call scrambling data so only a key can read it?|encryption
+2|What do we call a copy of your data kept in case of loss?|backup
+3|Which type of malware demands payment to unlock your files?|ransomware
+3|What does the S in HTTPS indicate?|secure/security/encryption
+3|What do we call tricking a person rather than a computer?|social engineering
+4|What type of malware locks your files and demands payment?|ransomware
+4|Which attack inserts malicious database commands through a form?|sql injection
+4|What do we call a vulnerability unknown to the software vendor?|zero day/zero-day
+4|What do we call software that secretly records what you do?|spyware
+5|What does 2FA stand for?|two-factor authentication
+5|What do we call a hacker who tests systems with permission?|white hat/ethical hacker/white hat hacker
+5|What does XSS stand for?|cross site scripting/cross-site scripting
+5|What do we call a network of hijacked computers?|botnet
+6|What does DDoS stand for?|distributed denial of service
+6|Which protocol secures web traffic underneath HTTPS today?|tls/transport layer security
+6|What do we call a decoy system set up to lure attackers?|honeypot
+6|What do the letters CIA stand for in the security triad?|confidentiality integrity availability
+#football
+1|How many players does one football (soccer) team have on the pitch?|11/eleven
+1|What do we call the player who defends the goal?|goalkeeper/keeper/goalie
+1|How many halves are in a football match?|2/two
+1|Which colour card means a player is sent off?|red/red card
+2|Which country won the 2022 FIFA World Cup?|argentina
+2|How many minutes are in a match, not counting stoppage time?|90/ninety
+2|What do we call one player scoring three goals in a match?|hat-trick/hat trick/hattrick
+2|How many points does a team get for a win in the Premier League?|3/three
+3|Which club plays its home games at Old Trafford?|manchester united/man united/man utd
+3|How many years are there between World Cups?|4/four
+3|Which position wears a different coloured shirt from teammates?|goalkeeper/keeper/goalie
+4|Which club plays at the Camp Nou?|barcelona/fc barcelona
+4|Which club plays at the Santiago Bernabeu?|real madrid/madrid
+4|Who scored the Hand of God goal in 1986?|maradona/diego maradona
+4|What is the top division of English football called?|premier league/english premier league
+4|Which country hosted the 2018 World Cup?|russia
+5|Which country hosted the 2006 FIFA World Cup?|germany
+5|Which country has won the most World Cups?|brazil
+5|Which German club has won the most Bundesliga titles?|bayern munich/bayern
+5|What is Europe's top club competition called?|champions league/uefa champions league
+6|Which country won the first FIFA World Cup in 1930?|uruguay
+6|Which goalkeeper is the only one to win the Ballon d'Or?|lev yashin/yashin
+6|Which club won the first Premier League title in 1993?|manchester united/man united/united
+6|What is the minimum number of players a team needs to continue a match?|7/seven
+#boxing
+1|What do boxers wear on their hands?|gloves/boxing gloves
+1|What shape is a boxing ring?|square
+1|What do we call it when a boxer is knocked down and cannot continue?|knockout/ko
+1|How many hands does a boxer punch with?|2/two
+2|How many minutes does a standard professional boxing round last?|3/three
+2|What does TKO stand for?|technical knockout
+2|Which boxer called himself The Greatest?|muhammad ali/ali
+2|What do we call the person who controls the fight in the ring?|referee
+3|Which boxer bit Evander Holyfield's ear in 1997?|mike tyson/tyson
+3|Which is the heaviest weight class?|heavyweight
+3|What number does a referee count to for a knockout?|10/ten
+4|What is a knockout usually abbreviated as?|ko
+4|Which boxer was nicknamed Iron Mike?|mike tyson/tyson
+4|Which Filipino boxer won world titles in eight divisions?|manny pacquiao/pacquiao
+4|What does WBC stand for?|world boxing council
+4|What do we call a fight that ends level on the judges' cards?|draw
+5|Which boxer retired with a 50-0 record in 2017?|floyd mayweather/mayweather
+5|What was the 1974 Ali-Foreman fight called?|rumble in the jungle
+5|Which British boxer beat Wladimir Klitschko at Wembley in 2017?|anthony joshua/joshua
+6|Who did Muhammad Ali beat in the Rumble in the Jungle?|george foreman/foreman
+6|What was the 1975 Ali-Frazier third fight called?|thrilla in manila
+6|What do we call a boxer who leads with the right hand?|southpaw
+6|Which boxer was known as Sugar Ray and fought Hagler in 1987?|sugar ray leonard/leonard
+#body
+1|Which organs do we use to breathe?|lungs/lung
+1|Which organ pumps blood around your body?|heart
+1|How many lungs does a human have?|2/two
+1|What covers the outside of your body?|skin
+1|Which organ do you use to think?|brain
+2|What is the largest organ of the human body?|skin
+2|What are the hard white structures in your mouth called?|teeth/tooth
+2|What do we call the bones that protect the heart and lungs?|ribs/rib cage/ribcage
+2|How many fingers does a typical person have, including thumbs?|10/ten
+2|Which liquid carries oxygen around the body?|blood
+3|How many chambers does the human heart have?|4/four
+3|What do we call the tube that carries food to the stomach?|oesophagus/esophagus/gullet
+3|Which organ filters waste from the blood to make urine?|kidneys/kidney
+4|Which bone is the longest in the human body?|femur/thigh bone
+4|Which organ produces insulin?|pancreas
+4|What do we call the framework of bones in the body?|skeleton
+5|Which part of the brain controls balance and coordination?|cerebellum
+5|How many pairs of ribs does a typical adult have?|12/twelve
+5|Which part of the eye controls how much light enters?|iris
+5|What is the medical name for the kneecap?|patella
+6|What is the smallest bone in the human body?|stapes/stirrup
+6|What is the largest artery in the body?|aorta
+6|What are the tiny air sacs in the lungs called?|alveoli/alveolus
+#inventions
+1|Who is credited with inventing the telephone?|alexander graham bell/bell/graham bell
+1|Who is best known for inventing a practical light bulb?|edison/thomas edison
+1|Which round invention made transport far easier?|wheel
+1|Which machine washes clothes for you?|washing machine
+1|Which invention lets you speak to someone far away?|telephone/phone/mobile phone
+2|Which brothers built the first successful powered aeroplane?|wright brothers/the wright brothers/wright
+2|What did the Wright brothers invent?|airplane/aeroplane/plane/powered aircraft
+2|Which invention keeps food cold at home?|fridge/refrigerator
+2|Which invention lets you see distant objects in space?|telescope
+3|Who invented the World Wide Web?|tim berners-lee/berners-lee
+3|What did Johannes Gutenberg introduce to Europe?|printing press/movable type
+3|Who is credited with discovering penicillin?|alexander fleming/fleming
+3|Which invention made long-distance rail travel possible in the 1800s?|steam locomotive/steam engine/locomotive/train
+4|Which German inventor introduced the movable-type printing press to Europe?|gutenberg/johannes gutenberg
+4|Who greatly improved the steam engine in the 1700s?|james watt/watt
+4|Who built the first practical petrol-powered car in 1886?|karl benz/benz
+4|Who invented the first practical photographic process?|daguerre/louis daguerre/niepce
+5|Who invented dynamite?|alfred nobel/nobel
+5|Who designed the Analytical Engine, an early computer concept?|charles babbage/babbage
+5|Who is often considered the first computer programmer?|ada lovelace/lovelace
+5|Who developed the first practical wireless telegraph system?|marconi/guglielmo marconi
+6|Who invented the lightning rod?|benjamin franklin/franklin
+6|Who invented the cotton gin in 1793?|eli whitney/whitney
+6|Who invented the safety brake that made tall buildings practical?|elisha otis/otis
+6|Who patented the first practical sewing machine in the US in 1846?|elias howe/howe
+#nature
+1|What do bees make?|honey
+1|What do we call a large area covered in trees?|forest/woodland
+1|What falls from clouds as water?|rain
+1|Which season comes after winter?|spring
+1|What do we call the hot molten rock that erupts from a volcano?|lava
+2|Which season comes after summer?|autumn/fall
+2|What do we call a long period without rain?|drought
+2|What do we call water falling over a cliff edge?|waterfall
+2|How many seasons are there in a year?|4/four
+2|What do we call a storm with thunder and lightning?|thunderstorm
+3|What is the tallest type of tree, found in California?|redwood/coast redwood
+3|What do we call the continuous movement of water around the Earth?|water cycle
+3|Which is the largest rainforest in the world?|amazon/amazon rainforest
+3|What do we call animals that are active at night?|nocturnal
+3|Which gas do trees release during photosynthesis?|oxygen
+4|What do we call the upper layer of a rainforest?|canopy
+4|Which scale is used to measure earthquake magnitude?|richter/richter scale/moment magnitude
+4|What do we call a plant that completes its life in one year?|annual
+4|What do we call the wearing away of rock by wind and water?|erosion
+5|What is the process by which plants lose water through their leaves?|transpiration
+5|What do we call a community of living things and their environment?|ecosystem
+5|What is the study of weather called?|meteorology
+5|What do we call a relationship where both species benefit?|mutualism
+6|What type of plant is a Venus flytrap?|carnivorous plant/carnivorous
+6|Which layer of the atmosphere protects us from ultraviolet rays?|ozone layer/ozone
+6|What do we call an animal that feeds on dead animals?|scavenger
+6|What do we call a species found in only one place on Earth?|endemic/endemic species
+#records
+1|What is the tallest building in the world?|burj khalifa
+1|What is the fastest land animal?|cheetah
+1|What is the largest animal ever known to have lived?|blue whale
+1|Which is the biggest planet in our solar system?|jupiter
+2|What is the highest mountain above sea level?|everest/mount everest
+2|What is the longest river in Africa?|nile/river nile
+2|What is the smallest country in the world?|vatican city/vatican
+2|Which is the tallest animal in the world?|giraffe
+2|Which is the largest ocean?|pacific/pacific ocean
+3|Which bird is the fastest in a dive?|peregrine falcon/peregrine
+3|Which is the largest land mammal?|african elephant/elephant
+3|Which is the fastest animal in the sea?|sailfish/black marlin
+4|Who holds the men’s 100 metres world record of 9.58 seconds?|usain bolt/bolt
+4|Which is the hottest planet in the solar system?|venus
+4|Which book is the best-selling of all time?|the bible/bible
+4|Which is the longest-running American animated sitcom?|the simpsons/simpsons
+4|Which is the largest bird in the world?|ostrich
+5|What is the deepest known point in the ocean called?|challenger deep/mariana trench
+5|Which is the largest desert on Earth?|antarctica/antarctic desert
+6|Who is the oldest verified person ever, who lived to 122?|jeanne calment/calment
+6|Which is the largest living structure on Earth?|great barrier reef
+6|Which animal produces the loudest sound?|sperm whale/blue whale
+6|Which element is the most abundant in the Earth's crust?|oxygen
+</script>
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)],root=document.documentElement;
+/*SYS-START*/
+/* ===== SHOP CATALOGUE =====================================================
+   Every cosmetic item. Fields:
+     id, slot, v (what it applies), name, desc, r (rarity: c u r e l),
+     c = price in Brain Coins, g = price in Gems,
+     req = unlock requirement: {lvl:n} | {ach:'id'} | {missions:n}
+   No price + no requirement  = free, owned by everyone.
+   No price + a requirement   = earned: unlocks by itself when the requirement is met.
+   A price (+ maybe a requirement) = bought in the shop once the requirement is met.
+   Rarity is only a label. Nothing in the shop affects scoring or difficulty.
+   ========================================================================== */
+const RARITY = { c: ['Common', '#9ca3af'], u: ['Uncommon', '#22c55e'], r: ['Rare', '#3b82f6'], e: ['Epic', '#a855f7'], l: ['Legendary', '#f59e0b'] };
+const SLOTS = {
+  theme: 'Theme', bg: 'Background', avatar: 'Avatar', title: 'Title', frame: 'Profile frame',
+  fxHover: 'Button hover', fxClick: 'Click effect', fxCorrect: 'Correct answer', fxScore: 'Score counter',
+  fxStreak: 'Streak', fxTier: 'Difficulty up', fxLevel: 'Level up', fxReward: 'Reward opening', sfx: 'Sound pack',
+};
+const SECTIONS = [
+  ['featured', '⭐ Featured'], ['themes', '🎨 Themes'], ['backgrounds', '🌌 Backgrounds'], ['avatars', '🙂 Avatars'],
+  ['titles', '🏷️ Titles'], ['effects', '✨ Effects'], ['sounds', '🔊 Sounds'], ['special', '🏆 Special'],
+];
+const SLOT_SECTION = { theme: 'themes', bg: 'backgrounds', avatar: 'avatars', title: 'titles', sfx: 'sounds' };
+const FREE_AVATARS = ['🧠', '🦉', '🦊', '🐙', '🚀', '🎮', '⚡', '🔥', '🌟', '🐉', '🤖', '🎯'];
+
+const ITEMS = [
+  /* themes: v = the data-skin value */
+  { id: 'th_classic', slot: 'theme', v: 'classic', r: 'c', name: 'Classic', desc: 'The original purple look, with light and dark modes and your own accent colour.' },
+  { id: 'th_minimal', slot: 'theme', v: 'minimal', r: 'c', c: 250, name: 'Minimal', desc: 'Plain paper and ink. Quiet, clean and glow-free.' },
+  { id: 'th_arctic', slot: 'theme', v: 'arctic', r: 'u', c: 450, name: 'Arctic', desc: 'Ice blue and snow white with frosty edges.' },
+  { id: 'th_midnight', slot: 'theme', v: 'midnight', r: 'u', c: 500, name: 'Midnight', desc: 'Deep navy, soft silver and subtle blue glows.' },
+  { id: 'th_forest', slot: 'theme', v: 'forest', r: 'u', c: 600, name: 'Forest', desc: 'Moss, pine and warm bark tones.' },
+  { id: 'th_sunset', slot: 'theme', v: 'sunset', r: 'r', c: 700, name: 'Sunset', desc: 'Warm orange, coral pink and dusky purple.' },
+  { id: 'th_ocean', slot: 'theme', v: 'ocean', r: 'r', c: 700, name: 'Ocean', desc: 'Deep sea blues with bright aqua highlights.' },
+  { id: 'th_crimson', slot: 'theme', v: 'crimson', r: 'r', c: 800, name: 'Crimson', desc: 'Dark wine reds with dramatic ember highlights.' },
+  { id: 'th_neon', slot: 'theme', v: 'neon', r: 'e', c: 1200, name: 'Neon', desc: 'Electric pink and lime on black, with glowing edges.' },
+  { id: 'th_cyber', slot: 'theme', v: 'cyber', r: 'e', c: 1500, req: { lvl: 8 }, name: 'Cyberpunk', desc: 'Hot yellow and cyan over a violet night sky.' },
+  { id: 'th_golden', slot: 'theme', v: 'golden', r: 'l', g: 30, req: { lvl: 15 }, name: 'Golden', desc: 'Black lacquer and polished gold.' },
+
+  /* backgrounds: v = renderer name */
+  { id: 'bg_particles', slot: 'bg', v: 'particles', r: 'c', name: 'Thinking Particles', desc: 'The original: drifting dots, linked thoughts and floating symbols.' },
+  { id: 'bg_calm', slot: 'bg', v: 'calm', r: 'c', name: 'Still Gradient', desc: 'A soft gradient that never moves. The lightest option for slower devices.' },
+  { id: 'bg_flow', slot: 'bg', v: 'flow', r: 'c', c: 300, name: 'Colour Flow', desc: 'Large soft blobs of colour drifting slowly.' },
+  { id: 'bg_space', slot: 'bg', v: 'space', r: 'u', c: 450, name: 'Deep Space', desc: 'A starfield gliding past, with the odd shooting star.' },
+  { id: 'bg_geo', slot: 'bg', v: 'geo', r: 'u', c: 500, name: 'Geometry', desc: 'Outlined shapes turning gently through space.' },
+  { id: 'bg_peaks', slot: 'bg', v: 'peaks', r: 'r', c: 650, name: 'Misty Peaks', desc: 'Layered mountains, drifting mist and a slow sky.' },
+  { id: 'bg_grid', slot: 'bg', v: 'grid', r: 'r', c: 750, name: 'Digital Grid', desc: 'A retro perspective grid rolling towards a glowing horizon.' },
+  { id: 'bg_nebula', slot: 'bg', v: 'nebula', r: 'r', c: 900, name: 'Space Nebula', desc: 'Glowing clouds of gas with twinkling stars.' },
+  { id: 'bg_city', slot: 'bg', v: 'city', r: 'e', c: 1300, name: 'Night City', desc: 'A futuristic skyline with lit windows that shifts as you move.' },
+  { id: 'bg_galaxy', slot: 'bg', v: 'galaxy', r: 'e', c: 1500, req: { lvl: 10 }, name: 'Spiral Galaxy', desc: 'A slowly turning spiral of coloured stars.' },
+  { id: 'bg_aurora', slot: 'bg', v: 'aurora', r: 'l', req: { ach: 'poly' }, name: 'Aurora', desc: 'Shimmering bands of light. Earned by answering in 25 categories.' },
+
+  /* avatars: emoji (system font) or an original drawn design ("svg:name") */
+  ...[['panda', '🐼', 150, 'c'], ['penguin', '🐧', 150, 'c'], ['lion', '🦁', 200, 'c'], ['alien', '👽', 250, 'u'], ['trex', '🦖', 300, 'u'],
+    ['unicorn', '🦄', 300, 'u'], ['invader', '👾', 300, 'u'], ['ninja', '🥷', 350, 'u'], ['fairy', '🧚', 350, 'u'], ['astro', '🧑‍🚀', 400, 'r'],
+    ['bionic', '🦾', 400, 'r'], ['dragon', '🐲', 450, 'r']]
+    .map(([k, e, c, r]) => ({ id: 'av_' + k, slot: 'avatar', v: e, r, c, name: e + ' ' + ({ trex: 'T-Rex', astro: 'Astronaut', bionic: 'Bionic Arm' }[k] || k[0].toUpperCase() + k.slice(1)), desc: 'A new face for your profile.' })),
+  { id: 'av_wave', slot: 'avatar', v: 'svg:wave', r: 'u', c: 400, name: 'Soundwave', desc: 'An original design: thought waves in a ring.' },
+  { id: 'av_prism', slot: 'avatar', v: 'svg:prism', r: 'r', c: 500, name: 'Prism', desc: 'An original design: one idea split into many colours.' },
+  { id: 'av_orbit', slot: 'avatar', v: 'svg:orbit', r: 'r', c: 600, name: 'Orbit', desc: 'An original design: a small world with its own moon.' },
+  { id: 'av_hex', slot: 'avatar', v: 'svg:hex', r: 'r', c: 700, name: 'Hex Mind', desc: 'An original design: a circuit brain in a hexagon.' },
+  { id: 'av_circuit', slot: 'avatar', v: 'svg:chip', r: 'e', c: 900, name: 'Core Chip', desc: 'An original design: a glowing processor core.' },
+  { id: 'av_nova', slot: 'avatar', v: 'svg:nova', r: 'l', g: 20, name: 'Nova', desc: 'An original design: a bursting star.' },
+  { id: 'av_wizard', slot: 'avatar', v: '🧙', r: 'r', req: { lvl: 10 }, name: '🧙 Wizard', desc: 'Earned at level 10.' },
+  { id: 'av_crown', slot: 'avatar', v: '👑', r: 'e', req: { ach: 'lvl25' }, name: '👑 Crown', desc: 'Earned with the Veteran achievement (level 25).' },
+  { id: 'av_crest', slot: 'avatar', v: 'svg:crest', r: 'l', req: { ach: 'st15' }, name: 'Champion Crest', desc: 'An original design, earned with a 15-answer streak.' },
+
+  /* titles */
+  { id: 't_rank', slot: 'title', v: '', r: 'c', name: 'Your rank', desc: 'Shows your current rank, which changes as you level up.' },
+  { id: 't_beginner', slot: 'title', v: 'Beginner', r: 'c', name: 'Beginner', desc: 'Everyone starts somewhere.' },
+  { id: 't_quick', slot: 'title', v: 'Quick Thinker', r: 'u', req: { ach: 'fast' }, name: 'Quick Thinker', desc: 'Earned with Speed Demon: a correct answer in 1.5 seconds.' },
+  { id: 't_seeker', slot: 'title', v: 'Knowledge Seeker', r: 'u', req: { ach: 'runs10' }, name: 'Knowledge Seeker', desc: 'Earned by playing 10 runs.' },
+  { id: 't_brainiac', slot: 'title', v: 'Brainiac', r: 'u', req: { ach: 'score2500' }, name: 'Brainiac', desc: 'Earned by scoring 2,500 in one run.' },
+  { id: 't_genius', slot: 'title', v: 'Genius', r: 'r', req: { ach: 'tier6' }, name: 'Genius', desc: 'Earned by reaching difficulty tier 6.' },
+  { id: 't_unstop', slot: 'title', v: 'Unstoppable', r: 'r', req: { ach: 'st10' }, name: 'Unstoppable', desc: 'Earned with a 10-answer streak.' },
+  { id: 't_mastermind', slot: 'title', v: 'Mastermind', r: 'e', req: { ach: 'mind' }, name: 'Mastermind', desc: 'Earned by answering 15 correctly in one run.' },
+  { id: 't_poly', slot: 'title', v: 'Polymath', r: 'e', req: { ach: 'poly' }, name: 'Polymath', desc: 'Earned by answering in 25 different categories.' },
+  { id: 't_champion', slot: 'title', v: 'Quiz Champion', r: 'e', req: { ach: 'score6000' }, name: 'Quiz Champion', desc: 'Earned by scoring 6,000 in one run.' },
+  { id: 't_mission', slot: 'title', v: 'Mission Master', r: 'r', req: { missions: 25 }, name: 'Mission Master', desc: 'Earned by claiming 25 mission rewards.' },
+  { id: 't_owl', slot: 'title', v: 'Night Owl', r: 'r', req: { ach: 'owl' }, name: 'Night Owl', desc: 'Earned with a secret achievement.' },
+  { id: 't_grandmaster', slot: 'title', v: 'Grandmaster', r: 'e', req: { lvl: 30 }, name: 'Grandmaster', desc: 'Earned at level 30.' },
+  { id: 't_legend', slot: 'title', v: 'Legendary Mind', r: 'l', req: { lvl: 50 }, name: 'Legendary Mind', desc: 'Earned at level 50.' },
+  { id: 't_buff', slot: 'title', v: 'Trivia Buff', r: 'u', c: 600, name: 'Trivia Buff', desc: 'A title you can simply buy.' },
+  { id: 't_encyc', slot: 'title', v: 'Walking Encyclopedia', r: 'r', c: 1200, name: 'Walking Encyclopedia', desc: 'For players who know a bit about everything.' },
+  { id: 't_galaxy', slot: 'title', v: 'Galaxy Brain', r: 'e', g: 15, name: 'Galaxy Brain', desc: 'A rare title for gem collectors.' },
+
+  /* profile frames */
+  { id: 'fr_none', slot: 'frame', v: 'none', r: 'c', name: 'No frame', desc: 'Just your avatar.' },
+  { id: 'fr_ring', slot: 'frame', v: 'ring', r: 'c', c: 300, name: 'Gradient ring', desc: 'A ring in your theme’s colours.' },
+  { id: 'fr_frost', slot: 'frame', v: 'frost', r: 'u', c: 500, name: 'Frost', desc: 'An icy double ring.' },
+  { id: 'fr_neon', slot: 'frame', v: 'neon', r: 'r', c: 800, name: 'Neon pulse', desc: 'A ring that glows and gently pulses.' },
+  { id: 'fr_gold', slot: 'frame', v: 'gold', r: 'e', req: { lvl: 20 }, name: 'Gold ring', desc: 'Polished gold. Earned at level 20.' },
+  { id: 'fr_rainbow', slot: 'frame', v: 'rainbow', r: 'l', g: 15, name: 'Rainbow halo', desc: 'A slowly turning rainbow halo.' },
+
+  /* effects */
+  { id: 'fh_none', slot: 'fxHover', v: 'none', r: 'c', name: 'Standard hover', desc: 'The original magnetic hover and shine, nothing added.' },
+  { id: 'fh_glow', slot: 'fxHover', v: 'glow', r: 'c', c: 300, name: 'Glow', desc: 'Buttons also light up with a soft glow.' },
+  { id: 'fh_lift', slot: 'fxHover', v: 'lift', r: 'u', c: 400, name: 'Float', desc: 'Buttons also lift up and cast a deeper shadow.' },
+  { id: 'fh_rainbow', slot: 'fxHover', v: 'rainbow', r: 'r', c: 700, name: 'Rainbow edge', desc: 'A rainbow border runs round the button you point at.' },
+  { id: 'fk_sparks', slot: 'fxClick', v: 'sparks', r: 'c', name: 'Sparks', desc: 'The original click sparks on the home screen.' },
+  { id: 'fk_none', slot: 'fxClick', v: 'none', r: 'c', name: 'Off', desc: 'No effect when you click the background.' },
+  { id: 'fk_ripple', slot: 'fxClick', v: 'ripple', r: 'c', c: 250, name: 'Ripple', desc: 'A ring ripples out from each click.' },
+  { id: 'fk_hearts', slot: 'fxClick', v: 'hearts', r: 'c', c: 300, name: 'Hearts', desc: 'Little hearts pop out.' },
+  { id: 'fk_stars', slot: 'fxClick', v: 'stars', r: 'u', c: 400, name: 'Stardust', desc: 'A scatter of twinkling stars.' },
+  { id: 'fk_comet', slot: 'fxClick', v: 'comet', r: 'e', req: { ach: 'days5' }, name: 'Comet', desc: 'Earned by playing on 5 different days.' },
+  { id: 'fc_sparks', slot: 'fxCorrect', v: 'sparks', r: 'c', name: 'Sparks', desc: 'The original burst of coloured sparks.' },
+  { id: 'fc_emoji', slot: 'fxCorrect', v: 'emoji', r: 'c', c: 350, name: 'Brain rain', desc: 'Tiny brains float up when you are right.' },
+  { id: 'fc_confetti', slot: 'fxCorrect', v: 'confetti', r: 'u', c: 400, name: 'Confetti', desc: 'A small shower of confetti.' },
+  { id: 'fc_burst', slot: 'fxCorrect', v: 'burst', r: 'u', c: 500, name: 'Ring burst', desc: 'Rings ripple out from your answer.' },
+  { id: 'fc_stars', slot: 'fxCorrect', v: 'stars', r: 'r', c: 600, name: 'Shooting stars', desc: 'Stars streak out from your answer.' },
+  { id: 'fsc_plain', slot: 'fxScore', v: 'plain', r: 'c', name: 'Plain', desc: 'The score updates straight away.' },
+  { id: 'fsc_count', slot: 'fxScore', v: 'count', r: 'c', c: 300, name: 'Count-up', desc: 'Your score rolls up to the new total.' },
+  { id: 'fsc_float', slot: 'fxScore', v: 'float', r: 'u', c: 450, name: 'Floating points', desc: 'The points you earn float up from the score.' },
+  { id: 'fs_none', slot: 'fxStreak', v: 'none', r: 'c', name: 'Plain streak', desc: 'The streak counter with no extra effect.' },
+  { id: 'fs_flame', slot: 'fxStreak', v: 'flame', r: 'u', c: 500, name: 'On fire', desc: 'The streak counter flickers like a flame from 3 in a row.' },
+  { id: 'fs_electric', slot: 'fxStreak', v: 'electric', r: 'r', c: 700, name: 'Supercharged', desc: 'An electric glow that grows with your streak.' },
+  { id: 'fs_rainbow', slot: 'fxStreak', v: 'rainbow', r: 'e', g: 12, name: 'Rainbow streak', desc: 'Your streak cycles through the rainbow.' },
+  { id: 'ft_none', slot: 'fxTier', v: 'none', r: 'c', name: 'No effect', desc: 'The tier label simply changes.' },
+  { id: 'ft_banner', slot: 'fxTier', v: 'banner', r: 'c', c: 200, name: 'Tier banner', desc: 'A banner names each new difficulty tier.' },
+  { id: 'ft_shock', slot: 'fxTier', v: 'shock', r: 'r', c: 600, name: 'Shockwave', desc: 'The screen edge pulses and a banner appears as questions get harder.' },
+  { id: 'fl_classic', slot: 'fxLevel', v: 'classic', r: 'c', name: 'Classic', desc: 'The original level-up moment.' },
+  { id: 'fl_galaxy', slot: 'fxLevel', v: 'galaxy', r: 'r', c: 800, name: 'Supernova', desc: 'Your level-up bursts like a star.' },
+  { id: 'fl_gold', slot: 'fxLevel', v: 'gold', r: 'e', g: 15, name: 'Gold rush', desc: 'Coins rain down when you level up.' },
+  { id: 'fw_pop', slot: 'fxReward', v: 'pop', r: 'c', name: 'Pop', desc: 'A burst of sparks when you buy or claim something.' },
+  { id: 'fw_gift', slot: 'fxReward', v: 'gift', r: 'u', c: 500, name: 'Gift box', desc: 'A present opens for every purchase and reward.' },
+  { id: 'fw_coins', slot: 'fxReward', v: 'coins', r: 'r', c: 700, name: 'Coin fountain', desc: 'Coins spring up with every reward.' },
+  { id: 'fw_fireworks', slot: 'fxReward', v: 'fireworks', r: 'e', g: 10, name: 'Fireworks', desc: 'Rewards open with a small fireworks show.' },
+
+  /* sound packs: generated live, no audio files */
+  { id: 'sx_classic', slot: 'sfx', v: 'classic', r: 'c', name: 'Classic', desc: 'The original soft tones.' },
+  { id: 'sx_soft', slot: 'sfx', v: 'soft', r: 'c', c: 300, name: 'Soft & minimal', desc: 'Gentle, rounded tones at a lower volume.' },
+  { id: 'sx_retro', slot: 'sfx', v: 'retro', r: 'u', c: 450, name: 'Retro arcade', desc: 'Chunky 8-bit bleeps and bloops.' },
+  { id: 'sx_digital', slot: 'sfx', v: 'digital', r: 'u', c: 500, name: 'Digital', desc: 'Crisp electronic blips.' },
+  { id: 'sx_future', slot: 'sfx', v: 'future', r: 'r', c: 800, name: 'Futuristic', desc: 'Sci-fi sweeps and shimmering interface tones.' },
+  { id: 'sx_reward', slot: 'sfx', v: 'reward', r: 'e', g: 12, name: 'Golden chimes', desc: 'Bell-like chimes that make every reward feel bigger.' },
+];
+const ITEM = Object.fromEntries(ITEMS.map(i => [i.id, i]));
+const DEFAULT_EQUIP = {
+  theme: 'th_classic', bg: 'bg_particles', title: 't_rank', frame: 'fr_none', fxHover: 'fh_none', fxClick: 'fk_sparks',
+  fxCorrect: 'fc_sparks', fxScore: 'fsc_plain', fxStreak: 'fs_none', fxTier: 'ft_none', fxLevel: 'fl_classic', fxReward: 'fw_pop', sfx: 'sx_classic',
+};
+const sectionOf = it => (it.req && !it.c && !it.g && it.slot !== 'title' ? 'special' : SLOT_SECTION[it.slot] || 'effects');
+const priceOf = it => (it.c ? `🪙 ${fmt(it.c)}` : it.g ? `💎 ${fmt(it.g)}` : '');
+
+/* ===== Save system: one versioned object, one place that touches localStorage ===== */
+const SAVE_KEY='hsay-save',SAVE_V=4;
+const CATKEYS=JSON.parse(document.getElementById('catdef').textContent).map(c=>c.k).concat('random');
+/* Achievements: k = stat from achVals(), t = target, r = [xp, coins, gems], h = hidden until unlocked */
+const ACH=[
+{id:'first',i:'👣',n:'First Steps',d:'Complete your first run',k:'runs',t:1,r:[50,50,0]},
+{id:'runs10',i:'📚',n:'Knowledge Seeker',d:'Play 10 runs',k:'runs',t:10,r:[100,100,0]},
+{id:'runs50',i:'🎓',n:'Scholar',d:'Play 50 runs',k:'runs',t:50,r:[300,300,2]},
+{id:'lvl5',i:'🌱',n:'Getting Started',d:'Reach level 5',k:'lvl',t:5,r:[100,150,0]},
+{id:'lvl10',i:'🌿',n:'Rising Star',d:'Reach level 10',k:'lvl',t:10,r:[200,300,1]},
+{id:'lvl25',i:'🌳',n:'Veteran',d:'Reach level 25',k:'lvl',t:25,r:[500,800,5]},
+{id:'score2500',i:'🧠',n:'Brainiac',d:'Score 2,500 in one run',k:'best',t:2500,r:[100,150,0]},
+{id:'score6000',i:'🚀',n:'Big Brain',d:'Score 6,000 in one run',k:'best',t:6000,r:[300,400,3]},
+{id:'tier6',i:'🎯',n:'Genius',d:'Reach the highest difficulty level',k:'tier',t:6,r:[150,200,1]},
+{id:'mind',i:'🏆',n:'Mastermind',d:'Answer 15 questions correctly in one run',k:'bestRun',t:15,r:[400,500,5]},
+{id:'c100',i:'✅',n:'Century',d:'Answer 100 questions correctly',k:'correct',t:100,r:[150,200,0]},
+{id:'c500',i:'💯',n:'Know-it-all',d:'Answer 500 questions correctly',k:'correct',t:500,r:[400,600,3]},
+{id:'st5',i:'🔥',n:'Hot Streak',d:'Get a 5-answer streak',k:'maxSt',t:5,r:[80,80,0]},
+{id:'st10',i:'⚡',n:'Unstoppable',d:'Get a 10-answer streak',k:'maxSt',t:10,r:[250,300,2]},
+{id:'perfect',i:'💎',n:'Perfect Run',d:'Answer 10 correctly with no wrong answers, then end the run',k:'perfect',t:1,r:[300,300,3]},
+{id:'fast',i:'⏱️',n:'Speed Demon',d:'Answer correctly in 1.5 seconds or less',k:'fast',t:1,r:[100,120,0]},
+{id:'explorer',i:'🧭',n:'Explorer',d:'Answer questions in 10 different categories',k:'cats',t:10,r:[150,200,0]},
+{id:'poly',i:'🌐',n:'Polymath',d:'Answer questions in 25 different categories',k:'cats',t:25,r:[400,500,5]},
+{id:'spec',i:'🏅',n:'Specialist',d:'Score 3,500 in one run of a single category',k:'catBest',t:3500,r:[200,250,2]},
+{id:'days5',i:'📅',n:'Dedicated',d:'Play on 5 different days',k:'days',t:5,r:[150,200,2]},
+{id:'owl',i:'🦉',n:'Night Owl',d:'Play a run between midnight and 5am',k:'night',t:1,r:[100,100,1],h:1},
+{id:'runs25',i:'🧗',n:'Persistent',d:'Play 25 runs',k:'runs',t:25,r:[200,250,1]},
+{id:'lvl15',i:'🍀',n:'Seasoned',d:'Reach level 15',k:'lvl',t:15,r:[300,450,2]},
+{id:'lvl40',i:'🧙',n:'Mastermind',d:'Reach level 40',k:'lvl',t:40,r:[900,1500,10]},
+{id:'c1000',i:'🧾',n:'Thousand Club',d:'Answer 1,000 questions correctly',k:'correct',t:1000,r:[700,1000,6]},
+{id:'st15',i:'🌋',n:'Untouchable',d:'Get a 15-answer streak',k:'maxSt',t:15,r:[400,500,4]},
+{id:'allcats',i:'🗺️',n:'Completionist',d:'Answer questions in all 34 categories',k:'cats',t:34,r:[800,1200,10]},
+{id:'days15',i:'📆',n:'Creature of Habit',d:'Play on 15 different days',k:'days',t:15,r:[400,500,4]},
+{id:'rich',i:'🏦',n:'Brain Banker',d:'Hold 2,000 Brain Coins at once',k:'coins',t:2000,r:[200,0,3]},
+{id:'comeback',i:'🔁',n:'Comeback Kid',d:'Answer 10 correctly in a run where you lost 2 lives',k:'comeback',t:1,r:[250,300,2],h:1},
+{id:'marathon',i:'🏃',n:'Marathon Mind',d:'Answer 25 correctly in a single run',k:'bestRun',t:25,r:[500,700,6],h:1},
+{id:'dawn',i:'🌅',n:'Early Bird',d:'Play a run between 5am and 7am',k:'dawn',t:1,r:[100,100,1],h:1}];
+/* Missions: [type, target, text]. The saved mission stores only the pool index and its progress. */
+const MPOOL={daily:[['correct',20,'Answer 20 questions correctly'],['runs',3,'Complete 3 runs'],['cats',3,'Play 3 different categories'],['streak',5,'Reach a streak of 5'],['score',1500,'Score 1,500 in one run'],['fast',10,'Answer 10 questions correctly within 3 seconds']],
+weekly:[['correct',100,'Answer 100 questions correctly'],['runs',12,'Complete 12 runs'],['cats',8,'Play 8 different categories'],['streak',10,'Reach a streak of 10'],['score',4000,'Score 4,000 in one run'],['fast',40,'Answer 40 questions correctly within 3 seconds']]};
+const MREW={daily:[40,60,0],weekly:[200,300,3]};
+const num=(x,d=0)=>Number.isFinite(+x)&&+x>=0?Math.floor(+x):d;
+/* Save version history: 2 = single save object, 3 = achievements and missions,
+   4 = shop inventory, equipped cosmetics, purchase counters, level rewards, volume.
+   localStorage is not secure: a player can edit their own save. Nothing here is cheat-proof. */
+const defSave=()=>({v:SAVE_V,created:Date.now(),profile:{name:'Player',avatar:'🧠'},prog:{xp:0,claimed:[],lvlPaid:1},wallet:{coins:0,gems:0},inv:{owned:[],equipped:{...DEFAULT_EQUIP}},counters:{purchases:0,spentC:0,spentG:0,missions:0},ach:{},missions:{},login:{},history:[],seen:{},settings:{sound:true,calm:matchMedia('(prefers-reduced-motion:reduce)').matches,h:265,vol:1,mode:''}});
+const sanPairs=(o,ok)=>{const r={};if(o&&typeof o==='object')for(const k in o)if(ok(k)&&Array.isArray(o[k]))r[k]=[num(o[k][0]),num(o[k][1])];return r};
+const cleanH=h=>({t:num(h.t),mode:'classic',cat:CATKEYS.includes(h.cat)?h.cat:'random',s:num(h.s),k:num(h.k),w:num(h.w),tier:Math.min(6,Math.max(1,num(h.tier,1)||1)),st:num(h.st),xp:num(h.xp),co:num(h.co),d:num(h.d),rt:num(h.rt),n:num(h.n),f:num(h.f),legacy:!!h.legacy,cats:sanPairs(h.cats,k=>CATKEYS.includes(k)),tr:sanPairs(h.tr,k=>k>=1&&k<=6)});
+const AVATAR_VALUES=new Set(FREE_AVATARS.concat(ITEMS.filter(i=>i.slot==='avatar').map(i=>i.v)));
+function sanitize(o){const d=defSave(),r=o&&typeof o==='object'?o:{};d.created=num(r.created,d.created);
+ if(r.profile&&typeof r.profile==='object'){d.profile.name=String(r.profile.name||d.profile.name).replace(/[\u0000-\u001f]/g,'').slice(0,14)||'Player';if(AVATAR_VALUES.has(r.profile.avatar))d.profile.avatar=r.profile.avatar}
+ if(r.prog&&typeof r.prog==='object'){d.prog.xp=num(r.prog.xp);d.prog.claimed=Array.isArray(r.prog.claimed)?[...new Set(r.prog.claimed.map(Number).filter(Number.isFinite))]:[];
+  /* lvlPaid: the highest level whose level-up reward has been paid. Saves from before v4 don't
+     have it; -1 tells boot() to pay the levels they already reached, once. */
+  d.prog.lvlPaid=r.prog.lvlPaid==null?-1:Math.max(1,num(r.prog.lvlPaid,1))}
+ if(r.wallet&&typeof r.wallet==='object'){d.wallet.coins=num(r.wallet.coins);d.wallet.gems=num(r.wallet.gems)}
+ if(r.inv&&typeof r.inv==='object'){d.inv.owned=Array.isArray(r.inv.owned)?[...new Set(r.inv.owned.map(String).filter(id=>ITEM[id]&&(ITEM[id].c||ITEM[id].g)))]:[];
+  const eq=r.inv.equipped&&typeof r.inv.equipped==='object'?r.inv.equipped:{};for(const s in DEFAULT_EQUIP)if(ITEM[eq[s]]&&ITEM[eq[s]].slot===s)d.inv.equipped[s]=eq[s]}
+ if(r.counters&&typeof r.counters==='object')for(const k in d.counters)d.counters[k]=num(r.counters[k]);
+ if(r.login&&typeof r.login==='object')d.login=r.login;
+ if(r.ach&&typeof r.ach==='object')for(const a of ACH)if(r.ach[a.id]&&typeof r.ach[a.id]==='object')d.ach[a.id]={t:num(r.ach[a.id].t,Date.now())};
+ for(const sc of['daily','weekly']){const m=r.missions&&r.missions[sc];if(m&&typeof m.key==='string'&&Array.isArray(m.list)&&m.list.length&&m.list.every(x=>x&&Number.isInteger(x.i)&&x.i>=0&&x.i<MPOOL[sc].length))d.missions[sc]={key:m.key.slice(0,12),list:m.list.slice(0,6).map(x=>({i:x.i,p:num(x.p),s:Array.isArray(x.s)?x.s.filter(c=>CATKEYS.includes(c)):[],c:x.c?1:0}))}}
+ if(Array.isArray(r.history))d.history=r.history.filter(h=>h&&typeof h==='object'&&Number.isFinite(+h.t)).slice(-1000).map(cleanH);
+ if(r.seen&&typeof r.seen==='object')for(const k in r.seen)if(Array.isArray(r.seen[k]))d.seen[k]=r.seen[k].map(String).slice(-100);
+ if(r.settings&&typeof r.settings==='object'){const t=r.settings;d.settings.sound=t.sound!==false;d.settings.calm=!!t.calm;d.settings.h=Math.min(360,num(t.h,265));d.settings.vol=t.vol==null?1:Math.min(1,Math.max(0,+t.vol||0));d.settings.mode=['light','dark'].includes(t.mode)?t.mode:''}
+ /* never leave something equipped that this save doesn't own */
+ for(const s in d.inv.equipped)if(!ownsIn(d,d.inv.equipped[s]))d.inv.equipped[s]=DEFAULT_EQUIP[s];
+ if(!avatarOwnedIn(d,d.profile.avatar))d.profile.avatar='🧠';
+ return d}
+/* ---- ownership: free items always; earned items once their requirement is met; bought items once bought ---- */
+function reqMetIn(sv,q){if(!q)return true;if(q.lvl)return lvlInfo(sv.prog.xp).l>=q.lvl;if(q.ach)return!!sv.ach[q.ach];if(q.missions)return sv.counters.missions>=q.missions;return false}
+function ownsIn(sv,id){const it=ITEM[id];if(!it)return false;if(sv.inv.owned.includes(id))return true;if(it.c||it.g)return false;return reqMetIn(sv,it.req)}
+function avatarOwnedIn(sv,v){if(FREE_AVATARS.includes(v))return true;return ITEMS.some(i=>i.slot==='avatar'&&i.v===v&&ownsIn(sv,i.id))}
+/* ---- storage: the only place the save touches localStorage ---- */
+const store={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v);return true}catch(e){return false}}};
+function loadSave(){const raw=store.get(SAVE_KEY);
+ if(raw){let o=null;try{o=JSON.parse(raw)}catch(e){store.set(SAVE_KEY+'-corrupt',raw)}
+  if(o){const v=num(o.v,1);if(v<SAVE_V&&!store.get(SAVE_KEY+'-backup-v'+v))store.set(SAVE_KEY+'-backup-v'+v,raw);return sanitize(o)}}
+ const d=defSave();
+ try{const l=JSON.parse(store.get('hsay')||'{}');if(l&&typeof l==='object'){if('sound' in l)d.settings.sound=l.sound!==false;if('calm' in l)d.settings.calm=!!l.calm;if(l.h!=null)d.settings.h=Math.min(360,num(l.h,265))}}catch(e){}
+ try{const b=JSON.parse(store.get('hsay-best')||'[]');if(Array.isArray(b))d.history=b.filter(e=>e&&e.s!=null).map(e=>cleanH({t:e.t,cat:e.c,s:e.s,k:e.k,tier:e.l,legacy:true}))}catch(e){}
+ d.prog.lvlPaid=-1;return d}
+let S=loadSave(),saveOk=true;
+function persist(){const ok=store.set(SAVE_KEY,JSON.stringify(S));if(!ok&&saveOk&&typeof toast==='function')toast('Storage is full or blocked, so progress may not be saved.');saveOk=ok;return ok}
+/** Check text from an imported save. Returns {save} or {error} with a reason a player can act on. */
+function parseImport(text){let o;try{o=JSON.parse(text)}catch(e){return{error:'That isn’t a save file: it isn’t valid JSON.'}}
+ if(!o||typeof o!=='object'||Array.isArray(o))return{error:'That file doesn’t contain a save.'};
+ if(!(o.prog||o.history||o.profile||o.wallet))return{error:'That file doesn’t look like a How Smart Are You? save.'};
+ return{save:sanitize(o),newer:num(o.v,1)>SAVE_V}}
+const cfg=S.settings,save=persist;
+/* ===== Permanent progression ===== */
+function need(n){return Math.round(50*Math.pow(n,1.6)+50)}
+function lvlInfo(xp){let l=1;while(l<100&&xp>=need(l)){xp-=need(l);l++}return{l,into:xp,need:need(l)}}
+function playerTitle(){const it=ITEM[S.inv.equipped.title];return it&&it.v?it.v:rankOf(lvlInfo(S.prog.xp).l)}
+const RANKS=[[1,'Beginner'],[5,'Learner'],[10,'Thinker'],[20,'Intelligent'],[30,'Genius'],[40,'Mastermind'],[50,'Brain Legend']];
+const rankOf=l=>RANKS.filter(r=>l>=r[0]).pop()[1];
+const MILE={5:[200,2],10:[500,5],15:[800,5],20:[1200,10],25:[1500,10],30:[2000,15],40:[3000,20],50:[5000,50]};
+/* a finished run pays out exactly once (G.res is the receipt) */
+function finishRun(cleared){if(G.res)return G.res;if(cleared)G.score+=500;const L=G.log,before=lvlInfo(S.prog.xp),w0=[S.wallet.coins,S.wallet.gems];
+ if(!L.length)return G.res={xp:0,co:0,before,after:before,ms:[],pb:false,empty:true,bonus:[0,0],lv:[0,0,0],w0};
+ const cats={},tr={};let rt=0,f=0;
+ for(const e of L){const c=cats[e.cat]=cats[e.cat]||[0,0],t=tr[e.tier]=tr[e.tier]||[0,0];c[0]++;t[0]++;rt+=e.ms;if(e.ok){c[1]++;t[1]++;if(!f||e.ms<f)f=e.ms}}
+ let xp=G.correct?Math.min(800,G.xp+25):0,co=G.correct?Math.min(200,G.correct*3+Math.floor(G.score/200)):0;
+ const was=Math.max(0,...S.history.map(h=>h.s)),pb=G.score>was&&G.score>0;
+ /* bonuses outside the cap: long streaks, and beating an existing personal best */
+ const sb=G.correct?Math.min(20,Math.max(0,G.bestStreak-4)*2):0,pbb=pb&&was>0?25:0;co+=sb+pbb;
+ S.history.push(cleanH({t:Date.now(),cat:G.cat,s:G.score,k:G.correct,w:G.wrong,tier:G.best,st:G.bestStreak,xp,co,d:Math.round((Date.now()-G.runStart)/1000),rt:Math.round(rt),n:L.length,f:Math.round(f),cats,tr}));
+ if(S.history.length>1000)S.history.shift();
+ S.prog.xp+=xp;S.wallet.coins+=co;const after=lvlInfo(S.prog.xp),ms=[];
+ for(let l=before.l+1;l<=after.l;l++){const m=MILE[l];if(m&&!S.prog.claimed.includes(l)){S.prog.claimed.push(l);S.wallet.coins+=m[0];S.wallet.gems+=m[1];ms.push([l,m[0],m[1]])}}
+ const lv=payLevels();
+ persist();renderHome();return G.res={xp,co,before,after,ms,pb,bonus:[sb,pbb],lv,w0}}
+/* ===== Statistics: always computed from recorded games ===== */
+function statsFor(range){const lim={today:new Date().setHours(0,0,0,0),week:Date.now()-7*864e5,month:Date.now()-30*864e5,all:0}[range]||0;
+ const H=S.history.filter(h=>h.t>=lim),R=H.filter(h=>!h.legacy),sum=(a,f)=>a.reduce((x,h)=>x+f(h),0);
+ const q=sum(R,h=>h.k+h.w),c=sum(R,h=>h.k),n=sum(R,h=>h.n),fs=R.map(h=>h.f).filter(x=>x>0);
+ return{H,R,games:H.length,q,c,w:q-c,acc:q?c/q*100:0,best:Math.max(0,...H.map(h=>h.s)),streak:Math.max(0,...R.map(h=>h.st)),xp:sum(R,h=>h.xp),coins:sum(R,h=>h.co),tier:Math.max(0,...H.map(h=>h.tier)),time:sum(R,h=>h.d),avg:n?sum(R,h=>h.rt)/n:0,fast:fs.length?Math.min(...fs):0}}
+/* ===== Rewards, achievements and missions (all idempotent) ===== */
+let PL=0;/* highest new level reached outside a run, shown by the UI */
+/* ===== Economy =====
+   Earning (per run): coins = 3 per correct answer + 1 per 200 points (capped at 200),
+   plus a streak bonus (2 per answer above a streak of 4, up to 20) and +25 for a new
+   personal best. Every new permanent level pays LEVEL_REWARD; milestone levels pay extra
+   (MILE). Missions and achievements pay coins and some gems. See the shop prices in the
+   catalogue: common 150–300, uncommon 300–600, rare 450–1,200, epic 900–1,500 or gems,
+   legendary mostly gems or earned. */
+const LEVEL_REWARD=[30,1];
+/** Pay the level-up reward for every level reached but not yet paid. Returns [levels, coins, gems]. */
+function payLevels(){const l=lvlInfo(S.prog.xp).l,from=Math.max(1,S.prog.lvlPaid);let n=0;
+ for(let x=from+1;x<=l;x++)n++;
+ S.prog.lvlPaid=Math.max(from,l);if(!n)return[0,0,0];
+ S.wallet.coins+=n*LEVEL_REWARD[0];S.wallet.gems+=n*LEVEL_REWARD[1];return[n,n*LEVEL_REWARD[0],n*LEVEL_REWARD[1]]}
+function grant(xp,co,ge){const b=lvlInfo(S.prog.xp).l;S.prog.xp+=xp;S.wallet.coins+=co;S.wallet.gems+=ge;const a=lvlInfo(S.prog.xp).l;
+ for(let l=b+1;l<=a;l++){const m=MILE[l];if(m&&!S.prog.claimed.includes(l)){S.prog.claimed.push(l);S.wallet.coins+=m[0];S.wallet.gems+=m[1]}}payLevels();if(a>b)PL=a}
+function achVals(){const H=S.history,R=H.filter(h=>!h.legacy),cats=new Set(),days=new Set(),cb={};let correct=0,maxSt=0,fast=0,night=0,dawn=0,perfect=0,bestRun=0,comeback=0;
+ for(const h of H){days.add(new Date(h.t).toDateString());cb[h.cat]=Math.max(cb[h.cat]||0,h.s);const hr=new Date(h.t).getHours();if(hr<5)night=1;if(hr>=5&&hr<7)dawn=1;if(h.w>=2&&h.k>=10)comeback=1;if(h.legacy&&h.cat!=='random')cats.add(h.cat);bestRun=Math.max(bestRun,h.k)}
+ for(const h of R){correct+=h.k;maxSt=Math.max(maxSt,h.st);if(h.f>0&&h.f<=1500)fast=1;if(h.w===0&&h.k>=10)perfect=1;for(const k in h.cats)if(h.cats[k][0]>0)cats.add(k)}
+ return{runs:H.length,lvl:lvlInfo(S.prog.xp).l,best:Math.max(0,...H.map(h=>h.s)),tier:Math.max(0,...H.map(h=>h.tier)),correct,maxSt,fast,night,dawn,perfect,bestRun,comeback,coins:S.wallet.coins,cats:cats.size,days:days.size,catBest:Math.max(0,...Object.values(cb))}}
+function checkAch(){const out=[];let again=true;while(again){again=false;const v=achVals();for(const a of ACH)if(!S.ach[a.id]&&v[a.k]>=a.t){S.ach[a.id]={t:Date.now()};grant(...a.r);out.push(a.n);again=true}}if(out.length)persist();return out}
+const dayKey=d=>d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate();
+const weekKey=()=>{const d=new Date();d.setDate(d.getDate()-((d.getDay()+6)%7));return dayKey(d)};
+const hashStr=t=>{let h=0;for(const c of t)h=(h*31+c.charCodeAt(0))>>>0;return h};
+function rollMissions(){const M=S.missions;let ch=0;
+ for(const[sc,n,key]of[['daily',3,dayKey(new Date())],['weekly',4,weekKey()]]){if(M[sc]&&M[sc].key===key&&Array.isArray(M[sc].list))continue;ch=1;
+  let h=hashStr(sc+key);const idx=MPOOL[sc].map((_,i)=>i),pk=[];while(pk.length<n){pk.push(idx.splice(h%idx.length,1)[0]);h=Math.floor(h/7)+13}
+  M[sc]={key,list:pk.map(i=>({i,p:0,s:[],c:0}))}}
+ if(ch)persist()}
+function missionProg(m,type,e,log){if(type==='correct')m.p+=e.k;else if(type==='runs')m.p+=1;else if(type==='streak')m.p=Math.max(m.p,e.st);else if(type==='score')m.p=Math.max(m.p,e.s);
+ else if(type==='fast')m.p+=log.filter(x=>x.ok&&x.ms<=3000).length;else if(type==='cats'){for(const k in e.cats)if(e.cats[k][0]>0&&!m.s.includes(k))m.s.push(k);m.p=m.s.length}}
+function afterRun(r){if(r.extra)return r.extra;const x=r.extra={ach:[],mis:[]};if(r.empty)return x;rollMissions();const e=S.history[S.history.length-1];
+ for(const sc in S.missions)for(const m of S.missions[sc].list){const P=MPOOL[sc][m.i],was=m.p>=P[1];missionProg(m,P[0],e,G.log);if(!was&&m.p>=P[1])x.mis.push(P[2])}
+ x.ach=checkAch();persist();return x}
+function claimMission(sc,i){rollMissions();const m=S.missions[sc]&&S.missions[sc].list[i];if(!m||m.c)return false;if(m.p<MPOOL[sc][m.i][1])return false;m.c=1;S.counters.missions++;grant(...MREW[sc]);const un=checkAch();persist();return un.length?un:true}
+/*SYS-END*/
+/* title */
+let n=0;$('#title').innerHTML=['How','Smart','Are','You?'].map((w,i)=>`<span class="w" style="--d:${(i+1)*7}">`+[...w].map(c=>`<span class="ch" style="--i:${n++}">${c}</span>`).join('')+'</span>').join(' ');
+/* sound */
+/* ===== SHOP LOGIC: ownership, buying, equipping =====
+   Everything re-checks the save each time, so a double click or a stale screen
+   can never buy twice or spend currency without giving the item. */
+const owns=id=>ownsIn(S,id),reqMet=q=>reqMetIn(S,q);
+const equippedV=slot=>(ITEM[S.inv.equipped[slot]]||ITEM[DEFAULT_EQUIP[slot]]).v;
+const isEquipped=it=>it.slot==='avatar'?S.profile.avatar===it.v:S.inv.equipped[it.slot]===it.id;
+function reqText(q){if(!q)return'';if(q.lvl)return`Reach level ${q.lvl}`;if(q.missions)return`Claim ${q.missions} mission rewards (${Math.min(q.missions,S.counters.missions)}/${q.missions})`;
+ if(q.ach){const a=ACH.find(x=>x.id===q.ach);return a?(a.h&&!S.ach[a.id]?'Unlock a secret achievement':`Achievement: ${a.n}`):'An achievement'}return''}
+function itemState(id){const it=ITEM[id],own=owns(id),pc=it.c||0,pg=it.g||0;
+ return{it,own,eq:own&&isEquipped(it),locked:!own&&!reqMet(it.req),earned:!pc&&!pg&&!!it.req,free:!pc&&!pg&&!it.req,pc,pg,shortC:Math.max(0,pc-S.wallet.coins),shortG:Math.max(0,pg-S.wallet.gems)}}
+let buying=false;
+/** Buy one item. Returns {ok:true} or {ok:false,error}. Nothing changes unless every check passes. */
+function buyItem(id){if(buying)return{ok:false,error:'One moment…'};buying=true;
+ try{const it=ITEM[id];if(!it)return{ok:false,error:'That item isn’t available.'};const st=itemState(id);
+  if(st.own)return{ok:false,error:'You already own this.'};
+  if(!st.pc&&!st.pg)return{ok:false,error:'This one is earned by playing, not bought.'};
+  if(st.locked)return{ok:false,error:reqText(it.req)+' to unlock this first.'};
+  if(st.shortC||st.shortG)return{ok:false,error:st.shortC?`You need ${fmt(st.shortC)} more Brain Coins.`:`You need ${fmt(st.shortG)} more Gems.`};
+  S.wallet.coins-=st.pc;S.wallet.gems-=st.pg;S.inv.owned.push(id);S.counters.purchases++;S.counters.spentC+=st.pc;S.counters.spentG+=st.pg;
+  persist();return{ok:true}}finally{buying=false}}
+function equipItem(id){const it=ITEM[id];if(!it||!owns(id))return false;if(it.slot==='avatar')S.profile.avatar=it.v;else S.inv.equipped[it.slot]=id;persist();applyLook();renderHome();return true}
+function unequipSlot(slot){if(slot==='avatar'){S.profile.avatar='🧠'}else if(DEFAULT_EQUIP[slot])S.inv.equipped[slot]=DEFAULT_EQUIP[slot];else return false;persist();applyLook();renderHome();return true}
+function resetLook(){for(const s in DEFAULT_EQUIP)S.inv.equipped[s]=DEFAULT_EQUIP[s];S.profile.avatar='🧠';persist();applyLook();renderHome()}
+/** Today's featured items: four purchasable items the player doesn't own yet, picked from the
+    local date so the selection changes daily. Featuring never hides or removes anything. */
+function featuredToday(){const pool=ITEMS.filter(i=>(i.c||i.g)&&!owns(i.id)),all=pool.length?pool:ITEMS.filter(i=>i.c||i.g);
+ let h=hashStr('feat'+dayKey(new Date()));const p=all.slice(),out=[];while(out.length<4&&p.length){out.push(p.splice(h%p.length,1)[0]);h=Math.floor(h/5)+7}return out}
+
+/* ===== AVATARS: emoji, or an original design drawn in SVG ===== */
+const SVGAV={
+ wave:'<defs><linearGradient id="gw" x1="0" x2="1"><stop offset="0" stop-color="#06b6d4"/><stop offset="1" stop-color="#8b5cf6"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#0f172a"/><g fill="none" stroke="url(#gw)" stroke-width="3.5" stroke-linecap="round"><path d="M8 32c4-10 8-10 12 0s8 10 12 0 8-10 12 0 8 10 12 0"/><path d="M12 22c3-5 6-5 9 0" opacity=".6"/><path d="M43 42c3 5 6 5 9 0" opacity=".6"/></g>',
+ prism:'<defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c4b5fd"/><stop offset="1" stop-color="#6d28d9"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#1e1b4b"/><path d="M4 30h18" stroke="#fff" stroke-width="3"/><polygon points="32,12 46,44 18,44" fill="url(#gp)" stroke="#fff" stroke-width="2"/><g stroke-width="3"><path d="M40 30 60 22" stroke="#f43f5e"/><path d="M41 32 60 30" stroke="#f59e0b"/><path d="M42 34 60 38" stroke="#22c55e"/><path d="M42 36 58 46" stroke="#38bdf8"/></g>',
+ orbit:'<defs><radialGradient id="go" cx=".35" cy=".35"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#f97316"/></radialGradient></defs><circle cx="32" cy="32" r="30" fill="#0b1026"/><circle cx="12" cy="14" r="1" fill="#fff"/><circle cx="52" cy="50" r="1.2" fill="#fff"/><circle cx="50" cy="12" r=".8" fill="#fff"/><ellipse cx="32" cy="32" rx="25" ry="9" fill="none" stroke="#a5b4fc" stroke-width="2" transform="rotate(-20 32 32)"/><circle cx="32" cy="32" r="12" fill="url(#go)"/><circle cx="53" cy="24" r="4" fill="#e0e7ff"/>',
+ hex:'<circle cx="32" cy="32" r="30" fill="#052e2b"/><polygon points="32,8 53,20 53,44 32,56 11,44 11,20" fill="none" stroke="#2dd4bf" stroke-width="3"/><g stroke="#5eead4" stroke-width="2" fill="none"><path d="M32 18v10l-8 6v8M32 28l8 6v8M24 34h-6M40 34h6"/></g><g fill="#ccfbf1"><circle cx="32" cy="18" r="3"/><circle cx="24" cy="42" r="3"/><circle cx="40" cy="42" r="3"/><circle cx="18" cy="34" r="2.5"/><circle cx="46" cy="34" r="2.5"/></g>',
+ chip:'<defs><radialGradient id="gc"><stop offset="0" stop-color="#fff"/><stop offset=".4" stop-color="#22d3ee"/><stop offset="1" stop-color="#1e3a8a"/></radialGradient></defs><circle cx="32" cy="32" r="30" fill="#0f172a"/><g stroke="#94a3b8" stroke-width="3" stroke-linecap="round"><path d="M24 12v6M32 12v6M40 12v6M24 46v6M32 46v6M40 46v6M12 24h6M12 32h6M12 40h6M46 24h6M46 32h6M46 40h6"/></g><rect x="18" y="18" width="28" height="28" rx="5" fill="#1e293b" stroke="#cbd5e1" stroke-width="2"/><circle cx="32" cy="32" r="8" fill="url(#gc)"/>',
+ nova:'<defs><radialGradient id="gn"><stop offset="0" stop-color="#fff"/><stop offset=".35" stop-color="#fde047"/><stop offset="1" stop-color="#db2777"/></radialGradient></defs><circle cx="32" cy="32" r="30" fill="#1a0b2e"/><g fill="url(#gn)"><polygon points="32,4 37,27 60,32 37,37 32,60 27,37 4,32 27,27"/></g><polygon points="32,14 35,29 50,32 35,35 32,50 29,35 14,32 29,29" fill="#fff" opacity=".85" transform="rotate(45 32 32)"/>',
+ crest:'<defs><linearGradient id="gk" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#fde68a"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs><circle cx="32" cy="32" r="30" fill="#1c1406"/><path d="M32 9 50 16v14c0 12-8 20-18 25C22 50 14 42 14 30V16Z" fill="url(#gk)" stroke="#fff7d6" stroke-width="2"/><polygon points="32,19 35,27 44,27 37,32 40,41 32,36 24,41 27,32 20,27 29,27" fill="#fff7d6"/><g fill="none" stroke="#fde68a" stroke-width="2"><path d="M10 40c4 8 10 12 16 13M54 40c-4 8-10 12-16 13"/></g>'};
+function avatarHTML(v,frame){const inner=String(v).startsWith('svg:')&&SVGAV[v.slice(4)]?`<svg viewBox="0 0 64 64" aria-hidden="true">${SVGAV[v.slice(4)]}</svg>`:esc2(v);
+ const f=frame===undefined?equippedV('frame'):frame;return`<span class="ava${f&&f!=='none'?' fr-'+f:''}">${inner}</span>`}
+
+/* ===== APPLYING THE LOOK ===== */
+let PV=null;/* an active preview: {it, prev} — temporary, never saved */
+const look=slot=>PV&&PV.it.slot===slot?PV.it.v:equippedV(slot);
+const calm=()=>cfg.calm||matchMedia('(prefers-reduced-motion:reduce)').matches;
+function applyLook(){const sk=look('theme');
+ if(sk==='classic'){delete root.dataset.skin;root.style.setProperty('--h',cfg.h);if(cfg.mode)root.dataset.theme=cfg.mode;else delete root.dataset.theme}
+ else{root.dataset.skin=sk;root.style.removeProperty('--h');delete root.dataset.theme}
+ const hv=look('fxHover');if(hv==='none')delete root.dataset.hover;else root.dataset.hover=hv;
+ root.classList.toggle('rm',!!cfg.calm);
+ const hc=$('#huerow');if(hc)hc.hidden=sk!=='classic';const tg=$('#tg');if(tg)tg.hidden=sk!=='classic';
+ setTimeout(()=>{colors();bgReset()},30)}
+
+/* ===== EFFECTS ===== */
+function fxSpawn(cls,x,y,vars,txt,life=1300){const e=document.createElement('span');e.className='fxp '+cls;let st=`--x0:${x}px;--y0:${y}px;`;for(const k in vars)st+=`--${k}:${vars[k]};`;e.style.cssText=st+(vars.bg?`background:${vars.bg}`:'');if(txt)e.textContent=txt;document.body.appendChild(e);setTimeout(()=>e.remove(),life);return e}
+function pal(){const cs=getComputedStyle(root);return[cs.getPropertyValue('--a'),cs.getPropertyValue('--b'),cs.getPropertyValue('--c'),'#facc15','#22c55e']}
+function burst(kind,x,y,n=1){if(calm()&&kind!=='sparks')return;const P=pal();
+ if(kind==='sparks')sparks(x,y);
+ else if(kind==='confetti'||kind==='coins')for(let i=0;i<(kind==='coins'?16:26)*n;i++){const a=-Math.PI/2+(Math.random()-.5)*2.2,v=80+Math.random()*160;fxSpawn('cf',x,y,{x1:x+Math.cos(a)*v+'px',y1:y+Math.sin(a)*v+160+Math.random()*80+'px',rot:Math.random()*720+'deg',bg:kind==='coins'?'radial-gradient(circle at 35% 35%,#fff7c2,#f5b400 60%,#a16207)':P[i%5]},'',1200).style.borderRadius=kind==='coins'?'50%':'2px'}
+ else if(kind==='burst'||kind==='ripple')for(let i=0;i<(kind==='ripple'?1:3);i++)setTimeout(()=>fxSpawn(kind==='ripple'?'ripk':'rg',x,y,{sc:kind==='ripple'?5:4+i*2}),i*110);
+ else if(kind==='emoji'||kind==='hearts')for(let i=0;i<8;i++)fxSpawn('fl',x+(Math.random()-.5)*70,y,{x1:x+(Math.random()-.5)*150+'px',y1:y-120-Math.random()*70+'px'},kind==='emoji'?'🧠':['❤️','💖','💜'][i%3]);
+ else if(kind==='stars')for(let i=0;i<10;i++){const e=fxSpawn('fl',x,y,{x1:x+(Math.random()-.5)*220+'px',y1:y+(Math.random()-.5)*220+'px'},'✦');e.style.color=P[i%3];e.style.fontSize=12+Math.random()*16+'px'}
+ else if(kind==='comet')for(let i=0;i<9;i++)fxSpawn('str',x,y,{rot:i*40+'deg',c:P[i%3]},'',800);
+ else if(kind==='fireworks')for(let k=0;k<3;k++)setTimeout(()=>{const fx=x+(k-1)*120,fy=y-60-k*30;for(let i=0;i<12;i++)fxSpawn('str',fx,fy,{rot:i*30+'deg',c:P[(i+k)%5]},'',800)},k*260)}
+function fxCorrect(x,y,style){burst(style||equippedV('fxCorrect'),x,y)}
+function fxClick(x,y){const k=look('fxClick');if(k==='none')return;if(k==='sparks')sparks(x,y);else burst(k==='stars'?'stars':k,x,y)}
+function fxReward(x=innerWidth/2,y=innerHeight/2,style){const k=style||look('fxReward');
+ if(k==='gift'&&!calm()){const g=document.createElement('div');g.className='gift';g.textContent='🎁';document.body.appendChild(g);setTimeout(()=>{g.remove();burst('confetti',innerWidth/2,innerHeight/2)},900)}
+ else if(k==='coins')burst('coins',x,y);else if(k==='fireworks')burst('fireworks',x,y);else sparks(x,y);
+ const sp=look('sfx')==='reward';[660,880,1175].forEach((f,i)=>setTimeout(()=>beep(f,sp?.35:.18,.035),i*110))}
+function fxTier(t,style){const k=style||equippedV('fxTier');if(k==='none')return;
+ if(k==='shock'&&!calm()){const s=document.createElement('div');s.className='shock';document.body.appendChild(s);setTimeout(()=>s.remove(),950)}
+ const b=document.createElement('div');b.className='tierb';b.setAttribute('role','status');b.textContent=`Tier ${t}: ${TN[t-1]}`;document.body.appendChild(b);setTimeout(()=>b.remove(),1700)}
+function fxStreak(n,w=$('#stw'),style){if(!w)return;const k=style||equippedV('fxStreak');w.className='stw'+(k!=='none'?' fx-'+k:'')+(n>=3?' hot':'');w.style.setProperty('--n',Math.min(n,12))}
+function fxScore(from,to,gain,el=$('#sc'),wrap=$('#scw'),style){if(!el)return;const k=style||equippedV('fxScore');
+ if(k==='plain'||calm()||gain<=0){el.textContent=to;return}
+ if(k==='float'){el.textContent=to;const f=document.createElement('span');f.className='ptsf';f.textContent='+'+gain;wrap.appendChild(f);setTimeout(()=>f.remove(),1000);return}
+ const t0=performance.now();(function st(){const p=Math.min(1,(performance.now()-t0)/600);el.textContent=Math.round(from+(to-from)*(1-Math.pow(1-p,3)));if(p<1)requestAnimationFrame(st)})()}
+/* ===== SOUND PACKS: every pack is generated live by the Web Audio API (no audio files) ===== */
+const SFXP={classic:{w:'triangle'},soft:{w:'sine',v:.7,d:1.5,att:.012},retro:{w:'square',v:.42,d:.8,q:1},digital:{w:'square',v:.32,d:.6,oct:1},future:{w:'sawtooth',v:.38,lp:2200,sw:1},reward:{w:'triangle',d:1.6,bell:1}};
+function tone(f,d,v,P,at=0){const t=ac.currentTime+at,o=ac.createOscillator(),g=ac.createGain();o.type=P.w;
+ if(P.q)f=440*Math.pow(2,Math.round(12*Math.log2(f/440))/12);
+ o.frequency.setValueAtTime(f*(P.sw?.75:1),t);if(P.sw)o.frequency.exponentialRampToValueAtTime(f*1.15,t+d);
+ g.gain.setValueAtTime(P.att?0.0001:v,t);if(P.att)g.gain.linearRampToValueAtTime(v,t+P.att);g.gain.exponentialRampToValueAtTime(.0001,t+d);
+ let node=o;if(P.lp){const fl=ac.createBiquadFilter();fl.type='lowpass';fl.frequency.value=P.lp;o.connect(fl);node=fl}
+ node.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+.02)}
+/** The original beep(), extended: the equipped sound pack shapes the tone and the volume
+    slider scales it. With the Classic pack at full volume it sounds exactly as before. */
+function beep(f,d=.09,v=.04,pack){if(!cfg.sound||!(cfg.vol>0))return;try{ac=ac||new AudioContext();if(ac.state==='suspended')ac.resume();
+ const P=SFXP[pack||look('sfx')]||SFXP.classic,vv=v*(P.v||1)*cfg.vol,dd=d*(P.d||1);tone(f,dd,vv,P);
+ if(P.oct)tone(f*2,dd*.6,vv*.6,P,.045);if(P.bell){tone(f*1.5,dd*1.2,vv*.45,P,.01);tone(f*2.01,dd*.8,vv*.25,P,.02)}}catch(e){}}
+let ac;
+function previewSound(pack){[[523,.12,.03],[600,.09,.04],[880,.2,.04],[220,.3,.04]].forEach(([f,d,v],i)=>setTimeout(()=>beep(f,d,v,pack),i*260));
+ [660,880,1175].forEach((f,i)=>setTimeout(()=>beep(f,.25,.035,pack),1100+i*110))}
+const sc=[523,587,659,784,880,1047];
+$$('.ch').forEach(c=>c.addEventListener('pointerenter',()=>beep(sc[Math.floor(Math.random()*6)],.12,.025)));
+/* tagline */
+const tags=['Think fast. Think smart.','Riddles, logic, numbers and a little chaos.','Be honest. How smart are you really?','Press Play to find out.'];
+let ti=0,tj=0,td=false;(function tick(){const s=tags[ti];tj+=td?-1:1;$('#tag').textContent=s.slice(0,tj);let w=td?22:55;if(!td&&tj===s.length){td=true;w=1900}else if(td&&tj===0){td=false;ti=(ti+1)%tags.length;w=350}setTimeout(tick,w)})();
+/* sparks */
+function sparks(x,y){const cs=getComputedStyle(root),cols=[cs.getPropertyValue('--a'),cs.getPropertyValue('--b'),cs.getPropertyValue('--c')];
+ for(let i=0;i<14;i++){const s=document.createElement('span'),a=Math.random()*6.28,d=40+Math.random()*90;s.className='spark';s.style.cssText=`left:${x}px;top:${y}px;background:${cols[i%3]};--dx:${Math.cos(a)*d}px;--dy:${Math.sin(a)*d}px`;document.body.appendChild(s);setTimeout(()=>s.remove(),850)}}
+addEventListener('pointerdown',e=>{if(!e.target.closest('button,.panel,.pvbar')){fxClick(e.clientX,e.clientY);beep(660,.1)}});
+/* buttons: magnetic + sound */
+$$('.btn').forEach((b,i)=>{b.addEventListener('pointerenter',()=>beep(440+i*110));
+ b.addEventListener('pointermove',e=>{if(cfg.calm)return;const r=b.getBoundingClientRect();b.style.setProperty('--tx',(e.clientX-r.left-r.width/2)*.12+'px');b.style.setProperty('--ty',(e.clientY-r.top-r.height/2)*.25+'px')});
+ b.addEventListener('pointerleave',()=>{b.style.setProperty('--tx','0px');b.style.setProperty('--ty','0px')})});
+/* settings */
+function sync(){$('#hue').value=cfg.h;$('#vol').value=Math.round(cfg.vol*100);$('#vol').setAttribute('aria-valuetext',Math.round(cfg.vol*100)+'%');$$('.chip[data-k]').forEach(c=>c.setAttribute('aria-pressed',String(cfg[c.dataset.k])===c.dataset.v));
+ const sk=look('theme');$('#looknote').textContent=sk==='classic'?'':`You’re using the ${ITEMS.find(i=>i.slot==='theme'&&i.v===sk).name} theme. Accent colour and light/dark apply to the Classic theme.`;applyLook()}
+$$('.chip[data-k]').forEach(c=>c.onclick=()=>{const v=c.dataset.v;cfg[c.dataset.k]=v==='true'?true:v==='false'?false:v;save();sync();beep(700)});
+$('#vol').oninput=e=>{cfg.vol=(+e.target.value)/100;save();sync()};$('#vol').onchange=()=>beep(880,.15);
+$('#hue').oninput=e=>{cfg.h=+e.target.value;save();sync()};
+$('#tg').onclick=()=>{const dark=root.dataset.theme?root.dataset.theme==='dark':matchMedia('(prefers-color-scheme:dark)').matches;cfg.mode=dark?'light':'dark';save();applyLook()};
+/* modals */
+let last;function open(id){last=document.activeElement;const m=$('#'+id);m.classList.add('open');m.setAttribute('aria-hidden','false');setTimeout(()=>m.querySelector('button').focus(),50)}
+function closeAll(force){if(typeof G!=='undefined'&&G&&G.active&&force!==true)return;if(typeof G!=='undefined'&&G){G.active=false;cancelAnimationFrame(G.raf)}$$('.scrim.open').forEach(m=>{m.classList.remove('open');m.setAttribute('aria-hidden','true')});last&&last.focus()}
+$$('.scrim').forEach(m=>m.addEventListener('pointerdown',e=>{if(e.target===m)closeAll()}));
+addEventListener('keydown',e=>{if(e.key!=='Tab')return;const m=$('.scrim.open');if(!m)return;const f=[...m.querySelectorAll('button:not([disabled]),input,select,summary,[tabindex]:not([tabindex="-1"])')].filter(x=>x.offsetParent!==null);if(!f.length)return;const a=f[0],z=f[f.length-1];if(!m.contains(document.activeElement)){e.preventDefault();a.focus()}else if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}});
+addEventListener('keydown',e=>{if(e.key==='Escape'&&PV){endPreview(true);return}if(e.key==='Escape')closeAll();if(e.key==='Enter'&&e.target===document.body&&!$('.scrim.open'))play()});
+/* ===== Play: categories, typed answers, shrinking timer, best results ===== */
+const CATDEF=JSON.parse($('#catdef').textContent),CATS={random:['🎲','Random']};CATDEF.forEach(c=>CATS[c.k]=[c.i,c.n,c.g]);
+const TN=['Warm-up','Easy','Tricky','Hard','Niche','Ultra niche'];
+const BANK={};{let cur;$('#qdata').textContent.trim().split('\n').forEach(l=>{if(l[0]==='#'){cur=l.slice(1).trim();BANK[cur]=[];return}const p=l.split('|');if(cur&&p.length>=3)BANK[cur].push([+p[0],p[1],p[2].split('/')])})}
+const nz=s=>String(s).toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/^(the|a|an)\s+/,'').replace(/[^a-z0-9]/g,'');
+const ri=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+function mathQ(t){let q,a,x,y;
+ if(t===1){x=ri(2,20);y=ri(2,20);q=`What is ${x} + ${y}?`;a=x+y}
+ else if(t===2){x=ri(3,12);y=ri(3,12);q=`What is ${x} × ${y}?`;a=x*y}
+ else if(t===3){x=ri(11,25);y=ri(3,9);q=`What is ${x} × ${y}?`;a=x*y}
+ else if(t===4){x=[10,15,20,25,30,35,40,45,60,75][ri(0,9)];y=ri(2,20)*20;q=`What is ${x}% of ${y}?`;a=x*y/100}
+ else if(t===5){x=ri(3,20);y=ri(2,9);const c=ri(3,30);q=`Solve for x: ${y}x + ${c} = ${y*x+c}`;a=x}
+ else{const k=ri(0,2);if(k===0){x=ri(12,35);y=ri(12,35);q=`What is ${x} × ${y}?`;a=x*y}else if(k===1){x=ri(11,16);q=`What is 2^${x}? (2 to the power of ${x})`;a=2**x}else{x=ri(13,40);q=`What is the square root of ${x*x}?`;a=x}}
+ return [t,q,[String(a)]]}
+const esc2=t=>String(t).replace(/[&<>"']/g,c=>'&#'+c.charCodeAt(0)+';');
+let G=null;
+const fmt=n=>Math.round(n).toLocaleString(),dur=t=>t>=3600?`${Math.floor(t/3600)}h ${Math.floor(t%3600/60)}m`:`${Math.floor(t/60)}m ${t%60}s`;
+let tt;function toast(m){const e=$('#toast');e.textContent=m;e.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>e.classList.remove('show'),3200)}
+function levelUp(n,style){const k=style||equippedV('fxLevel'),d=document.createElement('div');d.className='lvl'+(k!=='classic'?' '+k:'');d.setAttribute('role','status');d.innerHTML=`<div>LEVEL UP!<br>Level ${n}<br><small style="font-size:.35em">${rankOf(n)}</small></div>`;document.body.appendChild(d);
+ if(k==='gold')burst('coins',innerWidth/2,innerHeight*.3,2);else if(k==='galaxy'){burst('burst',innerWidth/2,innerHeight/2);burst('stars',innerWidth/2,innerHeight/2)}else sparks(innerWidth/2,innerHeight/2);
+ beep(660,.15);setTimeout(()=>beep(880,.2),150);setTimeout(()=>beep(1175,.3),320);setTimeout(()=>d.remove(),2400)}
+function renderHome(){const li=lvlInfo(S.prog.xp);if($('#shop.open'))updBal();$('#pcard').innerHTML=`<span class="av">${avatarHTML(S.profile.avatar)}</span><span class="pi"><b></b><small>Level ${li.l} · ${esc2(playerTitle())}</small><span class="bar"><i style="width:${li.into/li.need*100}%"></i></span></span><span class="cur">🪙 ${fmt(S.wallet.coins)}<br>💎 ${fmt(S.wallet.gems)}</span>`;$('#pcard b').textContent=S.profile.name}
+/* ----- pages ----- */
+const M=(a,b)=>`<div class="m"><b>${a}</b><small>${b}</small></div>`;
+function spark(v,f){if(v.length<2)return'<p class="mut">Play a couple more games to see this chart.</p>';const w=300,h=70,mx=Math.max(...v),mn=Math.min(...v,0),pts=v.map((x,i)=>`${(i/(v.length-1)*w).toFixed(1)},${(h-4-(x-mn)/((mx-mn)||1)*(h-8)).toFixed(1)}`).join(' ');
+ return `<svg viewBox="0 0 ${w} ${h}" class="spark2" role="img" aria-label="Chart, latest ${f(v[v.length-1])}"><polyline points="${pts}" fill="none" stroke="var(--a)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg><div class="mut">Latest ${f(v[v.length-1])} · Best ${f(mx)}</div>`}
+const PAGES={progress:'📈 Progress',stats:'📊 Stats',achievements:'🏅 Achievements',missions:'🎯 Missions',profile:'👤 Profile'},AV=['🧠','🦉','🦊','🐙','🚀','🎮','⚡','🔥','🌟','🐉','🤖','🎯'];
+let range='all';const VIEW={};
+VIEW.progress=()=>{const li=lvlInfo(S.prog.xp);
+ const ms=Object.keys(MILE).map(Number).map(L=>`<tr><td>Level ${L}</td><td>🪙 ${fmt(MILE[L][0])} · 💎 ${MILE[L][1]}</td><td>${S.prog.claimed.includes(L)?'✓ Claimed':li.l>=L?'Reached':'Locked'}</td></tr>`).join('');
+ const nx=[0,1,2,3,4].map(i=>`<tr><td>Level ${li.l+i} → ${li.l+i+1}</td><td>${fmt(need(li.l+i))} XP</td></tr>`).join('');
+ const rk=RANKS.map(r=>`<tr><td>${r[1]}</td><td>Level ${r[0]}+</td><td>${rankOf(li.l)===r[1]?'← you':''}</td></tr>`).join('');
+ return `<h2>Progression</h2><p class="big">Level ${li.l}</p><p class="mut">${rankOf(li.l)} · ${fmt(S.prog.xp)} total XP</p><div class="bar thick"><i data-w="${li.into/li.need*100}" style="width:0"></i></div><p class="mut">${fmt(li.into)} / ${fmt(li.need)} XP to level ${li.l+1}</p><h3>Milestone rewards</h3><table class="t">${ms}</table><h3>Next levels</h3><table class="t">${nx}</table><h3>Ranks</h3><table class="t">${rk}</table>`};
+VIEW.stats=()=>{const st=statsFor(range),cat={},tier={};
+ for(const h of st.R){for(const k in h.cats){const c=cat[k]=cat[k]||[0,0];c[0]+=h.cats[k][0];c[1]+=h.cats[k][1]}for(const k in h.tr){const c=tier[k]=tier[k]||[0,0];c[0]+=h.tr[k][0];c[1]+=h.tr[k][1]}}
+ const rows=(o,names)=>Object.keys(o).sort().map(k=>`<tr><td>${names(k)}</td><td>${o[k][0]}</td><td>${Math.round(o[k][1]/o[k][0]*100)}%</td></tr>`).join('')||'<tr><td colspan="3">No data yet</td></tr>';
+ const chips=[['today','Today'],['week','7 days'],['month','30 days'],['all','Lifetime']].map(([k,v])=>`<button class="chip" data-range="${k}" aria-pressed="${k===range}">${v}</button>`).join(''),last=st.R.slice(-12);
+ const hist=st.H.slice(-25).reverse().map(h=>`<details><summary>${new Date(h.t).toLocaleDateString(undefined,{day:'numeric',month:'short'})} · ${CATS[h.cat][0]} ${CATS[h.cat][1]} · ${fmt(h.s)} pts</summary><p class="mut">${h.legacy?'Imported from an earlier version: only score, correct answers and level were recorded.':`${h.k} correct, ${h.w} wrong · accuracy ${Math.round(h.k/((h.k+h.w)||1)*100)}% · level ${h.tier} (${TN[h.tier-1]}) · best streak ${h.st} · +${h.xp} XP · +${h.co} coins · avg response ${h.n?(h.rt/h.n/1000).toFixed(1):0}s · ${dur(h.d)}`}</p></details>`).join('')||'<p class="mut">No games yet.</p>';
+ return `<h2>Statistics</h2><div class="ptabs">${chips}</div><div class="mgrid">${M(st.games,'Games')}${M(st.q,'Questions')}${M(st.c,'Correct')}${M(st.w,'Wrong')}${M(st.acc.toFixed(0)+'%','Accuracy')}${M(fmt(st.best),'Best score')}${M(st.streak,'Best streak')}${M(fmt(range==='all'?S.prog.xp:st.xp),'XP earned')}${M(fmt(st.coins),'Coins from games')}${M(st.tier?TN[st.tier-1]:'–','Highest level')}${M(dur(st.time),'Time played')}${M(st.avg?(st.avg/1000).toFixed(1)+'s':'–','Avg response')}${M(st.fast?(st.fast/1000).toFixed(2)+'s':'–','Fastest correct')}</div>
+ <p class="mut">Quiz response time is how fast you answer a question, not typing speed (WPM). A real typing test is planned.</p>
+ <h3>Recent scores</h3>${spark(last.map(h=>h.s),fmt)}<h3>Accuracy over time</h3>${spark(last.map(h=>h.k/((h.k+h.w)||1)*100),v=>Math.round(v)+'%')}<h3>XP per game</h3>${spark(last.map(h=>h.xp),fmt)}<h3>Average response time</h3>${spark(last.map(h=>h.n?h.rt/h.n/1000:0),v=>v.toFixed(1)+'s')}
+ <h3>By category</h3><table class="t"><tr><th>Category</th><th>Answered</th><th>Accuracy</th></tr>${rows(cat,k=>CATS[k][0]+' '+CATS[k][1])}</table><h3>By level</h3><table class="t"><tr><th>Level</th><th>Answered</th><th>Accuracy</th></tr>${rows(tier,k=>k+': '+TN[k-1])}</table><h3>Game history</h3>${hist}`};
+const rw=r=>`${r[0]} XP${r[1]?` · 🪙 ${r[1]}`:''}${r[2]?` · 💎 ${r[2]}`:''}`;
+VIEW.achievements=()=>{const v=achVals(),un=ACH.filter(a=>S.ach[a.id]).length;
+ return `<h2>Achievements</h2><p class="mut">${un} / ${ACH.length} unlocked. Rewards are paid once, when you unlock them.</p><div class="agrid">`+ACH.map(a=>{const got=S.ach[a.id],p=Math.min(a.t,v[a.k]);
+  if(a.h&&!got)return `<div class="ac"><span class="ai">🔒</span><b>Secret achievement</b><small>Keep playing to discover it.</small></div>`;
+  return `<div class="ac ${got?'got':''}"><span class="ai">${a.i}</span><b>${a.n}</b><small>${a.d}</small><span class="bar"><i style="width:${p/a.t*100}%"></i></span><small>${got?'✓ Unlocked':fmt(p)+' / '+fmt(a.t)}</small><small>Reward: ${rw(a.r)}</small></div>`}).join('')+'</div>'};
+function resetIn(sc){const n=new Date(),t=new Date(n);t.setHours(24,0,0,0);if(sc==='weekly'){t.setTime(new Date(weekKey().split('-').join('/')).getTime());t.setDate(t.getDate()+7)}const m=Math.max(0,Math.round((t-n)/6e4));return `Resets in ${m>=1440?Math.floor(m/1440)+'d ':''}${Math.floor(m%1440/60)}h ${m%60}m`}
+VIEW.missions=()=>{rollMissions();const sec=(sc,t)=>`<h3>${t}</h3><p class="mut">${resetIn(sc)}</p>`+S.missions[sc].list.map((m,ix)=>{const P=MPOOL[sc][m.i],p=Math.min(P[1],m.p);
+  const rdy=p>=P[1];return `<div class="ms${rdy||m.c?' done':''}"><div><b>${P[2]}</b><span class="bar"><i style="width:${p/P[1]*100}%"></i></span><small class="mut">${fmt(p)} / ${fmt(P[1])} · Reward: ${rw(MREW[sc])}</small></div>${m.c?'<span class="mut">✓ Claimed</span>':`<button class="chip${rdy?' ready':''}" data-claim="${sc}:${ix}" ${rdy?'':'disabled'} aria-label="${rdy?'Claim reward':'Mission not finished yet'}">${rdy?'Claim':'Locked'}</button>`}</div>`}).join('');
+ return '<h2>Missions</h2>'+sec('daily','Daily missions')+sec('weekly','Weekly missions')};
+VIEW.profile=()=>{const li=lvlInfo(S.prog.xp),st=statsFor('all'),cat={};for(const h of st.R)for(const k in h.cats)cat[k]=(cat[k]||0)+h.cats[k][0];const fav=Object.keys(cat).sort((a,b)=>cat[b]-cat[a])[0];
+ const avs=FREE_AVATARS.concat(ITEMS.filter(i=>i.slot==='avatar').map(i=>i.v)),owned=ITEMS.filter(i=>owns(i.id)).length+FREE_AVATARS.length;
+ const chips=slot=>ITEMS.filter(i=>i.slot===slot&&owns(i.id)).map(i=>`<button class="chip" data-eq="${i.id}" aria-pressed="${isEquipped(i)}">${esc2(slot==='title'?(i.v||'Your rank ('+rankOf(li.l)+')'):i.name)}</button>`).join('');
+ return `<h2>Profile</h2><div class="avp">${avatarHTML(S.profile.avatar)}<div><b>${esc2(S.profile.name)}</b><small>${esc2(playerTitle())} · Level ${li.l} · ${rankOf(li.l)}</small></div></div>
+ <label for="pname"><b>Username</b></label><input class="nm" id="pname" maxlength="14" value="${esc2(S.profile.name)}">
+ <h3>Avatar</h3><div class="avgrid">${avs.map(v=>{const own=avatarOwnedIn(S,v);return`<button data-av="${esc2(v)}" class="${own?'':'lk'}" aria-pressed="${S.profile.avatar===v}" aria-label="${own?'Use this avatar':'Locked avatar: see it in the shop'}">${avatarHTML(v,'none')}</button>`}).join('')}</div>
+ <h3>Title</h3><div class="invopts">${chips('title')}</div><h3>Profile frame</h3><div class="invopts">${chips('frame')}</div>
+ <div class="qbtns" style="margin-top:12px"><button class="chip" data-shop="avatars">🛒 More avatars and titles</button><button class="chip" data-inv>🎒 Inventory (${owned} items)</button></div>
+ <div class="mgrid">${M(fmt(S.prog.xp),'Total XP')}${M('🪙 '+fmt(S.wallet.coins),'Brain Coins')}${M('💎 '+S.wallet.gems,'Brain Gems')}${M(st.games,'Games played')}${M(Object.keys(S.ach).length+' / '+ACH.length,'Achievements')}${M(fmt(st.best),'Highest score')}${M(fav?CATS[fav][0]+' '+CATS[fav][1]:'–','Favourite category')}${M(S.counters.purchases,'Shop purchases')}${M(S.counters.missions,'Missions claimed')}</div>
+ <h3>Your save</h3><p class="mut">Progress, purchases and equipped items live in this browser only. Export a backup file to keep them safe or move them to another device. A save stored in the browser can be edited, so it isn’t cheat-proof.</p><div class="qbtns"><button class="chip" data-export>Export save</button><button class="chip" data-import>Import save</button><button class="chip" data-paste>Paste save</button><button class="chip" data-reset>Reset progress</button></div><input type="file" id="imp" accept="application/json,.json" hidden>`};
+function showPage(p){const pg=$('#pg');$('#ptabs').innerHTML=Object.entries(PAGES).map(([k,v])=>`<button class="chip" data-p="${k}" aria-pressed="${k===p}">${v}</button>`).join('');pg.innerHTML=VIEW[p]();if(!$('#page').classList.contains('open'))open('page');setTimeout(()=>$$('#pg .bar i[data-w]').forEach(b=>b.style.width=b.dataset.w+'%'),40)}
+/* Saving a file works differently when the page is hosted as an artifact, so try the
+   hosted save first and fall back to a normal browser download, then to copy-and-paste. */
+async function exportSave(){const json=JSON.stringify(S,null,1),name='how-smart-are-you-save.json';
+ try{const d=window.claude&&claude.use?await claude.use('downloads'):null;
+  if(d){await d.save({filename:name,data:json});toast('Save file downloaded.');return}}catch(e){if(e&&e.code==='not_granted'){toast('Download was declined.');return}}
+ try{const b=new Blob([json],{type:'application/json'}),a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(a.href),1000);toast('Save file downloaded.');return}catch(e){}
+ try{await navigator.clipboard.writeText(json);toast('Save copied to the clipboard. Paste it into a text file to keep it.')}
+ catch(e){const w=$('#pg');if(w){const ta=document.createElement('textarea');ta.className='nm';ta.rows=6;ta.value=json;ta.readOnly=true;w.appendChild(ta);ta.select();toast('Copy the text below to back up your save.')}}}
+function applySave(ns){Object.assign(cfg,ns.settings);ns.settings=cfg;S=ns;persist();sync();renderHome()}
+function importText(txt){const r=parseImport(txt);if(r.error){toast(r.error);beep(220,.25);return false}applySave(r.save);checkAch();showPage('profile');toast(r.newer?'Save imported. It came from a newer version, so anything this version doesn’t know was left out.':'Save imported.');return true}
+$('#pg').addEventListener('input',e=>{if(e.target.id==='pname'){S.profile.name=e.target.value.trim().slice(0,14)||'Player';persist();renderHome()}});
+$('#pg').addEventListener('change',e=>{if(e.target.id!=='imp'||!e.target.files[0])return;const f=e.target.files[0];e.target.value='';if(f.size>5e6){toast('That file is too big to be a save.');return}const r=new FileReader();r.onload=()=>importText(String(r.result));r.onerror=()=>toast('That file couldn’t be read.');r.readAsText(f)});
+$('#pg').addEventListener('click',e=>{const t=e.target.closest('button')||e.target;
+ if(t.dataset.range){range=t.dataset.range;showPage('stats')}
+ else if(t.dataset.av){if(avatarOwnedIn(S,t.dataset.av)){S.profile.avatar=t.dataset.av;persist();renderHome();beep(880,.12);showPage('profile')}else openShop('avatars')}
+ else if(t.dataset.eq){if(equipItem(t.dataset.eq)){beep(880,.12);showPage('profile')}}
+ else if('export' in t.dataset)exportSave()
+ else if(t.dataset.claim){const[sc,ix]=t.dataset.claim.split(':'),rc=t.getBoundingClientRect(),r=claimMission(sc,+ix);if(r){const names=Array.isArray(r)?r:[];fxReward(rc.left+rc.width/2,rc.top);toast(names.length?`Reward claimed · 🏅 ${names[0]}`:'Mission reward claimed!');if(PL){levelUp(PL);PL=0}renderHome();showPage('missions')}}
+ else if('import' in t.dataset)$('#imp').click();
+ else if('paste' in t.dataset){let v=null;try{v=prompt('Paste your save file contents here:')}catch(x){toast('Pasting isn’t available here. Use Import save instead.')}if(v)importText(v)}
+ else if('reset' in t.dataset){if(t.dataset.arm){applySave(defSave());showPage('profile');toast('Progress reset.')}else{t.dataset.arm=1;t.textContent='Tap again to erase everything';setTimeout(()=>{t.removeAttribute('data-arm');t.textContent='Reset progress'},4000)}}});
+document.body.addEventListener('click',e=>{const p=e.target.closest('[data-p]');if(p&&PAGES[p.dataset.p]){beep(600);showPage(p.dataset.p)}
+ const sh=e.target.closest('[data-shop],[data-inv]');if(sh&&!sh.closest('#shop')){beep(600);openShop(sh.dataset.shop||'featured');if(sh.hasAttribute('data-inv')){invMode=true;renderShop()}}});
+/* ----- Classic Mode ----- */
+function renderLB(hl){const top=S.history.slice().sort((a,b)=>b.s-a.s).slice(0,10);$('#lbl').innerHTML=top.length?top.map((e,i)=>`<li class="${e.t===hl?'me':''}"><b>${i+1}</b><span>${CATS[e.cat][0]} ${CATS[e.cat][1]}<small>${e.k} correct · level ${e.tier}</small></span><em>${new Date(e.t).toLocaleDateString(undefined,{day:'numeric',month:'short'})}</em><strong>${fmt(e.s)}</strong></li>`).join(''):'<li>No results yet. Play a round!</li>'}
+function catHtml(q){q=q.trim().toLowerCase();const g={};CATDEF.filter(c=>!q||c.n.toLowerCase().includes(q)||c.g.toLowerCase().includes(q)).forEach(c=>(g[c.g]=g[c.g]||[]).push(c));
+ return Object.entries(g).map(([n,l])=>`<h4>${n}</h4><div class="cats">`+l.map(c=>`<button class="cat" data-cat="${c.k}"><span>${c.i}</span>${c.n}</button>`).join('')+'</div>').join('')||'<p class="mut">No categories match your search.</p>'}
+function play(){G={active:false};open('game');$('#gb').innerHTML=`<h2>Classic Mode</h2><p class="mut">Pick a category. Type your answers. Right answers make the next one harder and faster. You have 3 lives and the timer never stops.</p><button class="x" data-cat="random" style="margin:0 0 10px">🎲 Random category (all ${CATDEF.length})</button><input class="nm" id="csearch" type="search" placeholder="Search categories" aria-label="Search categories" autocomplete="off"><div id="cgrid">${catHtml('')}</div><details class="how"><summary>How scoring and rewards work</summary><p>Each correct answer scores 100 × the level (1–6), plus 10 per second left, plus 25 per answer in your streak (up to 250). The level rises every 2 right answers. XP: 10 + 5 × level per correct answer, +2 per streak step (up to 20), +25 for finishing a run, capped at 800 per run. Coins: 3 per correct answer plus 1 per 200 points, capped at 200 per run.</p></details><button class="x" data-a="close">Back</button>`;$('#csearch').addEventListener('input',e=>{$('#cgrid').innerHTML=catHtml(e.target.value)})}
+function start(cat){const pool={};for(const k in BANK){const seen=S.seen[k]||[];let p=BANK[k].filter(q=>!seen.includes(q[1]));if(p.length<6){S.seen[k]=[];p=BANK[k].slice()}pool[k]=p}
+ G={cat,score:0,lives:3,streak:0,bestStreak:0,correct:0,wrong:0,tier:1,best:1,xp:0,log:[],active:true,locked:true,raf:0,pool,runStart:Date.now()};
+ let c=3;(function t(){if(!G.active)return;$('#gb').innerHTML=`<div class="cd">${c||'Go!'}</div>`;beep(c?440:880,.15);if(c--<=0)return setTimeout(next,500);setTimeout(t,700)})()}
+function pick(){let cat=G.cat;const t=G.tier;
+ if(cat==='random'){const o=Object.keys(BANK).concat('math');cat=o[ri(0,o.length-1)]}
+ G.qcat=cat;if(cat==='math')return mathQ(t);const pl=G.pool[cat];if(!pl.length)pl.push(...BANK[cat]);
+ const d=q=>Math.abs(q[0]-t)+(q[0]>t?.5:0),m=Math.min(...pl.map(d));let c=pl.filter(q=>d(q)===m);if(c.length>1)c=c.filter(q=>q[1]!==G.lastQ);
+ const q=c[ri(0,c.length-1)];pl.splice(pl.indexOf(q),1);G.lastQ=q[1];(S.seen[cat]=S.seen[cat]||[]).push(q[1]);return q}
+function hud(gain=0){const from=G.shown||0;G.shown=G.score;fxScore(from,G.score,gain);$('#st').textContent=G.streak;fxStreak(G.streak);$('#lv').textContent='♥'.repeat(G.lives)+'♡'.repeat(3-G.lives);$('#lv').setAttribute('aria-label',G.lives+' lives left')}
+function renderQ(){const q=G.q;$('#gb').innerHTML=`<div class="hud"><span id="scw">🏆 <b id="sc">${G.shown||0}</b></span><span id="lv"></span><span id="stw" class="stw">🔥 <b id="st"></b></span></div><div class="tbar"><i id="tb"></i></div><p class="mut">${CATS[G.qcat][0]} ${CATS[G.qcat][1]} · Level ${G.tier}: ${TN[G.tier-1]}</p><h3>${q[1]}</h3><input class="ans" id="ans" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your answer" placeholder="Type your answer, press Enter"><p class="fb" id="fb"></p><div class="qbtns"><button class="chip" data-quit>End run</button></div>`;
+ hud();const inp=$('#ans');inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')submit()})}
+function next(){if(!G.active)return;const pt=G.tier;G.tier=Math.min(6,1+Math.floor(G.correct/2));if(G.tier>pt)setTimeout(()=>fxTier(G.tier),250);G.best=Math.max(G.best,G.tier);const q=pick();if(!q)return results(true);G.q=q;G.locked=false;
+ const len=nz(q[2][0]).length,base=20*Math.pow(.92,G.correct);G.limit=Math.max(base,3+len*.55+q[1].length*.04);renderQ();G.start=performance.now();clearTimeout(G.to);G.to=setTimeout(()=>{if(G.active&&!G.locked)resolve(false,true)},G.limit*1000+80);loop()}
+function loop(){if(!G.active||G.locked)return;const rem=G.limit-(performance.now()-G.start)/1000,f=Math.max(0,rem/G.limit),bar=$('#tb');
+ if(bar){bar.style.transform=`scaleX(${f})`;bar.style.background=`hsl(${f*120} 80% 50%)`}if(rem<=0)return resolve(false,true);G.raf=requestAnimationFrame(loop)}
+function submit(){if(!G.active||G.locked)return;const v=nz($('#ans').value);if(!v)return;resolve(G.q[2].some(a=>nz(a)===v),false)}
+function resolve(ok,timeout){if(G.locked)return;G.locked=true;clearTimeout(G.to);cancelAnimationFrame(G.raf);const ms=Math.min(G.limit*1000,performance.now()-G.start),rem=Math.max(0,G.limit-ms/1000),inp=$('#ans'),fb=$('#fb');inp.disabled=true;
+ G.log.push({cat:G.qcat,tier:G.tier,ok,ms});
+ if(ok){G.streak++;G.correct++;G.bestStreak=Math.max(G.bestStreak,G.streak);const a=G.tier*100,b=Math.ceil(rem)*10,c=Math.min(G.streak,10)*25;G.score+=a+b+c;G.gain=a+b+c;G.xp+=10+G.tier*5+Math.min(G.streak,10)*2;inp.classList.add('ok');fb.textContent=`Correct! +${a+b+c} points (level ${a} + speed ${b} + streak ${c})`;const r=inp.getBoundingClientRect();fxCorrect(r.left+r.width/2,r.top);beep(880,.2)}
+ else{G.lives--;G.wrong++;G.streak=0;inp.classList.add('bad');fb.textContent=(timeout?'Time’s up! ':'Not quite. ')+'Answer: '+G.q[2][0];beep(220,.3)}
+ hud(ok?G.gain:0);setTimeout(()=>{if(!G.active)return;G.lives?next():results(false)},ok?900:1800)}
+function results(cleared){G.active=false;clearTimeout(G.to);cancelAnimationFrame(G.raf);const r=finishRun(cleared),x=afterRun(r),n=G.log.length,acc=n?Math.round(G.correct/n*100):0,a=lvlInfo(S.prog.xp);PL=0;
+ const gc=S.wallet.coins-r.w0[0],gg=S.wallet.gems-r.w0[1],bon=(r.bonus||[0,0]),lv=r.lv||[0,0,0];
+ const w0=r.before.l===a.l?r.before.into/r.before.need*100:0,ms=r.ms.map(m=>`<p>🎁 Level ${m[0]} reward: 🪙 ${fmt(m[1])} and 💎 ${m[2]}</p>`).join('')+x.ach.map(t=>`<p>🏅 Achievement unlocked: <b>${t}</b></p>`).join('')+x.mis.map(t=>`<p>🎯 Mission complete: <b>${t}</b> (claim it in Missions)</p>`).join('')+(bon[0]?`<p>🔥 Streak bonus: 🪙 ${bon[0]}</p>`:'')+(bon[1]?`<p>🏆 Personal best bonus: 🪙 ${bon[1]}</p>`:'')+(lv[0]?`<p>⬆️ Level-up reward: 🪙 ${lv[1]} and 💎 ${lv[2]}</p>`:'');
+ $('#gb').innerHTML=`<h2>${cleared?'You cleared everything!':'Run complete'}</h2><p class="big">${fmt(G.score)}</p><p class="mut">${r.pb?'New personal best! · ':''}${CATS[G.cat][0]} ${CATS[G.cat][1]}</p><div class="mgrid">${M(G.correct,'Correct')}${M(G.wrong,'Wrong')}${M(acc+'%','Accuracy')}${M(G.bestStreak,'Best streak')}${M(TN[G.best-1],'Highest level')}${M('+'+r.xp,'XP')}${M('+'+fmt(gc),'Coins')}${gg?M('+'+gg,'Gems'):''}</div><p class="mut">Wallet: 🪙 ${fmt(S.wallet.coins)} · 💎 ${fmt(S.wallet.gems)} · <button class="chip" data-shop>🛒 Shop</button></p><p class="mut">Level ${a.l} · ${rankOf(a.l)} · ${fmt(a.into)} / ${fmt(a.need)} XP</p><div class="bar thick"><i id="rb" style="width:${w0}%"></i></div>${ms}${r.empty?'<p class="mut">No questions answered, so nothing was recorded.</p>':''}<button class="x" data-a="play">Play again</button><button class="x" data-a="leaderboard">My best results</button><button class="x" data-a="close">Menu</button>`;
+ G.shown=0;
+ setTimeout(()=>{const b=$('#rb');if(b)b.style.width=a.into/a.need*100+'%'},60);beep(G.score?880:330,.3);if(a.l>r.before.l)setTimeout(()=>levelUp(a.l),700)}
+$('#gb').addEventListener('click',e=>{const t=e.target,c=t.closest('[data-cat]');
+ if(c){beep(700);return start(c.dataset.cat)}
+ if('quit' in t.dataset){if(t.dataset.arm){G.locked=true;return results(false)}t.dataset.arm=1;t.textContent='Tap again to end run';setTimeout(()=>{if(t.isConnected){t.removeAttribute('data-arm');t.textContent='End run'}},4000);return}
+ if(t.closest('[data-a="leaderboard"]')){e.stopPropagation();closeAll(true);renderLB(G&&G.res&&S.history.length?S.history[S.history.length-1].t:0);open('leaderboard')}});
+document.body.addEventListener('click',e=>{const a=e.target.closest('[data-a]');if(!a)return;const k=a.dataset.a;if(PV)endPreview(false);beep(600);if(k==='close')closeAll();else if(k==='play')play();else if(k==='shop')openShop();else open(k);if(k==='leaderboard')renderLB()});
+addEventListener('beforeunload',e=>{if(G&&G.active){e.preventDefault();e.returnValue=''}});
+/* ===== SHOP SCREEN, INVENTORY AND PREVIEWS ===== */
+/* Mini palettes for the theme cards: [page, page 2, panel, text, accent A, accent B, text on accent]. Mirrors the CSS themes. */
+const SKINSW={classic:['#fdf6ff','#dfe6ff','#fff','#1d1240','#7c3aed','#ec4899','#fff'],minimal:['#f6f6f3','#ecece6','#fff','#1b1b1b','#1f1f1f','#3f3f46','#fff'],arctic:['#f4fbff','#d4ebfa','#fff','#0b2a3f','#0b6fb4','#0f7f8f','#fff'],
+ midnight:['#070b18','#16224a','#0f1730','#eef2ff','#7aa2ff','#b48cff','#0a0f24'],forest:['#0b1a12','#1f3d2a','#11261a','#eef7ea','#7ccf6b','#d4b36a','#0b1a10'],sunset:['#1f0c1f','#5c2443','#2a1128','#fff4ec','#ff8a3d','#ff4f8b','#2a0b10'],
+ ocean:['#021a26','#063a50','#052633','#e8fbff','#2dd4bf','#38bdf8','#02161e'],crimson:['#120406','#3d0b14','#1c070b','#fff1f2','#ef4444','#f97316','#1a0306'],neon:['#05010a','#1c0329','#12041c','#fdf4ff','#ff2bd6','#39ff88','#140018'],
+ cyber:['#0d0221','#2e0b45','#170634','#f6f1ff','#fcee0a','#00e0ff','#120a00'],golden:['#0c0a05','#2b2209','#17120a','#fff8e1','#e9b949','#fde68a','#1a1203']};
+const FXICON={fxHover:'🖱️',fxClick:'👆',fxCorrect:'✅',fxScore:'🔢',fxStreak:'🔥',fxTier:'📶',fxLevel:'⬆️',fxReward:'🎁',sfx:'🔊',frame:'⭕'};
+const RORD={c:0,u:1,r:2,e:3,l:4},sortVal=it=>(it.c||0)+(it.g||0)*60;
+let shopSec='featured',invMode=false,armTimer=0;
+function previewHTML(it){const v=it.v;
+ if(it.slot==='theme'){const p=SKINSW[v]||SKINSW.classic;return`<div class="prev" style="background:linear-gradient(160deg,${p[1]},${p[0]})"><div class="mock" style="background:${p[2]};border:1px solid ${p[4]}55;inset:14px 22px"><i class="m1" style="background:${p[3]}"></i><i class="m2" style="background:linear-gradient(100deg,${p[4]},${p[5]})"></i><i class="m3" style="background:${p[3]}"></i></div></div>`}
+ if(it.slot==='bg')return`<div class="prev" style="background:radial-gradient(circle at 50% 15%,var(--bg2),var(--bg1))"><canvas data-thumb="${v}" aria-hidden="true"></canvas></div>`;
+ if(it.slot==='avatar')return`<div class="prev">${avatarHTML(v,'none')}</div>`;
+ if(it.slot==='frame')return`<div class="prev">${avatarHTML(S.profile.avatar,v)}</div>`;
+ if(it.slot==='title')return`<div class="prev"><span class="ttl">${esc2(v||rankOf(lvlInfo(S.prog.xp).l))}</span></div>`;
+ if(it.slot==='fxStreak')return`<div class="prev"><span class="stw" data-demo="streak" style="font-weight:900;font-size:1.6rem">🔥 <b>7</b></span></div>`;
+ if(it.slot==='fxScore')return`<div class="prev"><span style="position:relative;font-weight:900;font-size:1.6rem" data-demo="scorewrap">🏆 <b data-demo="score">1,250</b></span></div>`;
+ return`<div class="prev">${FXICON[it.slot]||'✨'}</div>`}
+function canPreview(it){return!['avatar','title','frame'].includes(it.slot)}
+function cardHTML(it,big){const st=itemState(it.id),R=RARITY[it.r||'c'];let status='',acts='';
+ const pv=canPreview(it)?`<button data-pv="${it.id}" aria-label="Preview ${esc2(it.name)}">${it.slot==='sfx'?'▶ Listen':'👁 Preview'}</button>`:'';
+ if(st.own){status=st.eq?'<span class="ownt">★ Equipped</span>':'<span class="ownt">✓ Owned</span>';
+  acts=st.eq?(DEFAULT_EQUIP[it.slot]===it.id||(it.slot==='avatar'&&it.v==='🧠')?`<button disabled>Equipped</button>`:`<button data-uneq="${it.slot}">Unequip</button>`)+pv:`<button class="buy" data-eq="${it.id}">Equip</button>`+pv}
+ else if(st.locked){status=`<span class="lockt">🔒 ${esc2(reqText(it.req))}</span>`;acts=pv+(st.pc||st.pg?`<button disabled>${priceOf(it)}</button>`:'')}
+ else{const short=st.shortC?`${fmt(st.shortC)} more 🪙`:st.shortG?`${fmt(st.shortG)} more 💎`:'';status=short?`<span class="need">Need ${short}</span>`:'';
+  acts=pv+`<button class="buy" data-buy="${it.id}" ${short?'disabled':''} aria-label="Buy ${esc2(it.name)} for ${priceOf(it)}">${priceOf(it)}</button>`}
+ return`<article class="item r-${it.r||'c'}${st.eq?' eq':''}" data-id="${it.id}">${previewHTML(it)}<span class="rar" style="--rc:${R[1]}">${R[0]}</span>${st.eq?'<span class="flag">Equipped</span>':st.own?'<span class="flag">Owned</span>':''}
+ <div class="ib"><span class="slot">${SLOTS[it.slot]}</span><b>${esc2(it.name)}</b><small>${esc2(it.desc)}</small>${status}<div class="ia">${acts}</div></div></article>`}
+function shopList(){const q=$('#ssearch').value.trim().toLowerCase(),show=$('#sshow').value,sort=$('#ssort').value;
+ let L=q?ITEMS.filter(i=>(i.name+' '+i.desc+' '+SLOTS[i.slot]+' '+RARITY[i.r||'c'][0]).toLowerCase().includes(q)):shopSec==='featured'?featuredToday():ITEMS.filter(i=>sectionOf(i)===shopSec);
+ L=L.filter(i=>{const st=itemState(i.id);return show==='all'||(show==='owned'&&st.own)||(show==='avail'&&!st.own)||(show==='afford'&&!st.own&&!st.locked&&(st.pc||st.pg)&&!st.shortC&&!st.shortG)});
+ const order=sort==='name'?(a,b)=>a.name.localeCompare(b.name):sort==='rar'?(a,b)=>RORD[b.r||'c']-RORD[a.r||'c']||sortVal(a)-sortVal(b):(a,b)=>sortVal(a)-sortVal(b)||RORD[a.r||'c']-RORD[b.r||'c'];
+ return L.slice().sort(order)}
+function renderShop(){updBal();$('#stabs').innerHTML=SECTIONS.map(([k,n])=>`<button class="chip" role="tab" data-sec="${k}" aria-selected="${!invMode&&k===shopSec}" aria-pressed="${!invMode&&k===shopSec}">${n}</button>`).join('');
+ $('#invBtn').setAttribute('aria-pressed',invMode);$('#sfilt').hidden=invMode;$('#shopT').textContent=invMode?'Inventory':'Shop';
+ const B=$('#sbody');
+ if(invMode){B.innerHTML=invHTML();return}
+ const q=$('#ssearch').value.trim();
+ if(shopSec==='featured'&&!q&&$('#sshow').value==='all'){const F=featuredToday(),sp=F[0];
+  B.innerHTML=`<div class="feat"><div class="spot"><span class="mut">Featured today · changes daily</span>${sp?`<h3>${esc2(sp.name)}</h3><p class="mut">${esc2(sp.desc)}</p>`:'<h3>You own everything!</h3>'}</div><div class="spot"><h3>How to earn</h3><p class="mut">🪙 Runs pay 3 per correct answer plus 1 per 200 points, with bonuses for long streaks and personal bests. Every level up pays 🪙 30 and 💎 1, and milestone levels pay more. Missions and achievements pay coins, and weekly missions pay 💎 3.</p></div></div><div class="sgrid">${F.map(i=>cardHTML(i)).join('')}</div>`}
+ else{const L=shopList();B.innerHTML=(q?`<p class="mut">${L.length} result${L.length===1?'':'s'} for “${esc2(q)}”</p>`:'')+(L.length?`<div class="sgrid">${L.map(i=>cardHTML(i)).join('')}</div>`:`<div class="empty">Nothing matches. Try another filter or search.</div>`)}
+ requestAnimationFrame(()=>$$('#sbody canvas[data-thumb]').forEach(c=>bgThumb(c,c.dataset.thumb)))}
+function invHTML(){const groups=[['Theme','theme'],['Background','bg'],['Title','title'],['Profile frame','frame'],['Button hover','fxHover'],['Click effect','fxClick'],['Correct answer','fxCorrect'],['Score counter','fxScore'],['Streak','fxStreak'],['Difficulty up','fxTier'],['Level up','fxLevel'],['Reward opening','fxReward'],['Sound pack','sfx']];
+ const ownedN=ITEMS.filter(i=>owns(i.id)).length+FREE_AVATARS.length;
+ const avs=FREE_AVATARS.map(v=>({v,id:''})).concat(ITEMS.filter(i=>i.slot==='avatar'&&owns(i.id)).map(i=>({v:i.v,id:i.id})));
+ return`<p class="mut">You own ${ownedN} of ${ITEMS.length+FREE_AVATARS.length} cosmetics. Tap one to equip it. Items you equip stay equipped after you close the game.</p>
+ <div class="invrow"><span>Avatar</span><div class="avgrid" style="flex:1">${avs.map(a=>`<button data-av="${esc2(a.v)}" aria-pressed="${S.profile.avatar===a.v}" aria-label="Avatar">${avatarHTML(a.v,'none')}</button>`).join('')}</div></div>`+
+ groups.map(([n,slot])=>{const L=ITEMS.filter(i=>i.slot===slot&&owns(i.id));return`<div class="invrow"><span>${n}</span><div class="invopts">${L.map(i=>`<button class="chip" data-eq="${i.id}" aria-pressed="${isEquipped(i)}">${slot==='title'?esc2(i.v||'Your rank'):esc2(i.name)}</button>`).join('')}</div></div>`}).join('')+
+ `<button class="x" data-resetlook>Return to the default look</button>`}
+/* balance with a small count animation */
+let balShown=[0,0];
+function updBal(){const to=[S.wallet.coins,S.wallet.gems],from=balShown.slice();balShown=to;['balC','balG'].forEach((id,i)=>{const el=$('#'+id);if(!el)return;const icon=i?'💎':'🪙';
+ if(from[i]===to[i]||calm()){el.textContent=`${icon} ${fmt(to[i])}`;return}el.classList.add('bump');el.classList.toggle('down',to[i]<from[i]);const t0=performance.now();
+ (function st(){const p=Math.min(1,(performance.now()-t0)/700);el.textContent=`${icon} ${fmt(from[i]+(to[i]-from[i])*p)}`;if(p<1)requestAnimationFrame(st);else setTimeout(()=>el.classList.remove('bump','down'),150)})()})}
+function openShop(sec){if(sec)shopSec=sec;invMode=false;balShown=[S.wallet.coins,S.wallet.gems];closeAll(true);renderShop();open('shop')}
+/* full-screen previews for themes, backgrounds, hover and click effects; never saved */
+function startPreview(id){const it=ITEM[id];PV={it};$('#shop').classList.remove('open');$('#shop').setAttribute('aria-hidden','true');
+ const st=itemState(id);$('#pvname').textContent=it.name;const b=$('#pvbuy');b.hidden=st.locked||st.eq;b.textContent=st.own?'Equip':priceOf(it)?'Buy '+priceOf(it):'Equip';b.disabled=!st.own&&(st.shortC>0||st.shortG>0);
+ $('#pvbar').hidden=false;applyLook();$('#pvend').focus();
+ if(it.slot==='fxHover'||it.slot==='fxClick')toast(it.slot==='fxHover'?'Point at the menu buttons to see it.':'Click the background to see it.')}
+function endPreview(back=true){if(!PV)return;PV=null;$('#pvbar').hidden=true;applyLook();if(back){renderShop();$('#shop').classList.add('open');$('#shop').setAttribute('aria-hidden','false')}}
+function demo(it,card){const r=card.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+60;
+ if(['theme','bg','fxHover','fxClick'].includes(it.slot))return startPreview(it.id);
+ if(it.slot==='sfx')return previewSound(it.v);
+ if(it.slot==='fxCorrect'){fxCorrect(x,y,it.v);beep(880,.2)}
+ else if(it.slot==='fxReward')fxReward(x,y,it.v);
+ else if(it.slot==='fxLevel')levelUp(lvlInfo(S.prog.xp).l,it.v);
+ else if(it.slot==='fxTier')fxTier(4,it.v);
+ else if(it.slot==='fxStreak'){const w=card.querySelector('[data-demo=streak]');let n=0;const iv=setInterval(()=>{n++;w.querySelector('b').textContent=n;fxStreak(n,w,it.v);if(n>=9)clearInterval(iv)},180)}
+ else if(it.slot==='fxScore'){const el=card.querySelector('[data-demo=score]');el.textContent='1250';fxScore(1250,1700,450,el,card.querySelector('[data-demo=scorewrap]'),it.v)}}
+function doBuy(btn){const id=btn.dataset.buy;
+ if(!btn.classList.contains('arm')){clearTimeout(armTimer);$$('#sbody .buy.arm').forEach(b=>{b.classList.remove('arm');b.textContent=priceOf(ITEM[b.dataset.buy])});btn.classList.add('arm');btn.textContent='Confirm?';beep(700);
+  armTimer=setTimeout(()=>{if(btn.isConnected){btn.classList.remove('arm');btn.textContent=priceOf(ITEM[id])}},3500);return}
+ clearTimeout(armTimer);const r=buyItem(id),rect=btn.getBoundingClientRect();
+ if(!r.ok){toast(r.error);beep(220,.25);renderShop();return}
+ fxReward(rect.left+rect.width/2,rect.top,undefined);renderShop();renderHome();
+ const card=$(`#sbody [data-id="${id}"]`);if(card){card.classList.add('just');card.querySelector('[data-eq]')?.focus()}
+ const un=checkAch();toast(`Bought ${ITEM[id].name}!${un.length?' 🏅 '+un.join(', '):''} Equip it whenever you like.`);if(PL){levelUp(PL);PL=0}}
+$('#shop').addEventListener('click',e=>{const t=e.target.closest('button');if(!t)return;
+ if(t.dataset.sec){shopSec=t.dataset.sec;invMode=false;$('#ssearch').value='';beep(600);renderShop();$('#sbody').scrollTop=0}
+ else if(t.id==='invBtn'){invMode=!invMode;beep(600);renderShop()}
+ else if(t.dataset.buy)doBuy(t);
+ else if(t.dataset.eq){if(equipItem(t.dataset.eq)){beep(880,.12);renderShop();const it=ITEM[t.dataset.eq];toast(`${it.name} equipped.`)}}
+ else if(t.dataset.uneq){unequipSlot(t.dataset.uneq);beep(500);renderShop();toast('Back to the default.')}
+ else if(t.dataset.av){S.profile.avatar=t.dataset.av;persist();renderHome();beep(880,.12);renderShop()}
+ else if(t.dataset.pv)demo(ITEM[t.dataset.pv],t.closest('.item'));
+ else if('resetlook' in t.dataset){if(t.dataset.arm){resetLook();toast('Default look restored. Your items are still in your inventory.');renderShop()}else{t.dataset.arm=1;t.textContent='Tap again to reset your look';setTimeout(()=>{if(t.isConnected){t.removeAttribute('data-arm');t.textContent='Return to the default look'}},3500)}}});
+$('#ssearch').addEventListener('input',()=>renderShop());$('#sshow').addEventListener('change',renderShop);$('#ssort').addEventListener('change',renderShop);
+$('#pvend').onclick=()=>{beep(600);endPreview(true)};
+$('#pvbuy').onclick=()=>{const id=PV&&PV.it.id;if(!id)return;const st=itemState(id);
+ if(st.own){equipItem(id);endPreview(true);toast(`${ITEM[id].name} equipped.`);return}
+ endPreview(true);const b=$(`#sbody [data-buy="${id}"]`);if(b){b.focus();doBuy(b)}};
+/* background canvas + parallax
+   Each background is a small renderer: BGR[name](ctx,w,h) returns {draw(t,cx,cy,mp,k)}.
+   k is 0 when Calm motion is on (nothing moves). The same renderers draw the shop previews.
+   To save battery the canvas stops while the tab is hidden, runs at ~30fps behind open
+   menus, and draws only once in Calm mode or for still backgrounds. */
+const cv=$('#bg'),ctx=cv.getContext('2d');let W,H,ca,cb,cc,cbg1,cbg2,tx=0,ty=0,cx=0,cy=0,mp={x:-999,y:-999},BGcur=null,bgDirty=true;
+function colors(){const cs=getComputedStyle(root);ca=cs.getPropertyValue('--a').trim();cb=cs.getPropertyValue('--b').trim();cc=cs.getPropertyValue('--c').trim();cbg1=cs.getPropertyValue('--bg1').trim();cbg2=cs.getPropertyValue('--bg2').trim();bgDirty=true}
+function size(){const d=Math.min(devicePixelRatio||1,2);W=innerWidth;H=innerHeight;cv.width=W*d;cv.height=H*d;ctx.setTransform(d,0,0,d,0,0);bgReset()}
+function bgReset(){if(!W)return;if(!ca)colors();const n=look('bg');BGcur=(BGR[n]||BGR.particles)(ctx,W,H);bgDirty=true}
+addEventListener('resize',size);
+addEventListener('pointermove',e=>{mp={x:e.clientX,y:e.clientY};if(!cfg.calm){tx=(e.clientX/innerWidth-.5)*2;ty=(e.clientY/innerHeight-.5)*2}});
+addEventListener('pointerleave',()=>{tx=ty=0;mp={x:-999,y:-999}});
+const R=Math.random,GLY=['?','π','∑','√','7','42','💡','🧠','+','=','%','∞','x²'];
+const BGR={
+ /* the original background, unchanged */
+ particles(c,w,h){const P=Array.from({length:70},()=>{const vx=(R()-.5)*.4,vy=(R()-.5)*.4;return{x:R()*w,y:R()*h,z:.2+R()*.8,vx,vy,bx:vx,by:vy,r:1+R()*2.2}});
+  const GL=Array.from({length:18},(_,i)=>({g:GLY[i%GLY.length],x:R()*w,y:R()*h,z:.3+R()*.7,s:22+R()*30,a:R()*6,vr:(R()-.5)*.008,vx:(R()-.5)*.25,vy:(R()-.5)*.25}));
+  return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);
+   for(const p of P){p.x+=p.vx*k;p.y+=p.vy*k;if(p.x<-20)p.x=w+20;if(p.x>w+20)p.x=-20;if(p.y<-20)p.y=h+20;if(p.y>h+20)p.y=-20;
+    const ox=-cx*p.z*34,oy=-cy*p.z*34;p.sx=p.x+ox;p.sy=p.y+oy;const dx=p.sx-mp.x,dy=p.sy-mp.y,d2=dx*dx+dy*dy;
+    if(k&&d2<16900){const d=Math.sqrt(d2)||1;p.vx+=dx/d*.12;p.vy+=dy/d*.12}p.vx+=(p.bx-p.vx)*.03;p.vy+=(p.by-p.vy)*.03}
+   c.lineWidth=1;c.strokeStyle=ca;
+   for(let i=0;i<P.length;i++)for(let j=i+1;j<P.length;j++){const a=P[i],b=P[j],dx=a.sx-b.sx,dy=a.sy-b.sy,d=dx*dx+dy*dy;if(d<10000){c.globalAlpha=(1-d/10000)*.28;c.beginPath();c.moveTo(a.sx,a.sy);c.lineTo(b.sx,b.sy);c.stroke()}}
+   for(const p of P){c.globalAlpha=.3+.5*p.z;c.fillStyle=p.r>2?cb:cc;c.beginPath();c.arc(p.sx,p.sy,p.r*p.z+.6,0,6.283);c.fill()}
+   c.textAlign='center';c.textBaseline='middle';c.fillStyle=ca;
+   for(const g of GL){g.x+=g.vx*k;g.y+=g.vy*k;g.a+=g.vr*k;if(g.x<-60)g.x=w+60;if(g.x>w+60)g.x=-60;if(g.y<-60)g.y=h+60;if(g.y>h+60)g.y=-60;
+    const sx=g.x-cx*g.z*60,sy=g.y-cy*g.z*60,near=Math.hypot(sx-mp.x,sy-mp.y)<110;
+    c.save();c.translate(sx,sy);c.rotate(g.a);c.globalAlpha=near?.55:.1+.18*g.z;c.font=`700 ${g.s*(near?1.35:1)}px system-ui,sans-serif`;c.fillText(g.g,0,0);c.restore()}
+   c.globalAlpha=1}}},
+ calm(c,w,h){return{still:1,draw(){c.clearRect(0,0,w,h);const g=c.createRadialGradient(w*.5,h*.2,0,w*.5,h*.2,Math.max(w,h)*.8);g.addColorStop(0,ca);g.addColorStop(1,'transparent');c.globalAlpha=.12;c.fillStyle=g;c.fillRect(0,0,w,h);c.globalAlpha=1}}},
+ flow(c,w,h){const B=[0,1,2,3,4].map(i=>({ph:R()*6,sp:.00008+R()*.00008,r:.35+R()*.25,col:i%3}));
+  return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);const tt=k?t:9e3,m=Math.max(w,h);c.globalCompositeOperation='lighter';
+   for(const b of B){const x=w*(.5+.38*Math.sin(tt*b.sp+b.ph))-cx*30,y=h*(.5+.36*Math.cos(tt*b.sp*1.3+b.ph*2))-cy*30,r=m*b.r,g=c.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,[ca,cb,cc][b.col]);g.addColorStop(1,'transparent');c.globalAlpha=.22;c.fillStyle=g;c.fillRect(0,0,w,h)}
+   c.globalCompositeOperation='source-over';c.globalAlpha=1}}},
+ space(c,w,h){const N=Math.round(Math.min(220,w*h/5000)),St=Array.from({length:N},()=>({x:R()*w,y:R()*h,z:.15+R()*.85,tw:R()*6}));let shoot=null,next=2000;
+  return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);
+   for(const s of St){s.x-=s.z*.35*k;if(s.x<-2){s.x=w+2;s.y=R()*h}const a=.35+.65*s.z*(k?.75+.25*Math.sin(t*.003+s.tw):1);c.globalAlpha=a;c.fillStyle=s.z>.8?cc:'#fff';const r=s.z*1.6;c.fillRect(s.x-cx*s.z*20,s.y-cy*s.z*20,r,r)}
+   if(k){if(!shoot&&t>next)shoot={x:R()*w*.8+w*.2,y:R()*h*.4,l:0};if(shoot){shoot.l+=14;const x=shoot.x-shoot.l,y=shoot.y+shoot.l*.45,g=c.createLinearGradient(x,y,x+90,y-40);g.addColorStop(0,'#fff');g.addColorStop(1,'transparent');c.globalAlpha=.8;c.strokeStyle=g;c.lineWidth=2;c.beginPath();c.moveTo(x,y);c.lineTo(x+90,y-40);c.stroke();if(shoot.l>w*.5){shoot=null;next=t+4000+R()*5000}}}
+   c.globalAlpha=1}}},
+ geo(c,w,h){const S=Array.from({length:Math.round(Math.min(16,w/90))},()=>({x:R()*w,y:R()*h,r:20+R()*60,n:3+Math.floor(R()*4),a:R()*6,va:(R()-.5)*.004,vx:(R()-.5)*.18,vy:(R()-.5)*.18,z:.3+R()*.7,col:Math.floor(R()*3)}));
+  return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);c.lineWidth=2;
+   for(const s of S){s.x+=s.vx*k;s.y+=s.vy*k;s.a+=s.va*k;if(s.x<-90)s.x=w+90;if(s.x>w+90)s.x=-90;if(s.y<-90)s.y=h+90;if(s.y>h+90)s.y=-90;
+    const x=s.x-cx*s.z*40,y=s.y-cy*s.z*40;c.globalAlpha=.16+.22*s.z;c.strokeStyle=[ca,cb,cc][s.col];c.beginPath();
+    for(let i=0;i<=s.n;i++){const an=s.a+i*6.283/s.n;i?c.lineTo(x+Math.cos(an)*s.r,y+Math.sin(an)*s.r):c.moveTo(x+Math.cos(an)*s.r,y+Math.sin(an)*s.r)}c.stroke()}
+   c.globalAlpha=1}}},
+ peaks(c,w,h){const L=[0,1,2,3].map(i=>{const pts=[],base=h*(.48+i*.11),amp=h*(.16-i*.025);let y=0;for(let x=-80;x<=w+160;x+=16){y+=(R()-.5)*amp*.35;y*=.92;pts.push([x,base+y-Math.abs(Math.sin(x*.004+i))*amp])}return pts});
+  const fog=[0,1,2].map(i=>({y:h*(.62+i*.1),ph:R()*w,sp:.06+i*.04}));
+  return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);const g=c.createLinearGradient(0,0,0,h);g.addColorStop(0,cbg2);g.addColorStop(1,cbg1);c.fillStyle=g;c.globalAlpha=.5;c.fillRect(0,0,w,h);
+   c.globalAlpha=.25;c.fillStyle=cb;c.beginPath();c.arc(w*.72-cx*8,h*.3-cy*8,Math.min(w,h)*.08,0,6.283);c.fill();
+   L.forEach((pts,i)=>{c.globalAlpha=.18+i*.12;c.fillStyle=i%2?ca:cc;c.beginPath();c.moveTo(-80,h);for(const[x,y]of pts)c.lineTo(x-cx*(8+i*10),y-cy*(4+i*4));c.lineTo(w+160,h);c.closePath();c.fill()});
+   for(const f of fog){const x=((f.ph+(k?t:0)*f.sp*.05)%(w*1.6))-w*.3;const fg=c.createRadialGradient(x,f.y,0,x,f.y,w*.4);fg.addColorStop(0,'#ffffff');fg.addColorStop(1,'transparent');c.globalAlpha=.07;c.fillStyle=fg;c.fillRect(0,0,w,h)}
+   c.globalAlpha=1}}},
+ grid(c,w,h){return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);const hz=h*.58-cy*10,vx=w/2-cx*30;
+   const sg=c.createLinearGradient(0,hz-h*.25,0,hz);sg.addColorStop(0,cb);sg.addColorStop(1,ca);c.globalAlpha=.32;c.fillStyle=sg;c.beginPath();c.arc(vx,hz,Math.min(w,h)*.2,Math.PI,0);c.fill();
+   c.save();c.beginPath();c.arc(vx,hz,Math.min(w,h)*.2,Math.PI,0);c.clip();c.globalAlpha=1;c.fillStyle=cbg1;for(let i=0;i<5;i++)c.fillRect(vx-w*.25,hz-8-i*13-i*i,w*.5,2+i);c.restore();
+   c.strokeStyle=cc;c.lineWidth=1.5;const off=k?(t*.04)%1:.5;
+   for(let i=0;i<14;i++){const p=Math.pow((i+off)/14,2.2),y=hz+(h-hz)*p;c.globalAlpha=.08+.35*p;c.beginPath();c.moveTo(0,y);c.lineTo(w,y);c.stroke()}
+   for(let i=-18;i<=18;i++){c.globalAlpha=.25;c.beginPath();c.moveTo(vx+i*6,hz);c.lineTo(vx+i*w*.12,h);c.stroke()}
+   c.globalAlpha=.5;c.strokeStyle=ca;c.lineWidth=2;c.beginPath();c.moveTo(0,hz);c.lineTo(w,hz);c.stroke();c.globalAlpha=1}}},
+ nebula(c,w,h){const off=document.createElement('canvas');off.width=Math.max(1,Math.round(w/2));off.height=Math.max(1,Math.round(h/2));const o=off.getContext('2d'),ow=off.width,oh=off.height;
+  for(let i=0;i<34;i++){const x=ow*(.15+R()*.7),y=oh*(.15+R()*.7),r=Math.min(ow,oh)*(.08+R()*.3),g=o.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,[ca,cb,cc][i%3]);g.addColorStop(1,'transparent');o.globalAlpha=.1+R()*.12;o.fillStyle=g;o.fillRect(0,0,ow,oh)}
+  const St=Array.from({length:Math.round(Math.min(160,w*h/7000))},()=>({x:R()*w,y:R()*h,s:R()*1.6+.3,p:R()*6}));
+  return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);const tt=k?t:0;c.save();c.translate(w/2-cx*24,h/2-cy*24);c.rotate(Math.sin(tt*.00005)*.06);c.scale(1.08+.03*Math.sin(tt*.0001),1.08);c.globalAlpha=.85;c.drawImage(off,-w/2,-h/2,w,h);c.restore();
+   c.fillStyle='#fff';for(const s of St){c.globalAlpha=.3+.6*(k?(.5+.5*Math.sin(tt*.002+s.p)):.7);c.fillRect(s.x,s.y,s.s,s.s)}c.globalAlpha=1}}},
+ city(c,w,h){const lay=[0,1,2].map(i=>{const b=[];let x=-60;while(x<w+120){const bw=26+R()*(50-i*8),bh=h*(.14+R()*(.22+i*.06))*(1-i*.12);b.push({x,bw,bh,win:Array.from({length:Math.floor(bh/14)*Math.floor(bw/10)},()=>R()<.28)});x+=bw+4+R()*8}return b});
+  return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);const g=c.createLinearGradient(0,h*.3,0,h);g.addColorStop(0,'transparent');g.addColorStop(1,ca);c.globalAlpha=.22;c.fillStyle=g;c.fillRect(0,0,w,h);
+   const lightBg=/^#?f|^#?e/i.test(cbg1)||cbg1.includes('255');lay.forEach((L,i)=>{const px=-cx*(6+i*14),base=h;for(const b of L){const x=b.x+px,y=base-b.bh;c.globalAlpha=lightBg?.1+i*.08:.35+i*.2;c.fillStyle=lightBg?ca:cbg1;c.fillRect(x,y,b.bw,b.bh);
+    if(i>0){c.fillStyle=i===2?cb:cc;const cols=Math.floor(b.bw/10);b.win.forEach((on,j)=>{if(!on)return;const flick=k&&((j*7+Math.floor(t/1500))%53===0);c.globalAlpha=flick?.1:.55;c.fillRect(x+3+(j%cols)*10,y+5+Math.floor(j/cols)*14,5,7)})}}});
+   c.globalAlpha=1}}},
+ galaxy(c,w,h){const N=Math.round(Math.min(800,w*h/1800)),Pt=Array.from({length:N},(_,i)=>{const arm=i%3,r=Math.pow(R(),.6)*Math.min(w,h)*.55;return{r,a:arm*2.094+r*.012+(R()-.5)*.5,s:R()*1.8+.4,col:arm}});
+  return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);const rot=k?t*.00004:0,x0=w/2-cx*30,y0=h/2-cy*30,col=[ca,cb,cc];
+   const g=c.createRadialGradient(x0,y0,0,x0,y0,Math.min(w,h)*.18);g.addColorStop(0,'#fff');g.addColorStop(.3,cb);g.addColorStop(1,'transparent');c.globalAlpha=.35;c.fillStyle=g;c.fillRect(0,0,w,h);
+   for(const p of Pt){const a=p.a+rot*(1.6-p.r/(Math.min(w,h)*.55));c.globalAlpha=.25+.55*(1-p.r/(Math.min(w,h)*.6));c.fillStyle=col[p.col];c.fillRect(x0+Math.cos(a)*p.r,y0+Math.sin(a)*p.r*.55,p.s,p.s)}c.globalAlpha=1}}},
+ aurora(c,w,h){const St=Array.from({length:120},()=>({x:R()*w,y:R()*h*.6,s:R()*1.4+.3}));
+  return{draw(t,cx,cy,mp,k){c.clearRect(0,0,w,h);c.fillStyle='#fff';for(const s of St){c.globalAlpha=.5;c.fillRect(s.x,s.y,s.s,s.s)}
+   const tt=k?t*.0004:2;[ca,cc,cb].forEach((col,i)=>{const g=c.createLinearGradient(0,h*.1,0,h*.75);g.addColorStop(0,'transparent');g.addColorStop(.5,col);g.addColorStop(1,'transparent');c.globalAlpha=.22;c.fillStyle=g;c.beginPath();
+    c.moveTo(0,h);for(let x=0;x<=w;x+=20){c.lineTo(x-cx*20,h*(.35+i*.06)+Math.sin(x*.004+tt*(1+i*.3)+i)*h*.08+Math.sin(x*.011-tt*1.7)*h*.03)}c.lineTo(w,h);c.closePath();c.fill()});c.globalAlpha=1}}},
+};
+function draw(now){if(!BGcur)bgReset();if(!BGcur)return;const k=cfg.calm?0:1;if(k===0||BGcur.still){if(!bgDirty)return}bgDirty=false;BGcur.draw(now,cx,cy,mp,k)}
+let lastF=0;
+(function frame(now=0){requestAnimationFrame(frame);if(document.hidden)return;
+ if($('.scrim.open')&&now-lastF<33)return;lastF=now;
+ cx+=(tx-cx)*.08;cy+=(ty-cy)*.08;root.style.setProperty('--mx',cx.toFixed(3));root.style.setProperty('--my',cy.toFixed(3));draw(now)})();
+/** A still snapshot of any background for the shop cards. */
+function bgThumb(cvs,name){const r=cvs.getBoundingClientRect(),d=Math.min(devicePixelRatio||1,2),w=Math.max(80,r.width),h=Math.max(60,r.height);cvs.width=w*d;cvs.height=h*d;const c=cvs.getContext('2d');c.setTransform(d,0,0,d,0,0);
+ const r2=(BGR[name]||BGR.particles)(c,w,h);r2.draw(6000,0,0,{x:-999,y:-999},0)}
+/* boot: one-off v4 migration, then check everything earned so far */
+let bootMsg='';if(S.prog.lvlPaid<0){S.prog.lvlPaid=1;const r=payLevels();if(r[0])bootMsg=`New in this update: every level up pays 🪙 30 and 💎 1. You’ve been paid for the ${r[0]} level${r[0]>1?'s':''} you’d already reached: 🪙 ${fmt(r[1])} and 💎 ${r[2]}.`}
+S.v=SAVE_V;persist();
+sync();colors();size();rollMissions();{const u=checkAch();if(u.length)toast('Achievements unlocked: '+u.join(', '));if(PL){levelUp(PL);PL=0}}renderHome();if(bootMsg)setTimeout(()=>toast(bootMsg),600);
+</script>
+</body>
+</html>
